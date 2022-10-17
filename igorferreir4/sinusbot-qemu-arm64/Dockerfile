@@ -5,7 +5,21 @@ ENV USER sinusbot
 
 ENV DEBIAN_FRONTEND=noninteractive 
 
-RUN install_packages wget unzip x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0
+RUN install_packages xz-utils python3 wget unzip x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0
+
+RUN mkdir /home/temp \
+    && cd /home/temp \
+    && curl -L https://github.com/yt-dlp/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz -o ffmpeg.tar.xz \
+    && tar -xf ffmpeg.tar.xz \
+    && cd /home/temp/ffmpeg-master-latest-linux64-gpl/bin \
+    && cp * /usr/local/bin/ \
+    && cd /usr/local/bin/ \
+    && ffmpeg -version \
+    && rm /usr/local/bin/youtube-dl \
+    && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp \
+    && chmod +x yt-dlp \
+    && ln -s /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl \
+    && rm -r /home/temp/
 
 RUN adduser --disabled-password -u "${PUID}" "${USER}"
 
