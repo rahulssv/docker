@@ -45,7 +45,7 @@ RUN unzip ts3.zip \
     && rm ts3.zip \
     && rm TeamSpeak3-Client-linux_amd64/xcbglintegrations/libqxcb-glx-integration.so \
     && mkdir TeamSpeak3-Client-linux_amd64/plugins \
-    && cp plugin/libsoundbot_plugin.so TeamSpeak3-Client-linux_amd64/plugins/
+    && cp plugin/libsoundbot_plugin.so TeamSpeak3-Client-linux_amd64/plugins/ \
     && chmod 755 sinusbot \
     && chmod 755 sinusbot TeamSpeak3-Client-linux_amd64/ts3client_linux_amd64
 
