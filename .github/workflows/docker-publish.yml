@@ -15,15 +15,15 @@ jobs:
       matrix:
         include:
           - dockerfile: ./igorferreir4/lighttpd/Dockerfile.edge
-            image: ${{ github.repository_owner }}/lighttpd
+            image: igorferreir4/lighttpd
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
           - dockerfile: ./igorferreir4/lighttpd/Dockerfile.stable
-            image: ${{ github.repository_owner }}/lighttpd
+            image: igorferreir4/lighttpd
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
           - dockerfile: ./igorferreir4/phpbb-qemu-arm64/Dockerfile
-            image: ${{ github.repository_owner }}/phpbb-qemu-arm64
+            image: igorferreir4/phpbb-qemu-arm64
             platforms: linux/amd64,linux/arm64
-            tags: teste,3.0
+            tags: igorferreir4/phpbb:teste,igorferreir4/phpbb:3
     permissions:
       contents: read
       packages: write
