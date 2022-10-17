@@ -1,75 +1,17 @@
-FROM --platform=linux/amd64 bitnami/minideb:latest as build
+FROM --platform=linux/amd64 sinusbot/docker:latest
 
-ENV DEBIAN_FRONTEND=noninteractive 
-
-RUN install_packages xz-utils wget unzip ca-certificates curl bzip2
+RUN apt update && apt install xz-utils python3 -y
 
 RUN mkdir /home/temp \
     && cd /home/temp \
     && curl -L https://github.com/yt-dlp/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz -o ffmpeg.tar.xz \
     && tar -xf ffmpeg.tar.xz \
-    && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp \
-    && mkdir /home/temp/sinusbot
-
-COPY sinusbot-qemu-arm64/ts3.zip /home/temp/sinusbot
-
-RUN cd /home/temp/sinusbot \
-    && wget https://www.sinusbot.com/dl/sinusbot.current.tar.bz2 \
-    && tar -xjf sinusbot.current.tar.bz2 \
-    && rm sinusbot.current.tar.bz2 \
-    && cp config.ini.dist config.ini \
-    && unzip ts3.zip \
-    && rm ts3.zip \
-    && rm TeamSpeak3-Client-linux_amd64/xcbglintegrations/libqxcb-glx-integration.so \
-    && mkdir TeamSpeak3-Client-linux_amd64/plugins \
-    && cp plugin/libsoundbot_plugin.so TeamSpeak3-Client-linux_amd64/plugins/ \
-    && chmod 755 sinusbot \
-    && chmod 755 sinusbot TeamSpeak3-Client-linux_amd64/ts3client_linux_amd64
-
-
-FROM --platform=linux/amd64 bitnami/minideb:latest as release
-
-ARG PUID=1001
-ENV USER sinusbot
-
-RUN install_packages python3 x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0
-
-RUN adduser --disabled-password -u "${PUID}" "${USER}"
-
-RUN mkdir -p /opt/sinusbot
-
-COPY --from=build /home/temp/sinusbot/* /opt/sinusbot
-COPY --from=build /home/temp/ffmpeg-master-latest-linux64-gpl/bin/* /usr/local/bin/
-COPY --from=build /home/temp/yt-dlp /usr/local/bin/
-
-RUN chmod +x /usr/local/bin/yt-dlp \
-    && ln -s /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl \
+    && cd /home/temp/ffmpeg-master-latest-linux64-gpl/bin \
+    && cp * /usr/local/bin/ \
     && cd /usr/local/bin/ \
     && ffmpeg -version \
-    && chown -R sinusbot:sinusbot /opt/sinusbot
-
-USER 1001
-WORKDIR /opt/sinusbot
-
-CMD /opt/sinusbot/sinusbot
-
-
-
-
-# FROM --platform=linux/amd64 sinusbot/docker:latest
-
-# RUN apt update && apt install xz-utils python3 -y
-
-# RUN mkdir /home/temp \
-#     && cd /home/temp \
-#     && curl -L https://github.com/yt-dlp/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz -o ffmpeg.tar.xz \
-#     && tar -xf ffmpeg.tar.xz \
-#     && cd /home/temp/ffmpeg-master-latest-linux64-gpl/bin \
-#     && cp * /usr/local/bin/ \
-#     && cd /usr/local/bin/ \
-#     && ffmpeg -version \
-#     && rm /usr/local/bin/youtube-dl \
-#     && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp \
-#     && chmod +x yt-dlp \
-#     && ln -s /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl \
-#     && rm -r /home/temp/
+    && rm /usr/local/bin/youtube-dl \
+    && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp \
+    && chmod +x yt-dlp \
+    && ln -s /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl \
+    && rm -r /home/temp/
