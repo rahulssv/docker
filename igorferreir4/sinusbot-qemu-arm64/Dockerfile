@@ -13,15 +13,15 @@ RUN adduser --disabled-password -u "${PUID}" "${USER}"
 RUN mkdir -p /opt/sinusbot \
     && chown -R sinusbot:sinusbot /opt/sinusbot
 
+COPY sinusbot-qemu-arm64/ts3.zip /opt/sinusbot
+
 USER 1001
 WORKDIR /opt/sinusbot
 RUN wget https://www.sinusbot.com/dl/sinusbot.current.tar.bz2 \
     && tar -xjf sinusbot.current.tar.bz2 \
     && cp config.ini.dist config.ini \
-    && wget https://files.teamspeak-services.com/releases/client/3.5.6/TeamSpeak3-Client-linux_amd64-3.5.6.run \
-    && chmod 0755 TeamSpeak3-Client-linux_amd64-3.5.6.run \
-    && ./TeamSpeak3-Client-linux_amd64-3.5.6.run \
-    && rm TeamSpeak3-Client-linux_amd64-3.5.6.run \
+    && unzip ts3.zip \
+    && rm ts3.zip \
     && rm TeamSpeak3-Client-linux_amd64/xcbglintegrations/libqxcb-glx-integration.so \
     && mkdir TeamSpeak3-Client-linux_amd64/plugins \
     && cp plugin/libsoundbot_plugin.so TeamSpeak3-Client-linux_amd64/plugins/ \
