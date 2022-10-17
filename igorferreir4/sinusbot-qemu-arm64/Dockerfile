@@ -23,7 +23,7 @@ FROM --platform=linux/amd64 bitnami/minideb:latest as release
 ARG PUID=1001
 ENV USER sinusbot
 
-RUN install_packages python3 x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0
+RUN install_packages unzip python3 x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0
 
 RUN mkdir -p /opt/sinusbot
 COPY --from=build /home/temp/sinusbot/* /opt/sinusbot/
