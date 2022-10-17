@@ -1,5 +1,3 @@
-ARG version=2.6.2
-
 FROM caddy:2.6.2-builder-alpine AS builder
 
 RUN xcaddy build \
