@@ -9,8 +9,8 @@ RUN apk add --update --no-cache \
 	lighttpd-mod_auth \
   && rm -rf /var/cache/apk/*
 
-COPY igorferreir4/lighttpd/etc/lighttpd/* /etc/lighttpd/
-COPY igorferreir4/lighttpd/start.sh /usr/local/bin/
+COPY lighttpd/etc/lighttpd/* /etc/lighttpd/
+COPY lighttpd/start.sh /usr/local/bin/
 
 EXPOSE 80
 EXPOSE 443
