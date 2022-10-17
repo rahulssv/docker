@@ -23,6 +23,7 @@ jobs:
           - dockerfile: ./igorferreir4/phpbb-qemu-arm64/Dockerfile
             image: ${{ github.repository_owner }}/phpbb-qemu-arm64
             platforms: linux/amd64,linux/arm64
+            tags: teste,3.0
     permissions:
       contents: read
       packages: write
@@ -46,20 +47,13 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}   
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ matrix.image }}
-
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
         with:
           context: .
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ matrix.tags }}
 
 
 
