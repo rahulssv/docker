@@ -17,13 +17,15 @@ jobs:
           - dockerfile: ./igorferreir4/lighttpd/Dockerfile.edge
             image: igorferreir4/lighttpd
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
+            tags: igorferreir4/lighttpd:edge
           - dockerfile: ./igorferreir4/lighttpd/Dockerfile.stable
             image: igorferreir4/lighttpd
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
+            tags: igorferreir4/lighttpd:latest
           - dockerfile: ./igorferreir4/phpbb-qemu-arm64/Dockerfile
             image: igorferreir4/phpbb-qemu-arm64
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/phpbb:teste,igorferreir4/phpbb:3
+            tags: igorferreir4/phpbb-qemu-arm64:3.3.8,igorferreir4/phpbb-qemu-arm64:latest
     permissions:
       contents: read
       packages: write
