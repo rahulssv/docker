@@ -1,24 +1,29 @@
-FROM --platform=linux/amd64 bitnami/minideb:latest
-
-ARG PUID=1001
-ENV USER sinusbot
+FROM --platform=linux/amd64 bitnami/minideb:latest as build
 
 ENV DEBIAN_FRONTEND=noninteractive 
 
-RUN install_packages xz-utils python3 wget unzip x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0
+RUN install_packages xz-utils wget unzip ca-certificates curl bzip2
 
 RUN mkdir /home/temp \
     && cd /home/temp \
     && curl -L https://github.com/yt-dlp/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz -o ffmpeg.tar.xz \
     && tar -xf ffmpeg.tar.xz \
-    && cd /home/temp/ffmpeg-master-latest-linux64-gpl/bin \
-    && cp * /usr/local/bin/ \
-    && cd /usr/local/bin/ \
-    && ffmpeg -version \
-    && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp \
-    && chmod +x yt-dlp \
+    && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp
+
+
+FROM --platform=linux/amd64 bitnami/minideb:latest as release
+
+ARG PUID=1001
+ENV USER sinusbot
+
+COPY --from=build /home/temp/ffmpeg-master-latest-linux64-gpl/bin/* /usr/local/bin/
+COPY --from=build /home/temp/yt-dlp /usr/local/bin/
+RUN chmod +x /usr/local/bin/yt-dlp \
     && ln -s /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl \
-    && rm -r /home/temp/
+    && cd /usr/local/bin/ \
+    && ffmpeg -version
+
+RUN install_packages python3 x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0
 
 RUN adduser --disabled-password -u "${PUID}" "${USER}"
 
@@ -31,6 +36,7 @@ USER 1001
 WORKDIR /opt/sinusbot
 RUN wget https://www.sinusbot.com/dl/sinusbot.current.tar.bz2 \
     && tar -xjf sinusbot.current.tar.bz2 \
+    && rm sinusbot.current.tar.bz2 \
     && cp config.ini.dist config.ini \
     && unzip ts3.zip \
     && rm ts3.zip \
