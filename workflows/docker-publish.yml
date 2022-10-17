@@ -1,0 +1,108 @@
+name: Build & publish igorferreir4 images
+
+on:
+  workflow_dispatch:
+  push:
+    paths: 
+      - 'igorferreir4/**'
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: ./igorferreir4/lighttpd/Dockerfile*
+            image: ${{ github.repository_owner }}/lighttpd
+            platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
+          - dockerfile: ./igorferreir4/phpbb-qemu-arm64/Dockerfile
+            image: ${{ github.repository_owner }}/phpbb-qemu-arm64
+            platforms: linux/amd64,linux/arm64
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configurando QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Configurando Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          version: latest
+
+      - name: Logando no Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}   
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ matrix.image }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+
+
+
+
+
+# name: Docker Build
+
+# on:
+#   push:
+#     branches:
+#       - 'main'
+
+# jobs:
+#   buildx:
+#     runs-on: self-hosted
+    
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+
+#       - name: Configurando QEMU
+#         uses: docker/setup-qemu-action@v2
+
+#       - name: Configurando Buildx
+#         id: buildx
+#         uses: docker/setup-buildx-action@v2
+#         with:
+#           version: latest
+
+#       - name: Logando no Docker Hub
+#         uses: docker/login-action@v2
+#         with:
+#           username: ${{ github.actor }}
+#           password: ${{ secrets.DOCKERHUB_TOKEN }}   
+
+#       -
+#         name: Build and push
+#         uses: docker/build-push-action@v3
+#         with:
+#           context: .
+#           file: Dockerfile
+#           builder: ${{ steps.buildx.outputs.name }}
+#           platforms: linux/arm64
+#           push: true
+#           tags: ${{ github.repository }}:latest
+#           cache-from: type=registry,ref=${{ github.repository }}:cache
+#           cache-to: type=registry,ref=${{ github.repository }}:cache,mode=max
