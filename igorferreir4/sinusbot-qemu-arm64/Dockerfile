@@ -5,7 +5,7 @@ ENV USER sinusbot
 
 ENV DEBIAN_FRONTEND=noninteractive 
 
-RUN install_packages x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0 \
+RUN install_packages wget x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0 \
     && update-ca-certificates
 
 RUN adduser --disabled-password -u "${PUID}" "${USER}"
