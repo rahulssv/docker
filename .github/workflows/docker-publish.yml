@@ -63,6 +63,11 @@ jobs:
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-net60
             cache: type=registry,ref=igorferreir4/ts3audiobot:cache60
+
+          - dockerfile: ./igorferreir4/alpine/Dockerfile
+            platforms: linux/arm64
+            tags: igorferreir4/alpine:qemu
+            cache: type=registry,ref=igorferreir4/alpine:cache
     permissions:
       contents: read
       packages: write
