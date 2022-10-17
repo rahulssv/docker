@@ -37,7 +37,7 @@ jobs:
           - dockerfile: ./igorferreir4/phpbb-qemu-arm64/Dockerfile
             platforms: linux/arm64
             tags: igorferreir4/phpbb-qemu-arm64:3.3.8
-            cache: type=registry,ref=igorferreir4/lighttpd:cache
+            cache: type=registry,ref=igorferreir4/phpbb-qemu-arm64:cache
  
           - dockerfile: ./igorferreir4/sinusbot-qemu-arm64/Dockerfile
             platforms: linux/arm64
