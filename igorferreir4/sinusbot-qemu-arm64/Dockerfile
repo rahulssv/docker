@@ -11,17 +11,11 @@ RUN mkdir /home/temp \
     && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp \
     && mkdir /home/temp/sinusbot
 
-COPY sinusbot-qemu-arm64/ts3.zip /home/temp/sinusbot
 RUN cd /home/temp/sinusbot \
     && wget https://www.sinusbot.com/dl/sinusbot.current.tar.bz2 \
     && tar -xjf sinusbot.current.tar.bz2 \
     && rm sinusbot.current.tar.bz2 \
-    && cp config.ini.dist config.ini \
-    && unzip ts3.zip \
-    && rm ts3.zip \
-    && rm TeamSpeak3-Client-linux_amd64/xcbglintegrations/libqxcb-glx-integration.so \
-    && mkdir TeamSpeak3-Client-linux_amd64/plugins \
-    && cp plugin/libsoundbot_plugin.so TeamSpeak3-Client-linux_amd64/plugins/
+    && cp config.ini.dist config.ini
 
 
 FROM --platform=linux/amd64 bitnami/minideb:latest as release
@@ -35,6 +29,7 @@ RUN mkdir -p /opt/sinusbot
 COPY --from=build /home/temp/sinusbot/* /opt/sinusbot/
 COPY --from=build /home/temp/ffmpeg-master-latest-linux64-gpl/bin/* /usr/local/bin/
 COPY --from=build /home/temp/yt-dlp /usr/local/bin/
+COPY sinusbot-qemu-arm64/ts3.zip /opt/sinusbot
 RUN chmod +x /usr/local/bin/yt-dlp \
     && ln -s /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl \
     && cd /usr/local/bin/ \
@@ -46,7 +41,12 @@ RUN chown -R sinusbot:sinusbot /opt/sinusbot
 
 USER 1001
 WORKDIR /opt/sinusbot
-RUN chmod 755 sinusbot \
+RUN unzip ts3.zip \
+    && rm ts3.zip \
+    && rm TeamSpeak3-Client-linux_amd64/xcbglintegrations/libqxcb-glx-integration.so \
+    && mkdir TeamSpeak3-Client-linux_amd64/plugins \
+    && cp plugin/libsoundbot_plugin.so TeamSpeak3-Client-linux_amd64/plugins/
+    && chmod 755 sinusbot \
     && chmod 755 sinusbot TeamSpeak3-Client-linux_amd64/ts3client_linux_amd64
 
 CMD /opt/sinusbot/sinusbot
