@@ -34,18 +34,19 @@ ENV USER sinusbot
 
 RUN install_packages python3 x11vnc xvfb libxcursor1 ca-certificates curl bzip2 libnss3 libegl1-mesa x11-xkb-utils libasound2 libpci3 libxslt1.1 libxkbcommon0 libxss1 libxcomposite1 libglib2.0-0
 
-COPY --from=build /home/temp/sinusbot /opt/
+RUN adduser --disabled-password -u "${PUID}" "${USER}"
+
+RUN mkdir -p /opt/sinusbot
+
+COPY --from=build /home/temp/sinusbot/* /opt/sinusbot
 COPY --from=build /home/temp/ffmpeg-master-latest-linux64-gpl/bin/* /usr/local/bin/
 COPY --from=build /home/temp/yt-dlp /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/yt-dlp \
     && ln -s /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl \
     && cd /usr/local/bin/ \
-    && ffmpeg -version
-
-RUN adduser --disabled-password -u "${PUID}" "${USER}"
-
-RUN chown -R sinusbot:sinusbot /opt/sinusbot
+    && ffmpeg -version \
+    && chown -R sinusbot:sinusbot /opt/sinusbot
 
 USER 1001
 WORKDIR /opt/sinusbot
