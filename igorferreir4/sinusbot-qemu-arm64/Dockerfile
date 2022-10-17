@@ -1,4 +1,4 @@
-FROM bitnami/minideb:latest
+FROM --platform=linux/amd64 bitnami/minideb:latest
 
 ARG PUID=1001
 ENV USER sinusbot
