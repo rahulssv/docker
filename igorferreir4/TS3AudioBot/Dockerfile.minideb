@@ -5,7 +5,7 @@ ENV USER ts3bot
 
 ENV DEBIAN_FRONTEND=noninteractive 
 
-RUN install_packages curl libopus-dev ffmpeg youtube-dl -y
+RUN install_packages curl libopus-dev ffmpeg youtube-dl ca-certificates
 
 # Download Bot and Setup
 RUN mkdir -p /app \
