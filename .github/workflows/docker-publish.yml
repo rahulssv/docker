@@ -5,8 +5,7 @@ on:
   push:
     paths: 
       - 'igorferreir4/**'
-    paths-ignore:
-      - 'README.md'
+      - 'igorferreir4/**/README.md'
 
 jobs:
   build-and-push-image:
