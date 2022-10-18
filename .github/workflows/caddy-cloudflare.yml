@@ -1,4 +1,4 @@
-name: Caddy + Cloudflare
+name: Caddy + Cloudflare + Layer4
 
 on:
   push:
