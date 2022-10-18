@@ -3,8 +3,8 @@ name: phpbb-qemu-arm64
 on:
   push:
     paths: 
-      - 'igorferreir4/phpbb-qemu-arm64/**'
-      - '!igorferreir4/*/README.md'
+      - 'imagens/phpbb-qemu-arm64/**'
+      - '!imagens/*/README.md'
 
 jobs:
   build-and-push-image:
@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./igorferreir4/phpbb-qemu-arm64/Dockerfile
+          - dockerfile: ./imagens/phpbb-qemu-arm64/Dockerfile
             platforms: linux/arm64
             tags: igorferreir4/phpbb-qemu-arm64:3.3.8
             cache: type=registry,ref=igorferreir4/phpbb-qemu-arm64:cache
@@ -43,7 +43,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
         with:
-          context: igorferreir4/
+          context: imagens/
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platforms }}
           push: true

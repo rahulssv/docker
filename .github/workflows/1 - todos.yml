@@ -10,52 +10,52 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./igorferreir4/caddy-cloudflare/Dockerfile
+          - dockerfile: ./imagens/caddy-cloudflare/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/caddy-cloudflare:2.6.2
             cache: type=registry,ref=igorferreir4/caddy-cloudflare:cache
 
-          - dockerfile: ./igorferreir4/lighttpd/Dockerfile.edge
+          - dockerfile: ./imagens/lighttpd/Dockerfile.edge
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:edge
             cache: type=registry,ref=igorferreir4/lighttpd:cachee
 
-          - dockerfile: ./igorferreir4/lighttpd/Dockerfile.stable
+          - dockerfile: ./imagens/lighttpd/Dockerfile.stable
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:1.4.64-r0
             cache: type=registry,ref=igorferreir4/lighttpd:caches
 
-          - dockerfile: ./igorferreir4/php-fpm/Dockerfile
+          - dockerfile: ./imagens/php-fpm/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/php-fpm:8.1.11
             cache: type=registry,ref=igorferreir4/php-fpm:cache
 
-          - dockerfile: ./igorferreir4/phpbb-qemu-arm64/Dockerfile
+          - dockerfile: ./imagens/phpbb-qemu-arm64/Dockerfile
             platforms: linux/arm64
             tags: igorferreir4/phpbb-qemu-arm64:3.3.8
             cache: type=registry,ref=igorferreir4/phpbb-qemu-arm64:cache
  
-          - dockerfile: ./igorferreir4/sinusbot-qemu-arm64/Dockerfile
+          - dockerfile: ./imagens/sinusbot-qemu-arm64/Dockerfile
             platforms: linux/arm64
             tags: igorferreir4/sinusbot-qemu-arm64:latest
             cache: type=registry,ref=igorferreir4/sinusbot-qemu-arm64:cache
    
-          - dockerfile: ./igorferreir4/ts3audiobot/Dockerfile.minideb
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.2-minideb
             cache: type=registry,ref=igorferreir4/ts3audiobot:cachemd
       
-          - dockerfile: ./igorferreir4/ts3audiobot/Dockerfile.minideb-alpha
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb-alpha
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-minideb
             cache: type=registry,ref=igorferreir4/ts3audiobot:cachemda
      
-          - dockerfile: ./igorferreir4/ts3audiobot/Dockerfile.net31
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.0-net31
             cache: type=registry,ref=igorferreir4/ts3audiobot:cache31
   
-          - dockerfile: ./igorferreir4/ts3audiobot/Dockerfile.net60-alpha
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-net60
             cache: type=registry,ref=igorferreir4/ts3audiobot:cache60
@@ -85,7 +85,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
         with:
-          context: igorferreir4/
+          context: imagens/
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platforms }}
           push: true

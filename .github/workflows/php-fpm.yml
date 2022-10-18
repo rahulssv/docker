@@ -3,8 +3,8 @@ name: php-fpm
 on:
   push:
     paths: 
-      - 'igorferreir4/php-fpm/**'
-      - '!igorferreir4/*/README.md'
+      - 'imagens/php-fpm/**'
+      - '!imagens/*/README.md'
 
 jobs:
   build-and-push-image:
@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./igorferreir4/php-fpm/Dockerfile
+          - dockerfile: ./imagens/php-fpm/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/php-fpm:8.1.11
             cache: type=registry,ref=igorferreir4/php-fpm:cache
@@ -43,7 +43,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
         with:
-          context: igorferreir4/
+          context: imagens/
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platforms }}
           push: true

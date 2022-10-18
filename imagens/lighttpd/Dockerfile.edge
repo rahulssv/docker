@@ -1,0 +1,23 @@
+# Dockerfile for lighttpd A
+
+FROM alpine:edge
+
+RUN addgroup -g 1001 -S servidor && adduser -u 1001 -S servidor -G servidor -H
+
+RUN apk add --update --no-cache \
+	lighttpd \
+	lighttpd-mod_auth \
+  && rm -rf /var/cache/apk/*
+
+COPY lighttpd/etc/lighttpd/* /etc/lighttpd/
+COPY lighttpd/start.sh /usr/local/bin/
+
+EXPOSE 80
+EXPOSE 443
+
+VOLUME /srv
+VOLUME /etc/lighttpd
+
+RUN chmod +x /usr/local/bin/start.sh
+
+CMD ["/usr/local/bin/start.sh"]
