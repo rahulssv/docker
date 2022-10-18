@@ -1,4 +1,4 @@
-name: Build & publish sinusbot-qemu-arm64
+name: sinusbot-qemu-arm64
 
 on:
   push:

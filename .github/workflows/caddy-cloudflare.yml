@@ -1,4 +1,4 @@
-name: Build & publish caddy-cloudflare
+name: Caddy + Cloudflare
 
 on:
   push:

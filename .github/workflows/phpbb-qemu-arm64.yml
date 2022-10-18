@@ -1,4 +1,4 @@
-name: Build & publish phpbb-qemu-arm64
+name: phpbb-qemu-arm64
 
 on:
   push:

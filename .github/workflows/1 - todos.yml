@@ -1,4 +1,4 @@
-name: Build & publish igorferreir4 images
+name: Todas as Imagens
 
 on:
   workflow_dispatch:

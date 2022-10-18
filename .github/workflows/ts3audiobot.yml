@@ -1,4 +1,4 @@
-name: Build & publish ts3audiobot
+name: Ts3AudioBot
 
 on:
   push:
