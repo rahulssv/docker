@@ -2,10 +2,6 @@ name: Build & publish igorferreir4 images
 
 on:
   workflow_dispatch:
-  push:
-    paths: 
-      - 'igorferreir4/**'
-      - '!igorferreir4/*/README.md'
 
 jobs:
   build-and-push-image:
@@ -44,22 +40,22 @@ jobs:
             tags: igorferreir4/sinusbot-qemu-arm64:latest
             cache: type=registry,ref=igorferreir4/sinusbot-qemu-arm64:cache
    
-          - dockerfile: ./igorferreir4/TS3AudioBot/Dockerfile.minideb
+          - dockerfile: ./igorferreir4/ts3audiobot/Dockerfile.minideb
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.2-minideb
             cache: type=registry,ref=igorferreir4/ts3audiobot:cachemd
       
-          - dockerfile: ./igorferreir4/TS3AudioBot/Dockerfile.minideb-alpha
+          - dockerfile: ./igorferreir4/ts3audiobot/Dockerfile.minideb-alpha
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-minideb
             cache: type=registry,ref=igorferreir4/ts3audiobot:cachemda
      
-          - dockerfile: ./igorferreir4/TS3AudioBot/Dockerfile.net31
+          - dockerfile: ./igorferreir4/ts3audiobot/Dockerfile.net31
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.0-net31
             cache: type=registry,ref=igorferreir4/ts3audiobot:cache31
   
-          - dockerfile: ./igorferreir4/TS3AudioBot/Dockerfile.net60-alpha
+          - dockerfile: ./igorferreir4/ts3audiobot/Dockerfile.net60-alpha
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-net60
             cache: type=registry,ref=igorferreir4/ts3audiobot:cache60
