@@ -1,4 +1,4 @@
-name: Todas as Imagens
+name: 1 - Todas as Imagens
 
 on:
   workflow_dispatch:
