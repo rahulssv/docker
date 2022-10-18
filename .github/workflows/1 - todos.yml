@@ -10,10 +10,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/caddy-cloudflare-l4/Dockerfile
+          - dockerfile: ./imagens/caddy/Dockerfile
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/caddy-cloudflare-l4:2.6.2
-            cache: type=registry,ref=igorferreir4/caddy-cloudflare-l4:cache
+            tags: igorferreir4/caddy:2.6.2
+            cache: type=registry,ref=igorferreir4/caddy:cache
 
           - dockerfile: ./imagens/lighttpd/Dockerfile.edge
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x

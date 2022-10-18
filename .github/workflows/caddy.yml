@@ -3,7 +3,7 @@ name: Caddy + Cloudflare + Layer4
 on:
   push:
     paths: 
-      - 'imagens/caddy-cloudflare-l4/**'
+      - 'imagens/caddy/**'
       - '!imagens/*/README.md'
 
 jobs:
@@ -13,10 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/caddy-cloudflare-l4/Dockerfile
+          - dockerfile: ./imagens/caddy/Dockerfile
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/caddy-cloudflare-l4:2.6.2
-            cache: type=registry,ref=igorferreir4/caddy-cloudflare-l4:cache
+            tags: igorferreir4/caddy:2.6.2
+            cache: type=registry,ref=igorferreir4/caddy:cache
     permissions:
       contents: read
       packages: write
