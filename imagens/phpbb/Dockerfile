@@ -78,4 +78,4 @@ ENV PHPBB_INSTALL= \
     TZ=
 
 EXPOSE 80
-CMD ["/usr/local/bin/start.sh"]
+CMD ["chmod", "+x", "/usr/local/bin/start.sh"]
