@@ -54,6 +54,7 @@ COPY phpbb/php/php-cli.ini /etc/php81/
 COPY phpbb/php/conf.d/* /etc/php81/conf.d/
 
 COPY phpbb/start.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/start.sh
 
 RUN chown -R apache:apache /phpbb
 WORKDIR /phpbb/www
@@ -78,4 +79,4 @@ ENV PHPBB_INSTALL= \
     TZ=
 
 EXPOSE 80
-CMD ["chmod", "+x", "/usr/local/bin/start.sh"]
+CMD ["/usr/local/bin/start.sh"]
