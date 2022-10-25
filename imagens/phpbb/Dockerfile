@@ -25,6 +25,7 @@ RUN apk add --no-cache curl \
     php8-zlib \
     php8-zip \
     su-exec \
+    unzip \
     tzdata
 
 ### phpBB
@@ -39,7 +40,12 @@ RUN curl -SL https://download.phpbb.com/pub/release/3.3/${PHPBB_VERSION}/phpBB-$
     && mkdir /phpbb \
     && mkdir /phpbb/sqlite \
     && mv phpBB3 /phpbb/www \
-    && rm -f phpbb.tar.bz2
+    && rm -f phpbb.tar.bz2 \
+    && cd /phpbb/www/language \
+    && curl -SL https://www.phpbb.com/customise/db/download/197826 -o ptbr.zip \
+    && unzip ptbr.zip \
+    && rm -f ptbr.zip \
+    && mv brazilian_portuguese_3_3_8 pt_br
 
 COPY phpbb/phpbb/config.php /phpbb/www
 
