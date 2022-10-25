@@ -42,7 +42,7 @@ RUN curl -SL https://download.phpbb.com/pub/release/3.3/${PHPBB_VERSION}/phpBB-$
 
 COPY phpbb/config.php /phpbb/www
 
-### Server
+### Servidor
 RUN mkdir -p /run/apache2 /phpbb/opcache \
     && chown apache:apache /run/apache2 /phpbb/opcache
 
