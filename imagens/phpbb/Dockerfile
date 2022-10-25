@@ -1,6 +1,6 @@
 FROM alpine:3.16.2
 
-LABEL maintainer="igortoai@gmail.com"
+LABEL maintainer="igorsferreir4@gmail.com"
 
 RUN apk add --no-cache curl \
     imagemagick \
