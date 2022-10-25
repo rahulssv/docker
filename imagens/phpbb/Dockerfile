@@ -5,26 +5,27 @@ LABEL maintainer="igorsferreir4@gmail.com"
 RUN apk add --no-cache curl \
     imagemagick \
     apache2 \
-    php81 \
-    php81-apache2 \
-    php81-ctype \
-    php81-curl \
-    php81-dom \
-    php81-ftp \
-    php81-gd \
-    php81-iconv \
-    php81-json \
-    php81-mbstring \
-    php81-mysqli \
-    php81-opcache \
-    php81-openssl \
-    php81-pgsql \
-    php81-sqlite3 \
-    php81-tokenizer \
-    php81-xml \
-    php81-zlib \
-    php81-zip \
-    su-exec
+    php8 \
+    php8-apache2 \
+    php8-ctype \
+    php8-curl \
+    php8-dom \
+    php8-ftp \
+    php8-gd \
+    php8-iconv \
+    php8-json \
+    php8-mbstring \
+    php8-mysqli \
+    php8-opcache \
+    php8-openssl \
+    php8-pgsql \
+    php8-sqlite3 \
+    php8-tokenizer \
+    php8-xml \
+    php8-zlib \
+    php8-zip \
+    su-exec \
+    tzdata
 
 ### phpBB
 ENV PHPBB_VERSION 3.3.8
@@ -49,13 +50,14 @@ RUN mkdir -p /run/apache2 /phpbb/opcache \
 COPY phpbb/apache2/httpd.conf /etc/apache2/
 COPY phpbb/apache2/conf.d/* /etc/apache2/conf.d/
 
-COPY phpbb/php/php.ini /etc/php81/
-COPY phpbb/php/php-cli.ini /etc/php81/
-COPY phpbb/php/conf.d/* /etc/php81/conf.d/
+COPY phpbb/php/php.ini /etc/php8/
+COPY phpbb/php/php-cli.ini /etc/php8/
+COPY phpbb/php/conf.d/* /etc/php8/conf.d/
 
 COPY phpbb/start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh
 
+RUN chmod -R 777 /phpbb/www/files /phpbb/www/cache /phpbb/www/store /phpbb/www/images/avatars/upload
 RUN chown -R apache:apache /phpbb
 WORKDIR /phpbb/www
 
