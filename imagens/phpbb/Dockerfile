@@ -41,11 +41,18 @@ RUN curl -SL https://download.phpbb.com/pub/release/3.3/${PHPBB_VERSION}/phpBB-$
     && mkdir /phpbb/sqlite \
     && mv phpBB3 /phpbb/www \
     && rm -f phpbb.tar.bz2 \
-    && cd /phpbb/www/language \
+    && cd /phpbb/www \
     && curl -SL https://www.phpbb.com/customise/db/download/197826 -o ptbr.zip \
     && unzip ptbr.zip \
     && rm -f ptbr.zip \
-    && mv brazilian_portuguese_3_3_8 pt_br
+    && cd /phpbb/www/ext \
+    && curl -SL https://www.phpbb.com/customise/db/download/194851 -o mediaembed.zip \
+    && unzip mediaembed.zip \
+    && rm -f mediaembed.zip \
+    && cd /phpbb/www/styles \
+    && curl -SL https://www.phpbb.com/customise/db/download/198441 -o dark.zip \
+    && unzip dark.zip \
+    && rm -f dark.zip
 
 COPY phpbb/phpbb/config.php /phpbb/www
 
