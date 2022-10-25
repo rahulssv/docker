@@ -54,7 +54,7 @@ RUN curl -SL https://download.phpbb.com/pub/release/3.3/${PHPBB_VERSION}/phpBB-$
     && unzip ptbr.zip \
     && rm -f ptbr.zip \
     && cd brazilian_portuguese_3_3_8/ \
-    && cp * /phpbb/www \
+    && cp -r * /phpbb/www \
     && cd /tmp \
     && rm -r brazilian_portuguese_3_3_8/
 
