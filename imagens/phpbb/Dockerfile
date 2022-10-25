@@ -40,20 +40,20 @@ RUN curl -SL https://download.phpbb.com/pub/release/3.3/${PHPBB_VERSION}/phpBB-$
     && mv phpBB3 /phpbb/www \
     && rm -f phpbb.tar.bz2
 
-COPY phpbb/config.php /phpbb/www
+COPY phpbb/phpbb/config.php /phpbb/www
 
 ### Servidor
 RUN mkdir -p /run/apache2 /phpbb/opcache \
     && chown apache:apache /run/apache2 /phpbb/opcache
 
-COPY apache2/httpd.conf /etc/apache2/
-COPY apache2/conf.d/* /etc/apache2/conf.d/
+COPY phpbb/apache2/httpd.conf /etc/apache2/
+COPY phpbb/apache2/conf.d/* /etc/apache2/conf.d/
 
-COPY php/php.ini /etc/php81/
-COPY php/php-cli.ini /etc/php81/
-COPY php/conf.d/* /etc/php81/conf.d/
+COPY phpbb/php/php.ini /etc/php81/
+COPY phpbb/php/php-cli.ini /etc/php81/
+COPY phpbb/php/conf.d/* /etc/php81/conf.d/
 
-COPY start.sh /usr/local/bin/
+COPY phpbb/start.sh /usr/local/bin/
 
 RUN chown -R apache:apache /phpbb
 WORKDIR /phpbb/www
