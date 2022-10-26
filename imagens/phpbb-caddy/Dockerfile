@@ -29,9 +29,6 @@ RUN apk add --no-cache curl \
     wget \
     ca-certificates \
     mailcap \
-    supervisor
-
-COPY phpbb-caddy/supervisord.conf /etc/supervisor/supervisord.conf
 
 ### Caddy Server
 ENV CADDY_VERSION v2.6.2
@@ -101,4 +98,4 @@ ENV TZ=
 EXPOSE 80 443
 
 # CMD ["/usr/local/bin/start.sh"]
-CMD ["/usr/bin/supervisord","-c /etc/supervisor/supervisord.conf"]
+CMD ["/bin/ash", "-c", "php-fpm81 && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
