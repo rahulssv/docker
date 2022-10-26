@@ -39,7 +39,10 @@ RUN cd /usr/share/caddy \
     && find /usr/share/caddy/ -type f -exec chmod 644 {} \; \
     && chmod -R 777 /usr/share/caddy/files /usr/share/caddy/cache /usr/share/caddy/store /usr/share/caddy/images/avatars/upload \
     && chmod 666 /usr/share/caddy/config.php \
-    && adduser --disabled-password -u "${PUID}" "${USER}"
+    && adduser --disabled-password -u "${PUID}" "${USER}" \
+    && touch /var/log/php81/error.log \
+    && chown server:server /var/log/php81/error.log \
+    && chmod 755 /var/log/php81/error.log
 
 COPY phpbb-caddy/php/* /etc/php81/
 
