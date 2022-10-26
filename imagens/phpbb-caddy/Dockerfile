@@ -22,6 +22,7 @@ RUN apk add --no-cache curl \
     php81-xml \
     php81-zlib \
     php81-zip \
+    php81-fpm \
     su-exec \
     unzip \
     tzdata \
