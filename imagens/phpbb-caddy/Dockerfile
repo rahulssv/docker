@@ -28,7 +28,10 @@ RUN apk add --no-cache curl \
     tzdata \
     wget \
     ca-certificates \
-    mailcap
+    mailcap \
+    supervisor
+
+COPY phpbb-caddy/supervisord.conf /etc/supervisor/supervisord.conf
 
 ### Caddy Server
 ENV CADDY_VERSION v2.6.2
@@ -70,7 +73,7 @@ ENV XDG_DATA_HOME /data
 COPY phpbb-caddy/Caddyfile /etc/caddy/Caddyfile
 
 ### phpBB
-RUN mkdir -p /phpbb/www
+# RUN mkdir -p /phpbb/www
 COPY phpbb-caddy/phpBB3.zip /phpbb/www/
 RUN cd /phpbb/www \
     && unzip phpBB3.zip \
@@ -95,7 +98,7 @@ WORKDIR /phpbb/www
 
 ENV TZ=
 
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80 443
 
-CMD ["/usr/local/bin/start.sh"]
+# CMD ["/usr/local/bin/start.sh"]
+CMD ["/usr/bin/supervisord"]
