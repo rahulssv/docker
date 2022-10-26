@@ -26,6 +26,7 @@ RUN apk update && apk upgrade && apk add --no-cache curl \
     php8-xml \
     php8-zlib \
     php8-zip \
+    composer \
     unzip \
     && mkdir /phpbb \
     && cd /tmp/www/ \
@@ -39,6 +40,8 @@ RUN apk update && apk upgrade && apk add --no-cache curl \
     && cp /tmp/php/conf.d/opcache.ini /etc/php8/conf.d/ \
     && cp -r /tmp/www /phpbb/ \
     && rm -r /tmp/* \
+    && cd /phpbb/www \
+    && composer install \
     && mkdir -p /run/apache2 /phpbb/opcache \
     && chown apache:apache /run/apache2 \
     && chown -R apache:apache /phpbb
