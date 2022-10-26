@@ -1,6 +1,7 @@
-FROM caddy:2.6.2-alpine
+FROM alpine:3.16.2
 
-RUN apk add --no-cache curl \
+RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    && apk add --no-cache curl \
     imagemagick \
     php81 \
     php81-ctype \
