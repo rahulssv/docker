@@ -28,7 +28,7 @@ RUN apk add --no-cache curl \
     tzdata \
     wget \
     ca-certificates \
-    mailcap \
+    mailcap
 
 ### Caddy Server
 ENV CADDY_VERSION v2.6.2
