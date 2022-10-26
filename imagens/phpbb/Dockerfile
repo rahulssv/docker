@@ -23,26 +23,20 @@ RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpine
     php81-zlib \
     php81-zip \
     php81-fpm \
-    php81-pdo \
-    php81-xmlwriter \
-    php81-simplexml \
     unzip \
-    && apk add composer --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     && mkdir /phpbb \
-    && cp -r /tmp/php* /etc/php81/ \
+    && cp -r /tmp/php/* /etc/php81/ \
     && cp /tmp/Caddyfile /etc/caddy/Caddyfile \
     && cp -r /tmp/www /phpbb/ \
     && cd /phpbb/www \
     && unzip phpBB3.zip \
     && rm phpBB3.zip \
     && rm -r /tmp/* \
-    && rm -rf vendor && composer install \
     && mkdir -p /phpbb/opcache \
     && find /phpbb/www/ -type d -exec chmod 755 {} \; \
     && find /phpbb/www/ -type f -exec chmod 644 {} \; \
     && chmod -R 777 /phpbb/www/files /phpbb/www/cache /phpbb/www/store /phpbb/www/images/avatars/upload \
     && chmod 666 /phpbb/www/config.php
-
 
 WORKDIR /phpbb/www
 
