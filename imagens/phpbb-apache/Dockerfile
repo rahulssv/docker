@@ -57,20 +57,20 @@ RUN curl -SL https://download.phpbb.com/pub/release/3.3/${PHPBB_VERSION}/phpBB-$
     && cp -r brazilian_portuguese_3_3_8/* /phpbb/www \
     && rm -r brazilian_portuguese_3_3_8/
 
-COPY phpbb/phpbb/config.php /phpbb/www
+COPY phpbb-apache/phpbb/config.php /phpbb/www
 
 ### Server
 RUN mkdir -p /run/apache2 /phpbb/opcache \
     && chown apache:apache /run/apache2 /phpbb/opcache
 
-COPY phpbb/apache2/httpd.conf /etc/apache2/
-COPY phpbb/apache2/conf.d/* /etc/apache2/conf.d/
+COPY phpbb-apache/apache2/httpd.conf /etc/apache2/
+COPY phpbb-apache/apache2/conf.d/* /etc/apache2/conf.d/
 
-COPY phpbb/php/php.ini /etc/php8/
-COPY phpbb/php/php-cli.ini /etc/php8/
-COPY phpbb/php/conf.d/* /etc/php8/conf.d/
+COPY phpbb-apache/php/php.ini /etc/php8/
+COPY phpbb-apache/php/php-cli.ini /etc/php8/
+COPY phpbb-apache/php/conf.d/* /etc/php8/conf.d/
 
-COPY phpbb/start.sh /usr/local/bin/
+COPY phpbb-apache/start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh
 
 RUN chmod -R 777 /phpbb/www/files /phpbb/www/cache /phpbb/www/store /phpbb/www/images/avatars/upload
