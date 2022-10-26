@@ -34,15 +34,6 @@ RUN apk add --no-cache curl \
 ENV CADDY_VERSION v2.6.2
 
 RUN set -eux; \
-	mkdir -p \
-		/config/caddy \
-		/data/caddy \
-		/etc/caddy \
-		/usr/share/caddy \
-	; \
-	wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/8c5fc6fc265c5d8557f17a18b778c398a2c6f27b/welcome/index.html"
-
-RUN set -eux; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
 		x86_64)  binArch='amd64'; checksum='ae18c0facae7c8ee872492a1ba63a4c7608915d6d9fe267aef4f869cf65ebd4b7f9ff57f609aff2bd52db98c761d877b574aea2c0c9ddc2ec53d0d5e174cb542' ;; \
@@ -70,25 +61,18 @@ ENV XDG_DATA_HOME /data
 COPY phpbb-caddy/Caddyfile /etc/caddy/Caddyfile
 
 ### phpBB
-# RUN mkdir -p /phpbb/www
 COPY phpbb-caddy/phpBB3.zip /phpbb/www/
 RUN cd /phpbb/www \
     && unzip phpBB3.zip \
-    && rm phpBB3.zip
-
-RUN mkdir -p /phpbb/opcache
-
-COPY phpbb-caddy/php/* /etc/php81/
-# COPY phpbb/php/conf.d/* /etc/php81/conf.d/
-
-COPY phpbb-caddy/start.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/start.sh \
+    && rm phpBB3.zip \
+    && mkdir -p /phpbb/opcache \
     && chmod -R 777 /phpbb/www/files /phpbb/www/cache /phpbb/www/store /phpbb/www/images/avatars/upload \
     && chmod 666 /phpbb/www/config.php
 
+COPY phpbb-caddy/php/* /etc/php81/
+
 WORKDIR /phpbb/www
 
-#VOLUME /phpbb/sqlite
 #VOLUME /phpbb/www/files
 #VOLUME /phpbb/www/store
 #VOLUME /phpbb/www/images/avatars/upload
@@ -97,5 +81,4 @@ ENV TZ=
 
 EXPOSE 80 443
 
-# CMD ["/usr/local/bin/start.sh"]
 CMD ["/bin/ash", "-c", "php-fpm81 && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
