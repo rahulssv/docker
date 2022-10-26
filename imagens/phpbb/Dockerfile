@@ -1,7 +1,6 @@
 FROM alpine:3.16.2
 
-ARG PUID=1000
-ENV USER=server
+COPY phpbb/temp /tmp
 
 RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     && apk add --no-cache curl \
@@ -25,33 +24,22 @@ RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpine
     php81-zip \
     php81-fpm \
     unzip \
-    tzdata
-
-COPY phpbb/Caddyfile /etc/caddy/Caddyfile
-
-### phpBB3
-COPY phpbb/phpBB3.zip /usr/share/caddy/
-RUN cd /usr/share/caddy \
+    && mkdir /phpbb \
+    && cp -r /tmp/php* /etc/php81/ \
+    && cp /tmp/Caddyfile /etc/caddy/Caddyfile \
+    && cp -r /tmp/www /phpbb/ \
+    && cd /phpbb/www \
     && unzip phpBB3.zip \
     && rm phpBB3.zip \
+    && rm -r /tmp/* \
     && mkdir -p /phpbb/opcache \
-    && find /usr/share/caddy/ -type d -exec chmod 755 {} \; \
-    && find /usr/share/caddy/ -type f -exec chmod 644 {} \; \
-    && chmod -R 777 /usr/share/caddy/files /usr/share/caddy/cache /usr/share/caddy/store /usr/share/caddy/images/avatars/upload \
-    && chmod 666 /usr/share/caddy/config.php \
-    && adduser --disabled-password -u "${PUID}" "${USER}" \
-    && touch /var/log/php81/error.log \
-    && chown server:server /var/log/php81/error.log \
-    && chmod 755 /var/log/php81/error.log
+    && find /phpbb/www/ -type d -exec chmod 755 {} \; \
+    && find /phpbb/www/ -type f -exec chmod 644 {} \; \
+    && chmod -R 777 /phpbb/www/files /phpbb/www/cache /phpbb/www/store /phpbb/www/images/avatars/upload \
+    && chmod 666 /phpbb/www/config.php
 
-COPY phpbb-caddy/php/* /etc/php81/
 
-USER server
-WORKDIR /usr/share/caddy
-
-#VOLUME /phpbb/www/files
-#VOLUME /phpbb/www/store
-#VOLUME /phpbb/www/images/avatars/upload
+WORKDIR /phpbb/www
 
 ENV TZ=
 
