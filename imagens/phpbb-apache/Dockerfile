@@ -41,7 +41,7 @@ RUN apk update && apk upgrade && apk add --no-cache curl \
     && cp -r /tmp/www /phpbb/ \
     && rm -r /tmp/* \
     && cd /phpbb/www \
-    && composer install \
+    && composer install --ignore-platform-req=ext-pdo --ignore-platform-req=ext-xmlwriter --ignore-platform-req=ext-simplexml \
     && mkdir -p /run/apache2 /phpbb/opcache \
     && chown apache:apache /run/apache2 \
     && chown -R apache:apache /phpbb
