@@ -41,4 +41,4 @@ RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpine
 
 WORKDIR /phpbb/www
 
-CMD ["/bin/ash", "-c", "php-fpm81 -D && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
+CMD ["/bin/ash", "-c", "php-fpm8 -D && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
