@@ -23,6 +23,9 @@ RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpine
     php81-zlib \
     php81-zip \
     php81-fpm \
+    php81-pdo \
+    php81-xmlwriter \
+    php81-simplexml \
     unzip \
     && apk add composer --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     && mkdir /phpbb \
