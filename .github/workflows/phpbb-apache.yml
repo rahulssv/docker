@@ -3,7 +3,7 @@ name: phpbb
 on:
   push:
     paths: 
-      - 'imagens/phpbb/**'
+      - 'imagens/phpbb-apache/**'
       - '!imagens/*/README.md'
 
 jobs:
