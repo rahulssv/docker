@@ -31,6 +31,7 @@ RUN apk update && apk upgrade && apk add --no-cache curl \
     && rm phpBB3.zip \
     && cd /tmp \
     && cp /tmp/apache2/httpd.conf /usr/local/apache2/conf \
+    && mkdir /usr/local/apache2/conf/conf.d \
     && cp /tmp/apache2/conf.d/mpm.conf /usr/local/apache2/conf/conf.d/ \
     && cp /tmp/php/php.ini /etc/php81/ \
     && cp /tmp/php/php-cli.ini /etc/php81/ \
