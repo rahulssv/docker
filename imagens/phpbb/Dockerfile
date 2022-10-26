@@ -31,20 +31,19 @@ RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpine
 COPY phpbb/Caddyfile /etc/caddy/Caddyfile
 
 ### phpBB
-COPY phpbb/phpBB3.zip /phpbb/www/
-RUN cd /phpbb/www \
+COPY phpbb/phpBB3.zip /usr/share/caddy/
+RUN cd /usr/share/caddy \
     && unzip phpBB3.zip \
     && rm phpBB3.zip \
     && mkdir -p /phpbb/opcache \
-    && find /phpbb/www -type d -exec chmod 755 {} \; \
-    && find /phpbb/www -type f -exec chmod 644 {} \; \
-    && chmod -R 777 /phpbb/www/files /phpbb/www/cache /phpbb/www/store /phpbb/www/images/avatars/upload \
-    && chmod 666 /phpbb/www/config.php \
-    && chown -R www-data:www-data /phpbb/www
+    && find /usr/share/caddy/ -type d -exec chmod 755 {} \; \
+    && find /usr/share/caddy/ -type f -exec chmod 644 {} \; \
+    && chmod -R 777 /usr/share/caddy/files /usr/share/caddy/cache /usr/share/caddy/store /usr/share/caddy/images/avatars/upload \
+    && chmod 666 /usr/share/caddy/config.php
 
 COPY phpbb-caddy/php/* /etc/php81/
 
-WORKDIR /phpbb/www
+WORKDIR /usr/share/caddy
 
 #VOLUME /phpbb/www/files
 #VOLUME /phpbb/www/store
