@@ -37,7 +37,7 @@ RUN apk add caddy --repository=http://dl-cdn.alpinelinux.org/alpine/edge/communi
     && cp /tmp/php/php.ini /etc/php81/ \
     && cp /tmp/php/php-cli.ini /etc/php81/ \
     && cp /tmp/php/conf.d/* /etc/php81/conf.d/ \
-    && cp /tmp/php/pfp-fpm.d/* /etc/php81/pfp-fpm.d/ \
+    && cp /tmp/php/php-fpm.d/* /etc/php81/pfp-fpm.d/ \
     && cp /tmp/Caddyfile /etc/caddy/ \
     && rm -r /tmp/* \
     && chown -R caddy:caddy /phpbb
