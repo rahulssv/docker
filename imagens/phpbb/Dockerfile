@@ -3,7 +3,6 @@ FROM caddy:2.6.2-alpine
 RUN apk add --no-cache curl \
     imagemagick \
     php81 \
-    php81-apache2 \
     php81-ctype \
     php81-curl \
     php81-dom \
@@ -39,7 +38,8 @@ RUN cd /phpbb/www \
     && find /phpbb/www -type d -exec chmod 755 {} \; \
     && find /phpbb/www -type f -exec chmod 644 {} \; \
     && chmod -R 777 /phpbb/www/files /phpbb/www/cache /phpbb/www/store /phpbb/www/images/avatars/upload \
-    && chmod 666 /phpbb/www/config.php
+    && chmod 666 /phpbb/www/config.php \
+    && chown -R www-data:www-data /phpbb/www
 
 COPY phpbb-caddy/php/* /etc/php81/
 
