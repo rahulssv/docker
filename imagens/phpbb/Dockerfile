@@ -29,7 +29,7 @@ RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpine
 
 COPY phpbb/Caddyfile /etc/caddy/Caddyfile
 
-### phpBB
+### phpBB3
 COPY phpbb/phpBB3.zip /usr/share/caddy/
 RUN cd /usr/share/caddy \
     && unzip phpBB3.zip \
