@@ -5,27 +5,27 @@ COPY phpbb/temp /tmp
 RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     && apk add --no-cache curl \
     imagemagick \
-    php81 \
-    php81-ctype \
-    php81-curl \
-    php81-dom \
-    php81-ftp \
-    php81-gd \
-    php81-iconv \
-    php81-json \
-    php81-mbstring \
-    php81-mysqli \
-    php81-opcache \
-    php81-openssl \
-    php81-pgsql \
-    php81-tokenizer \
-    php81-xml \
-    php81-zlib \
-    php81-zip \
-    php81-fpm \
+    php8 \
+    php8-ctype \
+    php8-curl \
+    php8-dom \
+    php8-ftp \
+    php8-gd \
+    php8-iconv \
+    php8-json \
+    php8-mbstring \
+    php8-mysqli \
+    php8-opcache \
+    php8-openssl \
+    php8-pgsql \
+    php8-tokenizer \
+    php8-xml \
+    php8-zlib \
+    php8-zip \
+    php8-fpm \
     unzip \
     && mkdir /phpbb \
-    && cp -r /tmp/php/* /etc/php81/ \
+    && cp -r /tmp/php/* /etc/php8/ \
     && cp /tmp/Caddyfile /etc/caddy/Caddyfile \
     && cp -r /tmp/www /phpbb/ \
     && cd /phpbb/www \
