@@ -5,6 +5,7 @@ on:
     paths: 
       - 'imagens/phpbb/**'
       - '!imagens/*/README.md'
+      - '!imagens/*/docker-compose.yml'
 
 jobs:
   build-and-push-image:

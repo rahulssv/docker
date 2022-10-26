@@ -2,77 +2,82 @@
 
 Lightweight, Alpine based [phpBB](https://www.phpbb.com/) docker image.
 
+- Forked from: [selim13](https://github.com/selim13/docker-phpbb)
+- Added theme: [Prosilver Dark Edition](https://www.phpbb.com/customise/db/style/prosilver_dark/)
+- Added extensions: [Media Embed PlugIn](https://www.phpbb.com/customise/db/extension/mediaembed), [Advanced BBCode Box](https://www.phpbb.com/customise/db/extension/advanced_bbcode_box/)
+- Added pt_BR language support
+
 # Supported tags and respective `Dockerfile` links
 
-- [`3.3`, `3.3.4`, `latest`](https://github.com/selim13/docker-phpbb/blob/master/Dockerfile) bundled with PHP 8
-- [`3.2`, `3.2.11`](https://github.com/selim13/docker-phpbb/blob/3.2-alpine-apache/Dockerfile) bundled with PHP 7.2
+- [`3.3.8`, `latest`](https://github.com/igorferreir4/docker/blob/main/imagens/phpbb/Dockerfile) bundled with PHP 8.1.12
 
 # How to use this image
 
 ## Initial installation
 
-If you don't have a prepared phpBB database, you can use a standard phpBB 
-installer script, just run a temporary container with `PHPBB_INSTALL=true` 
-environment variable:
+```sh
+version: '3'
 
-```console
-$ docker run -p 8000:80 --name phpbb-install -e PHPBB_INSTALL=true -d selim13/phpbb:3.3
+volumes:
+  phpbb-sqlite: {}
+  phpbb-files: {}
+  phpbb-store: {}
+  phpbb-avatars: {}
+
+services:
+  phpbb:
+    image: igorferreir4/phpbb:3.3.8
+    container_name: phpbb
+    ports:
+      - '8888:80'
+    volumes:
+      - 'phpbb-sqlite:/phpbb/sqlite'
+      - 'phpbb-files:/phpbb/www/files'
+      - 'phpbb-store:/phpbb/www/store'
+      - 'phpbb-avatars:/phpbb/www/images/avatars/upload'
+    environment:
+      - PHPBB_INSTALL=true
+      - PHPBB_DB_AUTOMIGRATE=true
+      - PHPBB_DB_DRIVER=mysqli
+      - PHPBB_DB_HOST=db-host
+      - PHPBB_DB_PORT=3306
+      - PHPBB_DB_NAME=db-name
+      - PHPBB_DB_USER=db-user
+      - PHPBB_DB_PASSWD=db-user-password
 ```
+To use sqlite3, just use "PHPBB_INSTALL=true", ignoring all other options.
 
-Point your browser to the http://localhost:8000 to begin the 
-installation process.
+In all cases, after installing, comment out the line: PHPBB_INSTALL=true
 
-This image is bundled with SQLite3, MySQL and PostgresSQL database engines
-support. Others can be added by creating custom Dockerfile. For MySQL and PostgresSQL
-you can use standard container linking or use SQLite if you want a self
-sufficient container.
+```sh
+version: '3'
 
-For SQLite3 set `Database server hostname or DSN` field to `/phpbb/sqlite/sqlite.db`.
-This file will be created on a docker volume and outside of the webserver's document root
-for security. Leave user name, password and database name fields blank.
+volumes:
+  phpbb-sqlite: {}
+  phpbb-files: {}
+  phpbb-store: {}
+  phpbb-avatars: {}
 
-After the installation process is complete you can safely stop this container: 
-
-```console
-$ docker stop phpbb-install
-```
-
-## Starting
-
-You can start a container as follows:
-
-
-```console
-$ docker run --name phpbb -d selim13/phpbb:3.3
-```
-
-By default, it uses SQLite3 as a database backend, so you will need to supply
-it with a database file. It's default path is `/phpbb/sqlite/sqlite.db`.
-
-You can import it from the temporary installation container above:
-
-```console
-$ docker run --volumes-from phpbb-install --name phpbb -d selim13/phpbb:3.3
-```
-
-Or just copy it inside container if you have one from previous phpBB
-installations:
-
-```console
-$ docker cp /path/at/host/sqlite.db phpbb:/www/sqlite/sqlite.db
-```
-
-For other database engines you will need to pass credentials and driver type
-using environment variables:
-
-```console
-$ docker run --name phpbb     \
-    -e PHPBB_DB_DRIVER=mysqli \
-    -e PHPBB_DB_HOST=dbmysql  \
-    -e PHPBB_DB_PORT=3306     \
-    -e PHPBB_DB_NAME=phpbb    \
-    -e PHPBB_DB_USER=phpbb    \
-    -e PHPBB_DB_PASSWD=pass -d selim13/phpbb:3.3
+services:
+  phpbb:
+    image: igorferreir4/phpbb:3.3.8
+    container_name: phpbb
+    ports:
+      - '8888:80'
+    volumes:
+      - 'phpbb-sqlite:/phpbb/sqlite'
+      - 'phpbb-files:/phpbb/www/files'
+      - 'phpbb-store:/phpbb/www/store'
+      - 'phpbb-avatars:/phpbb/www/images/avatars/upload'
+    environment:
+      # - PHPBB_INSTALL=true
+      - PHPBB_DB_AUTOMIGRATE=true
+      - PHPBB_DB_DRIVER=mysqli
+      - PHPBB_DB_HOST=db-host
+      - PHPBB_DB_PORT=3306
+      - PHPBB_DB_NAME=db-name
+      - PHPBB_DB_USER=db-user
+      - PHPBB_DB_PASSWD=db-user-password
 ```
 
 ## Environment variables 
@@ -88,12 +93,8 @@ a forum database upon fresh installation.
 ### PHPBB_DB_DRIVER
 
 Selects a database driver. phpBB3 ships with following drivers:
-- `mssql` - MS SQL Server
-- `mysql` - MySQL via outdated php extension
 - `mysqli` - MySQL via newer php extension
-- `oracle` - Oracle
 - `postgres` - PostgreSQL
-- `sqlite` - SQLite 2
 - `sqlite3` - SQLite 3
 
 This image is bundled with support of `sqlite3`, `mysqli` and `postgres` drivers.
@@ -197,7 +198,7 @@ Then push it to `/etc/apache2/conf.d/` directory, for example, by extending this
 image:
 
 ```dockerfile
-FROM selim13/phpbb:3.3
+FROM igorferreir4/phpbb:3.3.8
 
 COPY remoteip.conf /etc/apache2/conf.d
 ```
