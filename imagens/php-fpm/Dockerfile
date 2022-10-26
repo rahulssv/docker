@@ -39,9 +39,9 @@ RUN apk add --no-cache curl \
     icu \
     icu-dev \
     nano \
-    && mkdir -p /usr/src/php/ext/imagick; \
-    && curl -fsSL https://github.com/Imagick/imagick/archive/refs/tags/3.7.0.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1; \
-    && docker-php-ext-install imagick; \
+    && mkdir -p /usr/src/php/ext/imagick \
+    && curl -fsSL https://github.com/Imagick/imagick/archive/refs/tags/3.7.0.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
+    && docker-php-ext-install imagick \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install mysqli exif zip intl imagick \
