@@ -31,7 +31,7 @@ RUN apk add --no-cache curl \
     mailcap \
     supervisor
 
-COPY phpbb-caddy/supervisord.conf /etc/supervisor/supervisord.conf
+COPY phpbb-caddy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ### Caddy Server
 ENV CADDY_VERSION v2.6.2
