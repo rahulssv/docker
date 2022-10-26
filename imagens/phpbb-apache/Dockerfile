@@ -47,4 +47,4 @@ WORKDIR /phpbb/www
 
 EXPOSE 80
 
-CMD /usr/bin/httpd -DFOREGROUND
+CMD httpd -DFOREGROUND
