@@ -28,10 +28,12 @@ RUN apk add --no-cache curl \
     php81-zip \
     su-exec \
     unzip \
-    && cd /tmp \
     && mkdir /phpbb \
     && mkdir /phpbb/sqlite \
-    && mv www /phpbb/www \
+    && mv /tmp/www /phpbb/www \
+    && cd /phpbb/www \
+    && unzip phpbb3.zip \
+    && rm phpbb3.zip \
     && cp /tmp/phpbb/config.php /phpbb/www \
     && mkdir -p /run/apache2 /phpbb/opcache \
     && chown apache:apache /run/apache2 /phpbb/opcache \
