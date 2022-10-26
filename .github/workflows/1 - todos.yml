@@ -59,6 +59,11 @@ jobs:
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-net60
             cache: type=registry,ref=igorferreir4/ts3audiobot:cache60
+
+          - dockerfile: ./imagens/phpbb/Dockerfile
+            platforms: linux/amd64,linux/arm64
+            tags: igorferreir4/phpbb:3.3.8 , igorferreir4/phpbb:latest
+            cache: type=registry,ref=igorferreir4/phpbb:cache
     permissions:
       contents: read
       packages: write
