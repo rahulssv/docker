@@ -52,4 +52,4 @@ WORKDIR /phpbb/www
 
 EXPOSE 80
 # CMD ["php-fpm81 && caddy run --config /etc/caddy/Caddyfile"]
-CMD caddy run --config /etc/caddy/Caddyfile ; /usr/sbin/php-fpm81
+CMD /usr/sbin/php-fpm81 ; caddy run --config /etc/caddy/Caddyfile
