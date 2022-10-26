@@ -45,7 +45,7 @@ services:
       - PHPBB_DB_USER=db-user
       - PHPBB_DB_PASSWD=db-user-password
 ```
-To use sqlite3, just use "PHPBB_INSTALL=true", ignoring all other options.
+To use sqlite3, just use "PHPBB_INSTALL=true", ignoring all other environments.
 
 In all cases, after installing, comment out the line: PHPBB_INSTALL=true
 
