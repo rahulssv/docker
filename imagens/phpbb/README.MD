@@ -173,9 +173,9 @@ By default there are four volumes created for each container:
 
 # Additional configuration
 
-This image is based on a stock official Alpine image with apache2 and php5
+This image is based on a stock official Alpine image with apache2 and php81
 packages from the Alpine Linux repository, so you can drop their custom 
-configuration files to `/etc/apache2/conf.d` and `/etc/php5/conf.d`.
+configuration files to `/etc/apache2/conf.d` and `/etc/php81/conf.d`.
 
 ## Pass user's IP from proxy
 
