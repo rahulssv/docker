@@ -50,4 +50,4 @@ WORKDIR /phpbb/www
 #VOLUME /phpbb/www/images/avatars/upload
 
 EXPOSE 80
-CMD ["/usr/local/bin/start.sh"]
+CMD ["php-fpm81 && caddy run --config /etc/caddy/Caddyfile"]
