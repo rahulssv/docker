@@ -1,8 +1,6 @@
 FROM php:8.1.11-fpm-alpine3.16
 
-RUN apk update && apk upgrade
-
-RUN apk add --no-cache curl \
+RUN apk update && apk upgrade && apk add --no-cache curl \
     zip \
     unzip \
     imagemagick \
