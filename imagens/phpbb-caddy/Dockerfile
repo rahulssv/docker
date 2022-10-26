@@ -101,4 +101,4 @@ ENV TZ=
 EXPOSE 80 443
 
 # CMD ["/usr/local/bin/start.sh"]
-CMD ["/usr/bin/supervisord","-n"]
+CMD ["/usr/bin/supervisord","-c /etc/supervisor/supervisord.conf"]
