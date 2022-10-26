@@ -1,0 +1,6 @@
+http://:80 {
+	php_fastcgi 127.0.0.1:9000
+	root * /usr/share/caddy
+	file_server
+	encode gzip
+}
