@@ -36,6 +36,8 @@ RUN cd /phpbb/www \
     && unzip phpBB3.zip \
     && rm phpBB3.zip \
     && mkdir -p /phpbb/opcache \
+    && find /phpbb/www -type d -exec chmod 755 {} \; \
+    && find /phpbb/www -type f -exec chmod 644 {} \; \
     && chmod -R 777 /phpbb/www/files /phpbb/www/cache /phpbb/www/store /phpbb/www/images/avatars/upload \
     && chmod 666 /phpbb/www/config.php
 
