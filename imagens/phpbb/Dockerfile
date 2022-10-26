@@ -2,7 +2,7 @@ FROM alpine:3.16.2
 
 COPY phpbb/temp /tmp
 
-RUN apk update && apk upgrade && apk add caddy composer --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     && apk add --no-cache curl \
     imagemagick \
     php81 \
@@ -24,6 +24,7 @@ RUN apk update && apk upgrade && apk add caddy composer --repository=http://dl-c
     php81-zip \
     php81-fpm \
     unzip \
+    && apk add composer --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     && mkdir /phpbb \
     && cp -r /tmp/php* /etc/php81/ \
     && cp /tmp/Caddyfile /etc/caddy/Caddyfile \
