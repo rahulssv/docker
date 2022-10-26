@@ -1,5 +1,8 @@
 FROM alpine:3.16.2
 
+ARG PUID=1000
+ENV USER=server
+
 RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     && apk add --no-cache curl \
     imagemagick \
@@ -21,12 +24,8 @@ RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpine
     php81-zlib \
     php81-zip \
     php81-fpm \
-    su-exec \
     unzip \
-    tzdata \
-    wget \
-    ca-certificates \
-    mailcap
+    tzdata
 
 COPY phpbb/Caddyfile /etc/caddy/Caddyfile
 
@@ -39,10 +38,12 @@ RUN cd /usr/share/caddy \
     && find /usr/share/caddy/ -type d -exec chmod 755 {} \; \
     && find /usr/share/caddy/ -type f -exec chmod 644 {} \; \
     && chmod -R 777 /usr/share/caddy/files /usr/share/caddy/cache /usr/share/caddy/store /usr/share/caddy/images/avatars/upload \
-    && chmod 666 /usr/share/caddy/config.php
+    && chmod 666 /usr/share/caddy/config.php \
+    && adduser --disabled-password -u "${PUID}" "${USER}"
 
 COPY phpbb-caddy/php/* /etc/php81/
 
+USER server
 WORKDIR /usr/share/caddy
 
 #VOLUME /phpbb/www/files
