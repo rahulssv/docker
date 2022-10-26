@@ -36,7 +36,8 @@ RUN apk update && apk upgrade && apk add caddy --repository=http://dl-cdn.alpine
     && find /phpbb/www/ -type d -exec chmod 755 {} \; \
     && find /phpbb/www/ -type f -exec chmod 644 {} \; \
     && chmod -R 777 /phpbb/www/files /phpbb/www/cache /phpbb/www/store /phpbb/www/images/avatars/upload \
-    && chmod 666 /phpbb/www/config.php
+    && chmod 666 /phpbb/www/config.php \
+    && chown -R caddy:caddy /phpbb
 
 WORKDIR /phpbb/www
 
