@@ -90,14 +90,7 @@ RUN { \
 		echo 'ignore_repeated_errors = On'; \
 		echo 'ignore_repeated_source = Off'; \
 		echo 'html_errors = Off'; \
-	} > /usr/local/etc/php/conf.d/error-logging.ini \
-    && echo "upload_max_filesize = 1024M" >> /usr/local/etc/php/php.ini \
-    && echo "post_max_size = 1024M" >> /usr/local/etc/php/php.ini \
-    && echo "max_execution_time = 300" >> /usr/local/etc/php/php.ini \
-    && apk add tzdata \
-    && cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
-    && echo "America/Sao_Paulo" >  /etc/timezone \
-    && apk del tzdata
+	} > /usr/local/etc/php/conf.d/error-logging.ini
 
 CMD ["php-fpm"]
 
