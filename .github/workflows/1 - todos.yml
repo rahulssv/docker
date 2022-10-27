@@ -30,16 +30,6 @@ jobs:
             tags: igorferreir4/php-fpm:8.1.11
             cache: type=registry,ref=igorferreir4/php-fpm:cache
 
-          - dockerfile: ./imagens/phpbb-qemu-arm64/Dockerfile
-            platforms: linux/arm64
-            tags: igorferreir4/phpbb-qemu-arm64:3.3.8
-            cache: type=registry,ref=igorferreir4/phpbb-qemu-arm64:cache
- 
-          - dockerfile: ./imagens/sinusbot-qemu-arm64/Dockerfile
-            platforms: linux/arm64
-            tags: igorferreir4/sinusbot-qemu-arm64:latest
-            cache: type=registry,ref=igorferreir4/sinusbot-qemu-arm64:cache
-   
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.2-minideb
