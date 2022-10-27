@@ -15,8 +15,8 @@ jobs:
         include:
           - dockerfile: ./imagens/php-fpm/Dockerfile
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/php-fpm:8.1.11-teste
-            cache: type=registry,ref=igorferreir4/php-fpm:cache-teste
+            tags: igorferreir4/php-fpm:8.1.11
+            cache: type=registry,ref=igorferreir4/php-fpm:cache
     permissions:
       contents: read
       packages: write
