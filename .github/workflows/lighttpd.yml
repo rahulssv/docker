@@ -16,12 +16,12 @@ jobs:
           - dockerfile: ./imagens/lighttpd/Dockerfile.edge
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:edge
-            cache: type=gha,scope=lighttpde
+            cache: type=gha,scope=${{ matrix.include }}
 
           - dockerfile: ./imagens/lighttpd/Dockerfile.stable
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:1.4.64-r0
-            cache: type=gha,scope=lighttpds
+            cache: type=gha,scope=${{ matrix.include }}
     permissions:
       contents: read
       packages: write
