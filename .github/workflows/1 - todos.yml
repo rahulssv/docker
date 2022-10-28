@@ -16,44 +16,62 @@ jobs:
             cache: type=gha
             nomedocache: caddy
             slug: igorferreir4/caddy
-            readme: ./caddy/README.md
-            description: Caddy with plugins.
+            readme: imagens/caddy/README.md
+            description: Caddy with plugins
 
           - dockerfile: ./imagens/lighttpd/Dockerfile.edge
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:edge
             cache: type=gha
             nomedocache: lighttpd-edge
+            slug: igorferreir4/lighttpd
+            readme: imagens/lighttpd/README.md
+            description: lighttpd
 
           - dockerfile: ./imagens/lighttpd/Dockerfile.stable
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:1.4.64-r0
             cache: type=gha
             nomedocache: lighttpd-stable
+            slug: igorferreir4/lighttpd
+            readme: imagens/lighttpd/README.md
+            description: lighttpd
 
           - dockerfile: ./imagens/php-fpm/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/php-fpm:8.1.11
             cache: type=gha
             nomedocache: php-fpm
+            slug: igorferreir4/php-fpm
+            readme: imagens/php-fpm/README.md
+            description: php-fpm    
 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.stable
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.0-stable
             cache: type=gha
             nomedocache: ts3bot-stable
+            slug: igorferreir4/ts3audiobot
+            readme: imagens/ts3audiobot/README.md
+            description: Splamy/TS3AudioBot for arm64
 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.alpha
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:alpha , igorferreir4/ts3audiobot:latest
             cache: type=gha
             nomedocache: ts3bot-alpha
+            slug: igorferreir4/ts3audiobot
+            readme: imagens/ts3audiobot/README.md
+            description: Splamy/TS3AudioBot for arm64
 
           - dockerfile: ./imagens/phpbb/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/phpbb:3.3.8 , igorferreir4/phpbb:latest
             cache: type=gha
             nomedocache: phpbb
+            slug: igorferreir4/phpbb
+            readme: imagens/phpbb/README.md
+            description: phpbb 3.3.8
 
           - dockerfile: ./imagens/aspnet/Dockerfile
             platforms: linux/amd64,linux/arm64/v8
