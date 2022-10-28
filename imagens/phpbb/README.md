@@ -18,12 +18,6 @@ Lightweight, Alpine based [phpBB](https://www.phpbb.com/) docker image.
 ```sh
 version: '3'
 
-volumes:
-  phpbb-sqlite: {}
-  phpbb-files: {}
-  phpbb-store: {}
-  phpbb-avatars: {}
-
 services:
   phpbb:
     image: igorferreir4/phpbb:3.3.8
@@ -31,14 +25,14 @@ services:
     ports:
       - '8888:80'
     volumes:
-      - 'phpbb-sqlite:/phpbb/sqlite'
-      - 'phpbb-files:/phpbb/www/files'
-      - 'phpbb-store:/phpbb/www/store'
-      - 'phpbb-avatars:/phpbb/www/images/avatars/upload'
+      - ./phpbb/sqlite:/phpbb/sqlite
+      - ./phpbb/files:/phpbb/www/files
+      - ./phpbb/store:/phpbb/www/store
+      - ./phpbb/avatars:/phpbb/www/images/avatars/upload
     environment:
       - PHPBB_INSTALL=true
-      - PUID=65432 # Optional
-      - PGID=65432 # Optional
+      - PUID=65432
+      - PGID=65432
       - PHPBB_DB_AUTOMIGRATE=true
       - PHPBB_DB_DRIVER=mysqli
       - PHPBB_DB_HOST=db-host
@@ -47,18 +41,12 @@ services:
       - PHPBB_DB_USER=db-user
       - PHPBB_DB_PASSWD=db-user-password
 ```
-To use sqlite3, just use "PHPBB_INSTALL=true", ignoring all other environments.
+To use sqlite3, just use "PHPBB_INSTALL=true", ignoring all other environments, except PUID and PGID.
 
 In all cases, after installing, comment out the line: PHPBB_INSTALL=true
 
 ```sh
 version: '3'
-
-volumes:
-  phpbb-sqlite: {}
-  phpbb-files: {}
-  phpbb-store: {}
-  phpbb-avatars: {}
 
 services:
   phpbb:
@@ -67,21 +55,14 @@ services:
     ports:
       - '8888:80'
     volumes:
-      - 'phpbb-sqlite:/phpbb/sqlite'
-      - 'phpbb-files:/phpbb/www/files'
-      - 'phpbb-store:/phpbb/www/store'
-      - 'phpbb-avatars:/phpbb/www/images/avatars/upload'
+      - ./phpbb/sqlite:/phpbb/sqlite
+      - ./phpbb/files:/phpbb/www/files
+      - ./phpbb/store:/phpbb/www/store
+      - ./phpbb/avatars:/phpbb/www/images/avatars/upload
     environment:
       # - PHPBB_INSTALL=true
-      - PUID=65432 # Optional
-      - PGID=65432 # Optional
-      - PHPBB_DB_AUTOMIGRATE=true
-      - PHPBB_DB_DRIVER=mysqli
-      - PHPBB_DB_HOST=db-host
-      - PHPBB_DB_PORT=3306
-      - PHPBB_DB_NAME=db-name
-      - PHPBB_DB_USER=db-user
-      - PHPBB_DB_PASSWD=db-user-password
+      - PUID=65432
+      - PGID=65432
 ```
 
 ## Environment variables 
@@ -90,7 +71,7 @@ This image utilises environment variables for basic configuration. Most of
 them are passed directly to phpBB's `config.php` or to the startup script.
 
 ### PUID and PGID
-When using volumes (-v flags) permissions issues can arise between the host OS and the container, we avoid this issue by allowing you to specify the user PUID and group PGID.
+When using volumes, permissions issues can arise between the host OS and the container, we avoid this issue by allowing you to specify the user PUID and group PGID.
 
 Ensure any volume directories on the host are owned by the same user you specify and any permissions issues will vanish like magic.
 
@@ -165,19 +146,8 @@ to work.
 Use in conjunction with `PHPBB_DB_AUTOMIGRATE` to prevent running migrations
 before database is ready.
 
-Won't work for SQLite database engine as it is always available. 
+Won't work for SQLite database engine as it is always available.
 
-### PHPBB_DISPLAY_LOAD_TIME
-
-If set to `true`, phpBB will display page loading time, queries count and peak memory
-usage at the bottom of the page.
-
-### PHPBB_DEBUG
-
-If set to `true`, enables phpBB debug mode.
-
-### PHPBB_DEBUG_CONTAINER
-  
 ## Volumes
 
 By default there are four volumes created for each container:
