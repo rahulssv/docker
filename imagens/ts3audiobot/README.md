@@ -8,18 +8,18 @@ chown -R 1001:1001 $(pwd)/ts3bot
 
 Run the initial setup to generate all the initial configuration files:
 ```sh
-docker run --name ts3audiobot -it -v $(pwd)/ts3bot:/app/data -p 58913:58913 igorferreir4/ts3audiobot:alpha-net60
+docker run --name ts3audiobot -it -v $(pwd)/ts3bot:/app/data -p 58913:58913 igorferreir4/ts3audiobot:latest
 ```
 
 After configuring the bot, turn it off by pressing CRTL+C. Then run the actual container again as a daemon:
 ```sh
-docker run --name ts3audiobot -d -v $(pwd)/ts3bot:/app/data -p 58913:58913 igorferreir4/ts3audiobot:alpha-net60
+docker run --name ts3audiobot -d -v $(pwd)/ts3bot:/app/data -p 58913:58913 igorferreir4/ts3audiobot:latest
 ```
 
 Or docker-compose.yml:
 ```sh
   ts3audiobot:
-    image: igorferreir4/ts3audiobot:alpha-net60
+    image: igorferreir4/ts3audiobot:latest
     container_name: ts3audiobot
     restart: always
     ports:
@@ -27,3 +27,6 @@ Or docker-compose.yml:
     volumes:
       - ./ts3bot:/app/data
 ```
+
+# Tag: 
+## latest = alpha

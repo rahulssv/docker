@@ -34,41 +34,17 @@ jobs:
             cache: type=gha
             nomedocache: php-fpm
 
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.stable
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/ts3audiobot:0.12.2-minideb
+            tags: igorferreir4/ts3audiobot:0.12.0-stable
             cache: type=gha
-            nomedocache: ts3bot-md
-      
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb-alpha
-            platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/ts3audiobot:alpha-minideb
-            cache: type=gha
-            nomedocache: ts3bot-mda
-     
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.arm64
-            platforms: linux/arm64
-            tags: igorferreir4/ts3audiobot:0.12.0-arm64
-            cache: type=gha
-            nomedocache: ts3bot-arms
-  
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.arm64
-            platforms: linux/arm64
-            tags: igorferreir4/ts3audiobot:alpha-arm64
-            cache: type=gha
-            nomedocache: ts3bot-arma
+            nomedocache: ts3bot-stable
 
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.amd64
-            platforms: linux/amd64
-            tags: igorferreir4/ts3audiobot:0.12.0-amd64
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.alpha
+            platforms: linux/amd64,linux/arm64
+            tags: igorferreir4/ts3audiobot:alpha , igorferreir4/ts3audiobot:latest
             cache: type=gha
-            nomedocache: ts3bot-amds
-  
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.amd64
-            platforms: linux/amd64
-            tags: igorferreir4/ts3audiobot:alpha-amd64
-            cache: type=gha
-            nomedocache: ts3bot-amda
+            nomedocache: ts3bot-alpha
 
           - dockerfile: ./imagens/phpbb/Dockerfile
             platforms: linux/amd64,linux/arm64
@@ -80,7 +56,13 @@ jobs:
             platforms: linux/amd64,linux/arm64/v8
             tags: igorferreir4/aspnet:6.0.10-alpine3.16.2
             cache: type=gha
-            nomedocache: aspnet
+            nomedocache: aspnet-6.0
+
+          - dockerfile: ./imagens/aspnet/Dockerfile.v3.1
+            platforms: linux/amd64,linux/arm64/v8
+            tags: igorferreir4/aspnet:3.1.30-alpine3.16.2
+            cache: type=gha
+            nomedocache: aspnet-3.1
     permissions:
       contents: read
       packages: write
