@@ -23,15 +23,25 @@ jobs:
             tags: igorferreir4/ts3audiobot:alpha-minideb
             cache: type=registry,ref=igorferreir4/ts3audiobot:cachemda
      
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.arm64
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.0-net31
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cache31
+            cache: type=registry,ref=igorferreir4/ts3audiobot:cache31arm
   
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.arm64
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-net60
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cache60
+            cache: type=registry,ref=igorferreir4/ts3audiobot:cache60arm
+
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.amd64
+            platforms: linux/amd64
+            tags: igorferreir4/ts3audiobot:0.12.0-net31
+            cache: type=registry,ref=igorferreir4/ts3audiobot:cache31amd
+  
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.amd64
+            platforms: linux/amd64
+            tags: igorferreir4/ts3audiobot:alpha-net60
+            cache: type=registry,ref=igorferreir4/ts3audiobot:cache60amd
     permissions:
       contents: read
       packages: write
