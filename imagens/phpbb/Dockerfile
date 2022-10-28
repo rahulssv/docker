@@ -45,7 +45,7 @@ RUN apk add --no-cache curl \
     && cp /tmp/php/conf.d/* /etc/php81/conf.d/ \
     && cp /tmp/start.sh /usr/local/bin/ \
     && chmod +x /usr/local/bin/start.sh \
-    && chown -R apache:apache /phpbb \
+    && adduser --disabled-password --uid 65432 phpbb \
     && rm -r /tmp/*
 
 WORKDIR /phpbb/www
@@ -67,8 +67,8 @@ ENV PHPBB_INSTALL= \
     PHPBB_DISPLAY_LOAD_TIME= \
     PHPBB_DEBUG= \
     PHPBB_DEBUG_CONTAINER= \
-    PUID=100 \
-    PGID=101
+    PUID=65432 \
+    PGID=65432
 
 EXPOSE 80
 CMD ["/usr/local/bin/start.sh"]

@@ -1,10 +1,10 @@
 #!/bin/sh
 
-usermod --non-unique --uid $PUID apache
+usermod --non-unique --uid $PUID phpbb
 
-groupmod --non-unique --gid $PGID apache
+groupmod --non-unique --gid $PGID phpbb
 
-chown -R apache:apache /phpbb
+chown -R phpbb:phpbb /phpbb
 
 set -e
 
