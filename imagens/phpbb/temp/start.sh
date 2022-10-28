@@ -1,5 +1,7 @@
 #!/bin/sh
 
+addgroup --gid $PGID phpbb
+
 usermod --non-unique --uid $PUID --gid $PGID apache
 
 chown -R apache:apache /phpbb
