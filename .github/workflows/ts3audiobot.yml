@@ -15,6 +15,7 @@ jobs:
         include:
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb
             platforms: linux/amd64,linux/arm64
+            tags: igorferreir4/ts3audiobot:0.12.2-minideb
             cache: type=gha
             nomedocache: ts3bot-md
       
