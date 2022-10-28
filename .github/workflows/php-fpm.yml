@@ -16,7 +16,8 @@ jobs:
           - dockerfile: ./imagens/php-fpm/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/php-fpm:8.1.11
-            cache: type=registry,ref=igorferreir4/php-fpm:cache
+            cache: type=gha
+            nomedocache: php-fpm
     permissions:
       contents: read
       packages: write
@@ -48,5 +49,5 @@ jobs:
           platforms: ${{ matrix.platforms }}
           push: true
           tags: ${{ matrix.tags }}
-          cache-from: ${{ matrix.cache }}
-          cache-to: ${{ matrix.cache }},mode=max
+          cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }}
+          cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }},mode=max

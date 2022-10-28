@@ -13,57 +13,68 @@ jobs:
           - dockerfile: ./imagens/caddy/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/caddy:2.6.2
-            cache: type=registry,ref=igorferreir4/caddy:cache
+            cache: type=gha
+            nomedocache: caddy
 
           - dockerfile: ./imagens/lighttpd/Dockerfile.edge
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:edge
-            cache: type=registry,ref=igorferreir4/lighttpd:cachee
+            cache: type=gha
+            nomedocache: lighttpd-edge
 
           - dockerfile: ./imagens/lighttpd/Dockerfile.stable
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:1.4.64-r0
-            cache: type=registry,ref=igorferreir4/lighttpd:caches
+            cache: type=gha
+            nomedocache: lighttpd-stable
 
           - dockerfile: ./imagens/php-fpm/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/php-fpm:8.1.11
-            cache: type=registry,ref=igorferreir4/php-fpm:cache
+            cache: type=gha
+            nomedocache: php-fpm
 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.2-minideb
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachemd
+            cache: type=gha
+            nomedocache: ts3bot-md
       
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb-alpha
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-minideb
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachemda
+            cache: type=gha
+            nomedocache: ts3bot-mda
      
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.arm64
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.0-arm64
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachearm
+            cache: type=gha
+            nomedocache: ts3bot-arms
   
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.arm64
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-arm64
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachearm
+            cache: type=gha
+            nomedocache: ts3bot-arma
 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.amd64
             platforms: linux/amd64
             tags: igorferreir4/ts3audiobot:0.12.0-amd64
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachesamd
+            cache: type=gha
+            nomedocache: ts3bot-amds
   
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.amd64
             platforms: linux/amd64
             tags: igorferreir4/ts3audiobot:alpha-amd64
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cacheaamd
+            cache: type=gha
+            nomedocache: ts3bot-amda
 
           - dockerfile: ./imagens/phpbb/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/phpbb:3.3.8 , igorferreir4/phpbb:latest
-            cache: type=registry,ref=igorferreir4/phpbb:cache
+            cache: type=gha
+            nomedocache: phpbb
     permissions:
       contents: read
       packages: write
@@ -95,5 +106,5 @@ jobs:
           platforms: ${{ matrix.platforms }}
           push: true
           tags: ${{ matrix.tags }}
-          cache-from: type=gha,scope=${{ strategy.job-index }}
-          cache-to: type=gha,scope=${{ strategy.job-index }},mode=max
+          cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }}
+          cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }},mode=max

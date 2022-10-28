@@ -17,7 +17,8 @@ jobs:
           - dockerfile: ./imagens/phpbb/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/phpbb:3.3.8 , igorferreir4/phpbb:latest
-            cache: type=registry,ref=igorferreir4/phpbb:cache
+            cache: type=gha
+            nomedocache: phpbb
     permissions:
       contents: read
       packages: write
@@ -49,5 +50,5 @@ jobs:
           platforms: ${{ matrix.platforms }}
           push: true
           tags: ${{ matrix.tags }}
-          cache-from: ${{ matrix.cache }}
-          cache-to: ${{ matrix.cache }},mode=max
+          cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }}
+          cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }},mode=max

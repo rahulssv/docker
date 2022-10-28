@@ -17,13 +17,13 @@ jobs:
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:edge
             cache: type=gha
-            nameforcache: edge
+            nomedocache: lighttpd-edge
 
           - dockerfile: ./imagens/lighttpd/Dockerfile.stable
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
             tags: igorferreir4/lighttpd:1.4.64-r0
             cache: type=gha
-            nameforcache: stable
+            nomedocache: lighttpd-stable
     permissions:
       contents: read
       packages: write
@@ -55,5 +55,5 @@ jobs:
           platforms: ${{ matrix.platforms }}
           push: true
           tags: ${{ matrix.tags }}
-          cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nameforcache }}
-          cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nameforcache }},mode=max
+          cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }}
+          cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }},mode=max

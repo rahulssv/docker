@@ -15,33 +15,38 @@ jobs:
         include:
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/ts3audiobot:0.12.2-minideb
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachemd
+            cache: type=gha
+            nomedocache: ts3bot-md
       
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb-alpha
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-minideb
             cache: type=registry,ref=igorferreir4/ts3audiobot:cachemda
-     
+            nomedocache: ts3bot-mda
+
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.arm64
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:0.12.0-arm64
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachearm
-  
+            cache: type=gha
+            nomedocache: ts3bot-arms
+ 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.arm64
             platforms: linux/arm64
             tags: igorferreir4/ts3audiobot:alpha-arm64
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachearm
+            cache: type=gha
+            nomedocache: ts3bot-arma
 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.amd64
             platforms: linux/amd64
             tags: igorferreir4/ts3audiobot:0.12.0-amd64
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachesamd
-  
+            cache: type=gha
+            nomedocache: ts3bot-amds
+ 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.amd64
             platforms: linux/amd64
             tags: igorferreir4/ts3audiobot:alpha-amd64
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cacheaamd
+            cache: type=gha
+            nomedocache: ts3bot-amda
     permissions:
       contents: read
       packages: write
@@ -73,5 +78,5 @@ jobs:
           platforms: ${{ matrix.platforms }}
           push: true
           tags: ${{ matrix.tags }}
-          cache-from: ${{ matrix.cache }}
-          cache-to: ${{ matrix.cache }},mode=max
+          cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }}
+          cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }},mode=max
