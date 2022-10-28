@@ -31,29 +31,17 @@ jobs:
             cache: type=gha
             nomedocache: ts3bot-arms
  
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.arm64
-            platforms: linux/arm64
-            tags: igorferreir4/ts3audiobot:alpha-arm64
-            cache: type=gha
-            nomedocache: ts3bot-arma
-
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.amd64
             platforms: linux/amd64
             tags: igorferreir4/ts3audiobot:0.12.0-amd64
             cache: type=gha
             nomedocache: ts3bot-amds
  
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.amd64
-            platforms: linux/amd64
-            tags: igorferreir4/ts3audiobot:alpha-amd64
-            cache: type=gha
-            nomedocache: ts3bot-amda
-
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.teste
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/ts3audiobot:teste
             cache: type=gha
-            nomedocache: ts3bot-teste
+            nomedocache: ts3bot-alpha
     permissions:
       contents: read
       packages: write
