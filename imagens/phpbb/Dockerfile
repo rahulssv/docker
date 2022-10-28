@@ -67,7 +67,8 @@ ENV PHPBB_INSTALL= \
     PHPBB_DISPLAY_LOAD_TIME= \
     PHPBB_DEBUG= \
     PHPBB_DEBUG_CONTAINER= \
-    UID=
+    PUID= \
+    GUID=
 
 EXPOSE 80
 CMD ["/usr/local/bin/start.sh"]

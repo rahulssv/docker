@@ -1,6 +1,6 @@
 #!/bin/sh
 
-usermod --non-unique --uid $UID apache
+usermod --non-unique --uid $PUID --gid $PGID apache
 
 chown -R apache:apache /phpbb
 
