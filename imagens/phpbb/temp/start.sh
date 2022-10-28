@@ -1,8 +1,8 @@
 #!/bin/sh
 
-adduser --disabled-password --uid $PUID phpbb
+usermod --non-unique --uid $PUID apache
 
-chown -R phpbb:phpbb /phpbb
+groupmod --non-unique --gid $PGID apache
 
 set -e
 

@@ -5,6 +5,7 @@ LABEL maintainer="igorferreir4@gmail.com"
 COPY phpbb/temp /tmp
 
 RUN apk add --no-cache curl \
+    shadow \
     imagemagick \
     apache2 \
     php81 \
