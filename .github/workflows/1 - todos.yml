@@ -114,3 +114,11 @@ jobs:
           tags: ${{ matrix.tags }}
           cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }}
           cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }},mode=max
+
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }} 
+          repository: peterevans/dockerhub-description
+          short-description: ${{ github.event.repository.description }}
