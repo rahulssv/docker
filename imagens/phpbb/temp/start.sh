@@ -1,5 +1,7 @@
 #!/bin/sh
 
+usermod --non-unique --uid $UID apache
+
 set -e
 
 [[ "${PHPBB_INSTALL}" = "true" ]] && rm config.php
