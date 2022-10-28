@@ -15,7 +15,7 @@ jobs:
         include:
           - dockerfile: ./imagens/aspnet/Dockerfile
             platforms: linux/amd64,linux/arm64/v8
-            tags: igorferreir4/aspnet:6.0.10
+            tags: igorferreir4/aspnet:6.0.10-alpine3.16.2
             cache: type=gha
             nomedocache: aspnet
     permissions:
