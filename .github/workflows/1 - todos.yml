@@ -15,6 +15,9 @@ jobs:
             tags: igorferreir4/caddy:2.6.2
             cache: type=gha
             nomedocache: caddy
+            slug: igorferreir4/caddy
+            readme: ./caddy/README.md
+            description: Caddy with plugins.
 
           - dockerfile: ./imagens/lighttpd/Dockerfile.edge
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
@@ -57,12 +60,18 @@ jobs:
             tags: igorferreir4/aspnet:6.0.10-alpine3.16.2
             cache: type=gha
             nomedocache: aspnet-6.0
+            slug: igorferreir4/aspnet
+            readme: ./aspnet/README.md
+            description: ASP.NET
 
           - dockerfile: ./imagens/aspnet/Dockerfile.v3.1
             platforms: linux/amd64,linux/arm64/v8
             tags: igorferreir4/aspnet:3.1.30-alpine3.16.2
             cache: type=gha
             nomedocache: aspnet-3.1
+            slug: igorferreir4/aspnet
+            readme: ./aspnet/README.md
+            description: ASP.NET
     permissions:
       contents: read
       packages: write
@@ -84,7 +93,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}   
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
@@ -97,10 +106,11 @@ jobs:
           cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }}
           cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }},mode=max
 
-      - name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v3
+      - name: Update README.md Docker
+      - uses: meeDamian/sync-readme@v1.0.6
         with:
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }} 
-          repository: peterevans/dockerhub-description
-          short-description: ${{ github.event.repository.description }}
+          user: ${{ github.repository_owner }}
+          pass: ${{ secrets.DOCKERHUB_TOKEN }}
+          slug: ${{ matrix.slug }}
+          readme: ${{ matrix.readme }}
+          description: ${{ matrix.description }}
