@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:3.1.30-alpine3.16
+FROM igorferreir4/aspnet:3.1.30-alpine3.16.2
 
 # which version and flavour of the audiobot to use
 ARG TS3_AUDIOBOT_RELEASE="0.12.0"

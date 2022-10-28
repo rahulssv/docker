@@ -13,33 +13,15 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.stable
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/ts3audiobot:0.12.2-minideb
+            tags: igorferreir4/ts3audiobot:0.12.0-stable
             cache: type=gha
-            nomedocache: ts3bot-md
-      
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.minideb-alpha
-            platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/ts3audiobot:alpha-minideb
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cachemda
-            nomedocache: ts3bot-mda
+            nomedocache: ts3bot-stable
 
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.arm64
-            platforms: linux/arm64
-            tags: igorferreir4/ts3audiobot:0.12.0-arm64
-            cache: type=gha
-            nomedocache: ts3bot-arms
- 
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.amd64
-            platforms: linux/amd64
-            tags: igorferreir4/ts3audiobot:0.12.0-amd64
-            cache: type=gha
-            nomedocache: ts3bot-amds
- 
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.teste
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.alpha
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/ts3audiobot:teste
+            tags: igorferreir4/ts3audiobot:alpha , igorferreir4/ts3audiobot:latest
             cache: type=gha
             nomedocache: ts3bot-alpha
     permissions:
