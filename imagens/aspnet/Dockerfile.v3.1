@@ -51,7 +51,7 @@ RUN set -eux; \
 		aarch64) binArch='arm64'; checksum='80a6859032c9a9496afaac28396c8eaa612a5491415ecb5d68703a0d884c987da58d13fa60be00fefd1b01c9306303f6990bd68feb7e77ec7eff1a69a5d51de4' ;; \
 		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
 	esac; \
-    wget -O aspnetcore.tar.gz "https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/$ASPNETCORE_VERSION/aspnetcore-runtime-$ASPNETCORE_VERSION-linux-musl-x64.tar.gz"; \	
+    wget -O aspnetcore.tar.gz "https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/$ASPNETCORE_VERSION/aspnetcore-runtime-$ASPNETCORE_VERSION-linux-musl-${binArch}.tar.gz"; \	
     echo "$checksum  aspnetcore.tar.gz" | sha512sum -c - \
     && tar -oxzf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
     && rm aspnetcore.tar.gz
