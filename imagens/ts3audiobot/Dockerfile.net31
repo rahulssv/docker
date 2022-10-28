@@ -9,7 +9,7 @@ ARG PUID=1001
 ENV USER ts3bot
 
 # install all pre-requisites, these will be needed always
-RUN apk add \
+RUN apk add --update --no-cache \
     opus-dev \
     youtube-dl \
     ffmpeg \
@@ -23,12 +23,10 @@ RUN mkdir -p /app \
     && unzip TS3AudioBot.zip \
     && rm TS3AudioBot.zip
 
-# add user to run under
-RUN adduser --disabled-password -u "${PUID}" "${USER}"
-
-# make data directory and chown it to the ts3bot user
-RUN mkdir -p /app/data
-RUN chown -R "${USER}" /app/data
+# add user to run under, make data directory and chown it to the ts3bot user
+RUN adduser --disabled-password -u "${PUID}" "${USER}" \
+    && mkdir -p /app/data \
+    && chown -R "${USER}" /app/data
 
 # set user to ts3bot, we dont want to be root from now on
 USER "${USER}"

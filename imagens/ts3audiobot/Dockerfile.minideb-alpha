@@ -15,12 +15,10 @@ RUN mkdir -p /app \
     && tar xvf bot.tar.gz \
     && rm bot.tar.gz
 
-# add user to run under
-RUN adduser --disabled-password -u "${PUID}" "${USER}"
-
-# make data directory and chown it to the ts3bot user
-RUN mkdir -p /app/data
-RUN chown -R "${USER}" /app/data
+# add user to run under, make data directory and chown it to the ts3bot user
+RUN adduser --disabled-password -u "${PUID}" "${USER}" \
+    && mkdir -p /app/data \
+    && chown -R "${USER}" /app/data
 
 USER "${USER}"
 
