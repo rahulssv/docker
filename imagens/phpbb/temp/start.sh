@@ -2,6 +2,8 @@
 
 usermod --non-unique --uid $UID apache
 
+chown -R apache:apache /phpbb
+
 set -e
 
 [[ "${PHPBB_INSTALL}" = "true" ]] && rm config.php
