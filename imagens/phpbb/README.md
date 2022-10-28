@@ -37,6 +37,8 @@ services:
       - 'phpbb-avatars:/phpbb/www/images/avatars/upload'
     environment:
       - PHPBB_INSTALL=true
+      - PUID=65432 # Optional
+      - PGID=65432 # Optional
       - PHPBB_DB_AUTOMIGRATE=true
       - PHPBB_DB_DRIVER=mysqli
       - PHPBB_DB_HOST=db-host
@@ -71,6 +73,8 @@ services:
       - 'phpbb-avatars:/phpbb/www/images/avatars/upload'
     environment:
       # - PHPBB_INSTALL=true
+      - PUID=65432 # Optional
+      - PGID=65432 # Optional
       - PHPBB_DB_AUTOMIGRATE=true
       - PHPBB_DB_DRIVER=mysqli
       - PHPBB_DB_HOST=db-host
@@ -84,6 +88,17 @@ services:
 
 This image utilises environment variables for basic configuration. Most of
 them are passed directly to phpBB's `config.php` or to the startup script.
+
+### PUID and PGID
+When using volumes (-v flags) permissions issues can arise between the host OS and the container, we avoid this issue by allowing you to specify the user PUID and group PGID.
+
+Ensure any volume directories on the host are owned by the same user you specify and any permissions issues will vanish like magic.
+
+In this instance PUID=65432 and PGID=65432, to find yours use id user as below:
+```sh
+$ id username
+    uid=65432(phpbb) gid=65432(phpbb) groups=65432(phpbb)
+```
 
 ### PHPBB_INSTALL
 If set to `true`, container will start with an empty `config.php` file and
