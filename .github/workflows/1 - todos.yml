@@ -70,7 +70,7 @@ jobs:
             cache: type=gha
             nomedocache: aspnet-3.1
             slug: igorferreir4/aspnet
-            readme: ./aspnet/README.md
+            readme: aspnet/README.md
             description: ASP.NET
     permissions:
       contents: read
