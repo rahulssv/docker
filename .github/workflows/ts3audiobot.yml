@@ -25,23 +25,23 @@ jobs:
      
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.arm64
             platforms: linux/arm64
-            tags: igorferreir4/ts3audiobot:0.12.0-net31
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cache31arm
+            tags: igorferreir4/ts3audiobot:0.12.0-arm64
+            cache: type=registry,ref=igorferreir4/ts3audiobot:cachearm
   
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.arm64
             platforms: linux/arm64
-            tags: igorferreir4/ts3audiobot:alpha-net60
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cache60arm
+            tags: igorferreir4/ts3audiobot:alpha-arm64
+            cache: type=registry,ref=igorferreir4/ts3audiobot:cachearm
 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net31.amd64
             platforms: linux/amd64
-            tags: igorferreir4/ts3audiobot:0.12.0-net31
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cache31amd
+            tags: igorferreir4/ts3audiobot:0.12.0-amd64
+            cache: type=registry,ref=igorferreir4/ts3audiobot:cachesamd
   
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.net60-alpha.amd64
             platforms: linux/amd64
-            tags: igorferreir4/ts3audiobot:alpha-net60
-            cache: type=registry,ref=igorferreir4/ts3audiobot:cache60amd
+            tags: igorferreir4/ts3audiobot:alpha-amd64
+            cache: type=registry,ref=igorferreir4/ts3audiobot:cacheaamd
     permissions:
       contents: read
       packages: write
