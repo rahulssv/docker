@@ -1,4 +1,4 @@
-##S Dockerfile for lighttpd
+# Dockerfile for lighttpd
 
 FROM alpine:3.16.2
 
