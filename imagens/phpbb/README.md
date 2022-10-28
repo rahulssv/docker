@@ -187,3 +187,33 @@ FROM igorferreir4/phpbb:3.3.8
 
 COPY remoteip.conf /etc/apache2/conf.d
 ```
+
+Or you can mount a volume:
+
+```sh
+version: '3'
+
+services:
+  phpbb:
+    image: igorferreir4/phpbb:3.3.8
+    container_name: phpbb
+    ports:
+      - '8888:80'
+    volumes:
+      - ./phpbb/sqlite:/phpbb/sqlite
+      - ./phpbb/files:/phpbb/www/files
+      - ./phpbb/store:/phpbb/www/store
+      - ./phpbb/avatars:/phpbb/www/images/avatars/upload
+      - ./phpbb/remoteip.conf:/etc/apache2/conf.d/remoteip.conf
+    environment:
+      - PHPBB_INSTALL=true
+      - PUID=65432
+      - PGID=65432
+      - PHPBB_DB_AUTOMIGRATE=true
+      - PHPBB_DB_DRIVER=mysqli
+      - PHPBB_DB_HOST=db-host
+      - PHPBB_DB_PORT=3306
+      - PHPBB_DB_NAME=db-name
+      - PHPBB_DB_USER=db-user
+      - PHPBB_DB_PASSWD=db-user-password
+```
