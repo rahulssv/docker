@@ -55,5 +55,5 @@ jobs:
           platforms: ${{ matrix.platforms }}
           push: true
           tags: ${{ matrix.tags }}
-          cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nameforcache }}
-          cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nameforcache }},mode=max
+          cache-from: ${{ matrix.cache }}
+          cache-to: ${{ matrix.cache }},mode=max
