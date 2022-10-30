@@ -20,7 +20,7 @@ jobs:
             nomedocache: ts3bot-stable
 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.alpha
-            platforms: linux/amd64,linux/arm64
+            platforms: linux/amd64,linux/arm64,linux/arm/v7
             tags: igorferreir4/ts3audiobot:alpha , igorferreir4/ts3audiobot:latest
             cache: type=gha
             nomedocache: ts3bot-alpha
