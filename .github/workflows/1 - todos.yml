@@ -83,7 +83,7 @@ jobs:
             description: Microsoft ASP.NET Core runtime
 
           - dockerfile: ./imagens/aspnet/Dockerfile.v3.1
-            platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
+            platforms: linux/amd64,linux/arm64/v8
             tags: igorferreir4/aspnet:3.1.30-alpine3.16.2
             cache: type=gha
             nomedocache: aspnet-3.1
