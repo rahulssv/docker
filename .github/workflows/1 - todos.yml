@@ -44,7 +44,7 @@ jobs:
             nomedocache: php-fpm
             slug: igorferreir4/php-fpm
             readme: imagens/php-fpm/README.md
-            description: php-fpm    
+            description: php-fpm for wordpress, phpbb...    
 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.stable
             platforms: linux/amd64,linux/arm64
@@ -53,7 +53,7 @@ jobs:
             nomedocache: ts3bot-stable
             slug: igorferreir4/ts3audiobot
             readme: imagens/ts3audiobot/README.md
-            description: Splamy/TS3AudioBot for arm64
+            description: Splamy/TS3AudioBot for amd64/arm64
 
           - dockerfile: ./imagens/ts3audiobot/Dockerfile.alpha
             platforms: linux/amd64,linux/arm64
@@ -62,7 +62,7 @@ jobs:
             nomedocache: ts3bot-alpha
             slug: igorferreir4/ts3audiobot
             readme: imagens/ts3audiobot/README.md
-            description: Splamy/TS3AudioBot for arm64
+            description: Splamy/TS3AudioBot for amd64/arm64
 
           - dockerfile: ./imagens/phpbb/Dockerfile
             platforms: linux/amd64,linux/arm64
@@ -71,25 +71,25 @@ jobs:
             nomedocache: phpbb
             slug: igorferreir4/phpbb
             readme: imagens/phpbb/README.md
-            description: phpbb 3.3.8
+            description: phpbb
 
           - dockerfile: ./imagens/aspnet/Dockerfile
-            platforms: linux/amd64,linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
             tags: igorferreir4/aspnet:6.0.10-alpine3.16.2
             cache: type=gha
             nomedocache: aspnet-6.0
             slug: igorferreir4/aspnet
             readme: imagens/aspnet/README.md
-            description: ASP.NET
+            description: Microsoft ASP.NET Core runtime
 
           - dockerfile: ./imagens/aspnet/Dockerfile.v3.1
-            platforms: linux/amd64,linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
             tags: igorferreir4/aspnet:3.1.30-alpine3.16.2
             cache: type=gha
             nomedocache: aspnet-3.1
             slug: igorferreir4/aspnet
             readme: imagens/aspnet/README.md
-            description: ASP.NET
+            description: Microsoft ASP.NET Core runtime
     permissions:
       contents: read
       packages: write
