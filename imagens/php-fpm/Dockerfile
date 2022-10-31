@@ -1,4 +1,4 @@
-FROM php:8.1.11-fpm-alpine3.16
+FROM php:8.1.12-fpm-alpine3.16
 
 # persistent dependencies
 RUN set -eux; \

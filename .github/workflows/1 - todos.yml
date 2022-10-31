@@ -39,7 +39,7 @@ jobs:
 
           - dockerfile: ./imagens/php-fpm/Dockerfile
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/php-fpm:8.1.11
+            tags: igorferreir4/php-fpm:8.1.12 , igorferreir4/php-fpm:latest
             cache: type=gha
             nomedocache: php-fpm
             slug: igorferreir4/php-fpm
