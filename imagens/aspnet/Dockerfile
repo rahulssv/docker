@@ -31,7 +31,7 @@ RUN set -eux; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
 		x86_64)  binArch='x64'; checksum='0277e5f81ee0b28b262ee4b0de5e62d4599acf95f65dba12a562ad682675e9aa9d1d4fb5b6d3a49bac481afc405fa2596a48407ba5225093e5d6effd69aa0105' ;; \
-        armv7)   binArch='arm'; checksum='cac7100cab3eb35e76867fb6a7a2b7b361355d634205f2d6669757c9091d844a332b74c184f0ce566457d1548c2a490563dceefc584d64c2db3fd9d2c9b58797' ;; \
+        	armv7)   binArch='arm'; checksum='cac7100cab3eb35e76867fb6a7a2b7b361355d634205f2d6669757c9091d844a332b74c184f0ce566457d1548c2a490563dceefc584d64c2db3fd9d2c9b58797' ;; \
 		aarch64) binArch='arm64'; checksum='4f00918771c56856231c715ad9f1febcdc39127ac0265c97da76375ba20cbc7109ee696dae72e5f5d8fa1998588e697a4a6785c919e96a7bda7408a500cc59e1' ;; \
 		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
 	esac; \
