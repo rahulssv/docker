@@ -1,13 +1,10 @@
-name: Executar Todos
+name: Call a reusable workflow
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  one:
-    runs-on: ubuntu-latest
-    steps:
-    - name: "Echo in file"
-      env:
-        SECRETS_VARS: ${{ toJson(secrets) }}
-      run: echo "$SECRETS_VARS"
+  call-workflow:
+    uses: ./.github/workflows/aspnet.yml
