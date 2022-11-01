@@ -7,6 +7,6 @@ jobs:
   aspnet:
     name: ASP.NET
     uses: ./.github/workflows/aspnet.yml
-    with:
+    secrets:
       username: ${{ github.repository_owner }}
       password: ${{ secrets.DOCKERHUB_TOKEN }}  
