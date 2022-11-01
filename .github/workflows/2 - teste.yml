@@ -7,7 +7,3 @@ jobs:
   aspnet:
     name: Build ASP.NET
     uses: ./.github/workflows/aspnet.yml
-
-  steps:
-    name: Checkout repository
-      uses: actions/checkout@v3
