@@ -23,7 +23,7 @@ mod_fastcgi_fpm set to "php-fpm:9000"
 # docker-compose.yml:
 ```sh
   lighttpd:
-    image: igorsf/lighttpd-gh:1.4.64-r0
+    image: igorsf/lighttpd
     container_name: lighttpd
     volumes:
       - ./www:/srv
