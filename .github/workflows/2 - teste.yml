@@ -7,3 +7,8 @@ jobs:
   aspnet:
     name: Build ASP.NET
     uses: ./.github/workflows/aspnet.yml
+
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.PAT_TOKEN }}
