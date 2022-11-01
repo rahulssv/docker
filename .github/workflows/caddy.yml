@@ -1,6 +1,7 @@
 name: Caddy + Cloudflare + Layer4
 
 on:
+  workflow_call:
   push:
     paths: 
       - 'imagens/caddy/**'

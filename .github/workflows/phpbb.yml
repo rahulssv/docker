@@ -1,6 +1,7 @@
 name: phpbb
 
 on:
+  workflow_call:
   push:
     paths: 
       - 'imagens/phpbb/**'

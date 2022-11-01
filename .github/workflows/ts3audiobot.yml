@@ -1,6 +1,7 @@
 name: Ts3AudioBot
 
 on:
+  workflow_call:
   push:
     paths: 
       - 'imagens/ts3audiobot/**'
