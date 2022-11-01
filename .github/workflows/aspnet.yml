@@ -5,6 +5,7 @@ on:
     paths: 
       - 'imagens/aspnet/**'
       - '!imagens/*/README.md'
+  workflow_call:
 
 jobs:
   build-and-push-image:
