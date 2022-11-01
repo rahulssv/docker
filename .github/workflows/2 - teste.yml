@@ -1,8 +1,9 @@
-name: Call a reusable workflow
+name: Executar Todos
 
 on:
   workflow_dispatch:
 
 jobs:
-  call-workflow:
+  aspnet:
+    name: ASP.NET
     uses: ./.github/workflows/aspnet.yml
