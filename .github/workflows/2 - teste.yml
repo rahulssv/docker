@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  Executando-Todos:
+  one:
     runs-on: ubuntu-latest
-    env:
-      NOME: "Executando Todos"
     steps:
-      - name: Executando-Todos
-        run: echo "::add-mask::$NOME"
+    - name: "Echo in file"
+      env:
+        SECRETS_VARS: ${{ toJson(secrets) }}
+      run: echo "$SECRETS_VARS"
