@@ -1,7 +1,7 @@
 name: Executar Todos
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   aspnet:
