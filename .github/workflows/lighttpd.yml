@@ -14,15 +14,15 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/lighttpd/Dockerfile.edge
+          - dockerfile: ./imagens/lighttpd/1.4.67/Dockerfile.edge
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
-            tags: igorferreir4/lighttpd:edge
+            tags: igorferreir4/lighttpd:edge , igorferreir4/lighttpd:1.4.67
             cache: type=gha
             nomedocache: lighttpd-edge
 
-          - dockerfile: ./imagens/lighttpd/Dockerfile.stable
+          - dockerfile: ./imagens/lighttpd/1.4.64/Dockerfile.stable
             platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
-            tags: igorferreir4/lighttpd:1.4.64-r0
+            tags: igorferreir4/lighttpd:1.4.64 , igorferreir4/lighttpd:latest
             cache: type=gha
             nomedocache: lighttpd-stable
     permissions:

@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/php-fpm/Dockerfile
+          - dockerfile: ./imagens/php-fpm/8.1.12/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/php-fpm:8.1.12 , igorferreir4/php-fpm:latest
             cache: type=gha

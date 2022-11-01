@@ -14,23 +14,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.stable
+          - dockerfile: ./imagens/ts3audiobot/0.12.2/Dockerfile.stable
             platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/ts3audiobot:0.12.0-stable
+            tags: igorferreir4/ts3audiobot:0.12.2
             cache: type=gha
             nomedocache: ts3bot-stable
 
-          - dockerfile: ./imagens/ts3audiobot/Dockerfile.alpha
+          - dockerfile: ./imagens/ts3audiobot/0.13.0-alpha.41/Dockerfile.alpha
             platforms: linux/amd64,linux/arm64,linux/arm/v7
-            tags: igorferreir4/ts3audiobot:alpha , igorferreir4/ts3audiobot:latest
+            tags: igorferreir4/ts3audiobot:0.13.0-a41 , igorferreir4/ts3audiobot:latest
             cache: type=gha
             nomedocache: ts3bot-alpha
-
-          - dockerfile: ./imagens/ts3audiobot/0.12.2/Dockerfile.teste
-            platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/ts3audiobot:teste
-            cache: type=gha
-            nomedocache: ts3bot-teste
     permissions:
       contents: read
       packages: write

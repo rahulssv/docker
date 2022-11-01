@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/phpbb/Dockerfile
+          - dockerfile: ./imagens/phpbb/3.3.8/Dockerfile
             platforms: linux/amd64,linux/arm64
             tags: igorferreir4/phpbb:3.3.8 , igorferreir4/phpbb:latest
             cache: type=gha
