@@ -1,0 +1,8 @@
+name: Executar Todos
+
+on:
+  workflow_dispatch:
+
+jobs:
+  aspnet:
+    uses: igorferreir4/docker/.github/workflows/aspnet.yml
