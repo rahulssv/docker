@@ -1,0 +1,134 @@
+name: 1 - Todas as Imagens
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: ./imagens/caddy/Dockerfile
+            platforms: linux/amd64,linux/arm64
+            tags: igorferreir4/caddy:2.6.2
+            cache: type=gha
+            nomedocache: caddy
+            slug: igorferreir4/caddy
+            readme: imagens/caddy/README.md
+            description: Caddy with plugins
+
+          - dockerfile: ./imagens/lighttpd/Dockerfile.edge
+            platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
+            tags: igorferreir4/lighttpd:edge
+            cache: type=gha
+            nomedocache: lighttpd-edge
+            slug: igorferreir4/lighttpd
+            readme: imagens/lighttpd/README.md
+            description: lighttpd
+
+          - dockerfile: ./imagens/lighttpd/Dockerfile.stable
+            platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
+            tags: igorferreir4/lighttpd:1.4.64-r0
+            cache: type=gha
+            nomedocache: lighttpd-stable
+            slug: igorferreir4/lighttpd
+            readme: imagens/lighttpd/README.md
+            description: lighttpd
+
+          - dockerfile: ./imagens/php-fpm/Dockerfile
+            platforms: linux/amd64,linux/arm64
+            tags: igorferreir4/php-fpm:8.1.12 , igorferreir4/php-fpm:latest
+            cache: type=gha
+            nomedocache: php-fpm
+            slug: igorferreir4/php-fpm
+            readme: imagens/php-fpm/README.md
+            description: php-fpm for wordpress, phpbb...    
+
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.stable
+            platforms: linux/amd64,linux/arm64
+            tags: igorferreir4/ts3audiobot:0.12.0-stable
+            cache: type=gha
+            nomedocache: ts3bot-stable
+            slug: igorferreir4/ts3audiobot
+            readme: imagens/ts3audiobot/README.md
+            description: Splamy/TS3AudioBot for amd64, arm64 and armv7
+
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile.alpha
+            platforms: linux/amd64,linux/arm64,linux/arm/v7
+            tags: igorferreir4/ts3audiobot:alpha , igorferreir4/ts3audiobot:latest
+            cache: type=gha
+            nomedocache: ts3bot-alpha
+            slug: igorferreir4/ts3audiobot
+            readme: imagens/ts3audiobot/README.md
+            description: Splamy/TS3AudioBot for amd64, arm64 and armv7
+
+          - dockerfile: ./imagens/phpbb/Dockerfile
+            platforms: linux/amd64,linux/arm64
+            tags: igorferreir4/phpbb:3.3.8 , igorferreir4/phpbb:latest
+            cache: type=gha
+            nomedocache: phpbb
+            slug: igorferreir4/phpbb
+            readme: imagens/phpbb/README.md
+            description: phpbb
+
+          - dockerfile: ./imagens/aspnet/Dockerfile
+            platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
+            tags: igorferreir4/aspnet:6.0.10-alpine3.16.2
+            cache: type=gha
+            nomedocache: aspnet-6.0
+            slug: igorferreir4/aspnet
+            readme: imagens/aspnet/README.md
+            description: Microsoft ASP.NET Core runtime
+
+          - dockerfile: ./imagens/aspnet/Dockerfile.v3.1
+            platforms: linux/amd64,linux/arm64/v8
+            tags: igorferreir4/aspnet:3.1.30-alpine3.16.2
+            cache: type=gha
+            nomedocache: aspnet-3.1
+            slug: igorferreir4/aspnet
+            readme: imagens/aspnet/README.md
+            description: Microsoft ASP.NET Core runtime
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configurando QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Configurando Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          version: latest
+
+      - name: Logando no Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
+        with:
+          context: imagens/
+          file: ${{ matrix.dockerfile }}
+          platforms: ${{ matrix.platforms }}
+          push: true
+          tags: ${{ matrix.tags }}
+          cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }}
+          cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }},mode=max
+
+      - name: Update README.md Docker
+        uses: meeDamian/sync-readme@v1.0.6
+        with:
+          user: ${{ github.repository_owner }}
+          pass: ${{ secrets.DOCKERHUB_TOKEN }}
+          slug: ${{ matrix.slug }}
+          readme: ${{ matrix.readme }}
+          description: ${{ matrix.description }}
