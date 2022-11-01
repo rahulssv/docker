@@ -1,11 +1,11 @@
 name: ASP.NET
 
 on:
+  workflow_call:
   push:
     paths: 
       - 'imagens/aspnet/**'
       - '!imagens/*/README.md'
-  workflow_call:
 
 jobs:
   build-and-push-image:
