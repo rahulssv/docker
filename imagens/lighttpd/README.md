@@ -2,6 +2,11 @@
 
 - [CLICK](https://github.com/igorferreir4/docker/tree/main/imagens)
 
+# Supported tags and respective `Dockerfile` links
+
+- [`1.4.67 , edge`](https://github.com/igorferreir4/docker/blob/main/imagens/lighttpd/1.4.67-edge/Dockerfile.edge)
+- [`1.4.64 , latest`](https://github.com/igorferreir4/docker/blob/main/imagens/lighttpd/1.4.64/Dockerfile.stable)
+
 Image created for my personal use.
 If you want to use it, at your own risk!
 
