@@ -5,4 +5,4 @@ on:
 
 jobs:
   - name: Checkout Repo
-    uses: ./.github/workflows/aspnet.yml
+    uses: actions/checkout@v3
