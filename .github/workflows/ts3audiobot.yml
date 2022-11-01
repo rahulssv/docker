@@ -58,3 +58,12 @@ jobs:
           tags: ${{ matrix.tags }}
           cache-from: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }}
           cache-to: ${{ matrix.cache }},scope=build-${{ matrix.nomedocache }},mode=max
+
+      - name: Update README.md Docker
+        uses: meeDamian/sync-readme@v1.0.6
+        with:
+          user: ${{ github.repository_owner }}
+          pass: ${{ secrets.DOCKERHUB_TOKEN }}
+          slug: igorferreir4/ts3audiobot
+          readme: imagens/ts3audiobot/README.md
+          description: Splamy/TS3AudioBot for amd64, arm64 and armv7
