@@ -7,5 +7,4 @@ jobs:
   aspnet:
     name: ASP.NET
     uses: ./.github/workflows/aspnet.yml
-    secrets:
-      password: ${{ secrets.DOCKERHUB_TOKEN }}  
+    secrets: inherit
