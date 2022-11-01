@@ -5,4 +5,5 @@ on:
 
 jobs:
   aspnet:
-    uses: igorferreir4/docker/.github/workflows/aspnet.yml
+    name: Build ASP.NET
+    uses: ./.github/workflows/aspnet.yml
