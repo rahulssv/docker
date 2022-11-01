@@ -1,6 +1,7 @@
 name: Lighttpd
 
 on:
+  workflow_call:
   push:
     paths: 
       - 'imagens/lighttpd/**'

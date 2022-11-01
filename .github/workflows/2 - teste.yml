@@ -7,4 +7,5 @@ jobs:
   aspnet:
     name: ASP.NET
     uses: ./.github/workflows/aspnet.yml
+    uses: ./.github/workflows/lighttpd.yml
     secrets: inherit
