@@ -1,7 +1,8 @@
 name: ASP.NET
 
 on:
-  workflow_call:
+  workflow_run:
+    workflows: ["Executar Todos"]
   push:
     paths: 
       - 'imagens/aspnet/**'

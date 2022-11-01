@@ -1,4 +1,4 @@
-name: Executar Todos!
+name: Executar Todos
 
 on:
   workflow_dispatch:
@@ -9,5 +9,5 @@ jobs:
     uses: ./.github/workflows/aspnet.yml
 
   steps:
-    - name: Checkout repository
+    name: Checkout repository
       uses: actions/checkout@v3
