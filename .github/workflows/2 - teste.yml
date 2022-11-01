@@ -1,4 +1,4 @@
-name: Executar Todos
+name: Executar Todos!
 
 on:
   workflow_call:
