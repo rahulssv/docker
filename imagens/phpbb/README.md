@@ -13,7 +13,7 @@ Lightweight, Alpine based [phpBB](https://www.phpbb.com/) docker image.
 
 # Supported tags and respective `Dockerfile` links
 
-- [`3.3.8`, `latest`](https://github.com/igorferreir4/docker/blob/main/imagens/phpbb/Dockerfile) bundled with PHP 8.1.12
+- [`3.3.8`, `latest`](https://github.com/igorferreir4/docker/blob/main/imagens/phpbb/3.3.8/Dockerfile) bundled with PHP 8.1.12
 
 # How to use this image
 
