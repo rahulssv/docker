@@ -8,7 +8,7 @@ Lightweight, Alpine based [phpBB](https://www.phpbb.com/) docker image.
 
 - Forked from: [selim13](https://github.com/selim13/docker-phpbb)
 - Added theme: [Prosilver Dark Edition](https://www.phpbb.com/customise/db/style/prosilver_dark/)
-- Added extensions: [Media Embed PlugIn](https://www.phpbb.com/customise/db/extension/mediaembed), [Advanced BBCode Box](https://www.phpbb.com/customise/db/extension/advanced_bbcode_box/)
+- Added extensions: [Media Embed PlugIn](https://www.phpbb.com/customise/db/extension/mediaembed), [Advanced BBCode Box](https://www.phpbb.com/customise/db/extension/advanced_bbcode_box), [Cloudflare IP](https://www.phpbb.com/customise/db/extension/cloudflare_ip)
 - Added pt_BR language support
 
 # Supported tags and respective `Dockerfile` links
