@@ -5,4 +5,4 @@
 # Supported tags and respective `Dockerfile` links
 
 - [`teste`](https://github.com/igorferreir4/docker/blob/main/imagens/jellyfin/teste/Dockerfile)
-- [`10.8.7`](https://github.com/igorferreir4/docker/blob/main/imagens/jellyfin/10.8.7/Dockerfile)
+- [`10.8.7`,`latest`](https://github.com/igorferreir4/docker/blob/main/imagens/jellyfin/10.8.7/Dockerfile)
