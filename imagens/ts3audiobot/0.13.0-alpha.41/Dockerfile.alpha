@@ -10,8 +10,7 @@ RUN apk add --update --no-cache \
     youtube-dl \
     ffmpeg \
     unzip \
-    dotnet6-runtime \
-    aspnetcore6-runtime
+    dotnet6-runtime
 
 # download and install the TS3AudioBot in the specified version and flavour
 RUN mkdir -p /app \
