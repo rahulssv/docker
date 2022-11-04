@@ -7,7 +7,8 @@ WORKDIR /tmp
 RUN apk add --update --no-cache \
     ffmpeg \
     curl \
-    dotnet6-runtime && \
+    dotnet6-runtime \
+    aspnetcore6-runtime && \
     set -eux; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \

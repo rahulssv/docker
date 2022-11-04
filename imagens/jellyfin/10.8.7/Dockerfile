@@ -4,7 +4,9 @@ ENV JF_VERSION=10.8.7
 ENV HEALTHCHECK_URL=http://localhost:8096/health
 
 WORKDIR /tmp
-RUN apk add --no-cache ffmpeg curl && \
+RUN apk add --update --no-cache \
+    ffmpeg \
+    curl && \
     set -eux; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
