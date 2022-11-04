@@ -1,4 +1,4 @@
-FROM igorferreir4/aspnet:6.0.10-alpine3.16.2
+FROM alpine:3.16.2
 
 # user id
 ARG PUID=1001
@@ -9,7 +9,9 @@ RUN apk add --update --no-cache \
     opus-dev \
     youtube-dl \
     ffmpeg \
-    unzip
+    unzip \
+    dotnet6-runtime \
+    aspnetcore6-runtime
 
 # download and install the TS3AudioBot in the specified version and flavour
 RUN mkdir -p /app \
