@@ -33,3 +33,8 @@ jobs:
     name: TS3AUDIOBOT
     uses: ./.github/workflows/ts3audiobot.yml
     secrets: inherit
+
+  jellyfin:
+    name: JELLYFIN
+    uses: ./.github/workflows/jellyfin.yml
+    secrets: inherit
