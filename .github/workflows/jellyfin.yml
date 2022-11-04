@@ -19,6 +19,12 @@ jobs:
             tags: igorferreir4/jellyfin:10.8.7 , igorferreir4/jellyfin:latest
             cache: type=gha
             nomedocache: jellyfin
+
+          - dockerfile: ./imagens/jellyfin/teste/Dockerfile
+            platforms: linux/amd64,linux/arm64,linux/arm/v7
+            tags: igorferreir4/jellyfin:teste
+            cache: type=gha
+            nomedocache: jellyfin-teste
     permissions:
       contents: read
       packages: write
