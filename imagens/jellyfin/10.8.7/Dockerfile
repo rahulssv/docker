@@ -24,6 +24,8 @@ RUN apk add --no-cache ffmpeg curl && \
     && mv jellyfin jellyfinAPP \
     && rm -r /media/*
 
+WORKDIR /
+
 EXPOSE 8096
 VOLUME /cache /config
 ENTRYPOINT ["./jellyfin/jellyfinAPP", \
