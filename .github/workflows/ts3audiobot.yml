@@ -23,7 +23,13 @@ jobs:
             platforms: linux/amd64,linux/arm64,linux/arm/v7
             tags: igorferreir4/ts3audiobot:0.13.0-a41 , igorferreir4/ts3audiobot:latest
             cache: type=gha
-            nomedocache: ts3bot-alpha
+            nomedocache: ts3bot-alpha          
+            
+          - dockerfile: ./imagens/ts3audiobot/Dockerfile
+            platforms: linux/amd64,linux/arm64,linux/arm/v7
+            tags: igorferreir4/ts3audiobot:teste
+            cache: type=gha
+            nomedocache: ts3bot-teste
     permissions:
       contents: read
       packages: write
