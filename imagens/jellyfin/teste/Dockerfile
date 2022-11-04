@@ -1,3 +1,4 @@
+### TESTE
 FROM alpine:3.16.2
 
 ENV HEALTHCHECK_URL=http://localhost:8096/health
