@@ -69,8 +69,8 @@ COPY teste/config/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Configure PHP-FPM
-COPY teste/config/fpm-pool.conf /etc/php8/php-fpm.d/zzz_custom.conf
-COPY teste/config/php.ini /etc/php8/conf.d/zzz_custom.ini
+COPY teste/config/fpm-pool.conf /etc/php81/php-fpm.d/zzz_custom.conf
+COPY teste/config/php.ini /etc/php81/conf.d/zzz_custom.ini
 
 # Configure supervisord
 COPY teste/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
