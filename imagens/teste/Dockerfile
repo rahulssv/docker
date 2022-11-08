@@ -58,7 +58,9 @@ RUN apk update && apk upgrade && \
     && tar -oxzf wordpress.tar.gz \
     && rm wordpress.tar.gz \
     && find /tmp/wordpress -type d -exec chmod 755 {} \; \
-    && find /tmp/wordpress -type f -exec chmod 644 {} \;
+    && find /tmp/wordpress -type f -exec chmod 644 {} \; \
+# Change user php-fpm
+    && sed 's/nobody/caddy/g' /etc/php81/php-fpm.d/www.conf
 
 # Configure Caddy
 COPY teste/config/Caddyfile /etc/caddy/Caddyfile
