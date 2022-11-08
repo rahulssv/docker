@@ -61,7 +61,7 @@ RUN apk update && apk upgrade && \
     && find /tmp/wordpress -type f -exec chmod 644 {} \;
 
 # Configure PHP-FPM, supervisord, caddy & add WP CLI
-COPY /config /tmp/config
+COPY config /tmp/config
 RUN cp /tmp/config/fpm-pool.conf /etc/php81/php-fpm.d/zzz_custom.conf \
     && cp /tmp/config/php.ini /etc/php81/conf.d/zzz_custom.ini \
     && cp /tmp/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf \
