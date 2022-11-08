@@ -78,11 +78,11 @@ RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh
     && chmod +x /usr/local/bin/wp
 
 # WP config
-COPY wp-config.php /tmp/wordpress
+COPY config/wp-config.php /tmp/wordpress
 RUN chown caddy.caddy /tmp/wordpress/wp-config.php && chmod 640 /tmp/wordpress/wp-config.php
 
 # Append WP secrets
-COPY wp-secrets.php /tmp/wordpress
+COPY config/wp-secrets.php /tmp/wordpress
 RUN chown caddy.caddy /tmp/wordpress/wp-secrets.php && chmod 640 /tmp/wordpress/wp-secrets.php
 
 # Wordpress volume
