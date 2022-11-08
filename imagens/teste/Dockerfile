@@ -60,22 +60,30 @@ RUN apk update && apk upgrade && \
     && find /tmp/wordpress -type d -exec chmod 755 {} \; \
     && find /tmp/wordpress -type f -exec chmod 644 {} \;
 
-# Configure PHP-FPM, supervisord, caddy & add WP CLI
-COPY /teste/config /tmp/config
-RUN mkdir /etc/supervisor /etc/supervisor/conf.d \
-    && cp /tmp/config/fpm-pool.conf /etc/php81/php-fpm.d/zzz_custom.conf \
-    && cp /tmp/config/php.ini /etc/php81/conf.d/zzz_custom.ini \
-    && cp /tmp/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf \
-    && cp /tmp/config/wp-config.php /tmp/wordpress \
-    && cp /tmp/config/wp-secrets.php /tmp/wordpress \
-    && cp /tmp/config/Caddyfile /usr/sbin \
-    && cp /tmp/config/entrypoint.sh / \
-    && chmod +x /entrypoint.sh \
-    && chown -R caddy.caddy /tmp/wordpress /var/www \
-    && curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x /usr/local/bin/wp \
-    && chown caddy.caddy /tmp/wordpress/wp-config.php && chmod 640 /tmp/wordpress/wp-config.php \
-    && chown caddy.caddy /tmp/wordpress/wp-secrets.php && chmod 640 /tmp/wordpress/wp-secrets.php
+# Configure Caddy
+COPY config/Caddyfile /etc/caddy/Caddyfile
+
+# Configure entrypoint
+COPY config/entrypoint.sh /entrypoint.sh
+
+# Configure PHP-FPM
+COPY config/fpm-pool.conf /etc/php8/php-fpm.d/zzz_custom.conf
+COPY config/php.ini /etc/php8/conf.d/zzz_custom.ini
+
+# Configure supervisord
+COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Add WP CLI
+RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x /usr/local/bin/wp
+
+# WP config
+COPY wp-config.php /tmp/wordpress
+RUN chown caddy.caddy /tmp/wordpress/wp-config.php && chmod 640 /tmp/wordpress/wp-config.php
+
+# Append WP secrets
+COPY wp-secrets.php /tmp/wordpress
+RUN chown caddy.caddy /tmp/wordpress/wp-secrets.php && chmod 640 /tmp/wordpress/wp-secrets.php
 
 # Wordpress volume
 VOLUME /var/www/wordpress
@@ -91,4 +99,4 @@ EXPOSE 80
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
-HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1/wp-login.php
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:${PORT}/wp-login.php
