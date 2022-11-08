@@ -47,6 +47,7 @@ RUN apk update && apk upgrade && \
     php81-pecl-imagick \
     supervisor \
     unzip \
+    shadow \
     curl && \
 # adduser
     adduser --disabled-password --uid 65432 caddy \
@@ -90,6 +91,10 @@ RUN chown caddy.caddy /tmp/wordpress/wp-secrets.php && chmod 640 /tmp/wordpress/
 # Wordpress volume
 VOLUME /var/www/wordpress
 WORKDIR /var/www/wordpress
+
+ENV PORT=80 \
+    PUID=65432 \
+    PGID=65432
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
