@@ -58,5 +58,5 @@ jobs:
           user: ${{ github.repository_owner }}
           pass: ${{ secrets.DOCKERHUB_TOKEN }}
           slug: igorferreir4/wordpress
-          readme: imagens/wordpress/README.md
+          readme: imagens/teste/README.md
           description: wordpress   

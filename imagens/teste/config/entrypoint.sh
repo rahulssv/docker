@@ -7,7 +7,7 @@ set -e
 if [ ! "$(ls -A "/var/www/wordpress" 2>/dev/null)" ]; then
     echo 'Setting up wordpress volume'
     # Copy Wordpress from /tmp src to volume
-    cp /tmp/wordpress/* /var/www/wordpress/
+    cp -r /tmp/wordpress/* /var/www/wordpress/
     chown -R caddy.caddy /var/www
 
     # Generate secrets
