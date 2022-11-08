@@ -57,8 +57,8 @@ RUN apk update && apk upgrade && \
     && wget -O wordpress.tar.gz https://br.wordpress.org/latest-pt_BR.tar.gz \
     && tar -oxzf wordpress.tar.gz \
     && rm wordpress.tar.gz \
-    && find /tmp/wordpress -type d -exec chmod 755 {} \;
-    find /tmp/wordpress -type f -exec chmod 644 {} \;
+    && find /tmp/wordpress -type d -exec chmod 755 {} \; \
+    && find /tmp/wordpress -type f -exec chmod 644 {} \;
 
 # Configure PHP-FPM, supervisord, caddy & add WP CLI
 COPY config /tmp/config
