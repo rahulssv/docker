@@ -61,28 +61,28 @@ RUN apk update && apk upgrade && \
     && find /tmp/wordpress -type f -exec chmod 644 {} \;
 
 # Configure Caddy
-COPY config/Caddyfile /etc/caddy/Caddyfile
+COPY teste/config/Caddyfile /etc/caddy/Caddyfile
 
 # Configure entrypoint
-COPY config/entrypoint.sh /entrypoint.sh
+COPY teste/config/entrypoint.sh /entrypoint.sh
 
 # Configure PHP-FPM
-COPY config/fpm-pool.conf /etc/php8/php-fpm.d/zzz_custom.conf
-COPY config/php.ini /etc/php8/conf.d/zzz_custom.ini
+COPY teste/config/fpm-pool.conf /etc/php8/php-fpm.d/zzz_custom.conf
+COPY teste/config/php.ini /etc/php8/conf.d/zzz_custom.ini
 
 # Configure supervisord
-COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY teste/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Add WP CLI
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x /usr/local/bin/wp
 
 # WP config
-COPY config/wp-config.php /tmp/wordpress
+COPY teste/config/wp-config.php /tmp/wordpress
 RUN chown caddy.caddy /tmp/wordpress/wp-config.php && chmod 640 /tmp/wordpress/wp-config.php
 
 # Append WP secrets
-COPY config/wp-secrets.php /tmp/wordpress
+COPY teste/config/wp-secrets.php /tmp/wordpress
 RUN chown caddy.caddy /tmp/wordpress/wp-secrets.php && chmod 640 /tmp/wordpress/wp-secrets.php
 
 # Wordpress volume
