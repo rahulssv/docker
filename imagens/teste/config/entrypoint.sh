@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 
 # terminate on errors
 set -e
