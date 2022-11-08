@@ -68,7 +68,7 @@ RUN mkdir /etc/supervisor /etc/supervisor/conf.d \
     && cp /tmp/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf \
     && cp /tmp/config/wp-config.php /tmp/wordpress \
     && cp /tmp/config/wp-secrets.php /tmp/wordpress \
-    && cp /tmp/Caddyfile /usr/sbin \
+    && cp /tmp/config/Caddyfile /usr/sbin \
     && cp entrypoint.sh / \
     && chown -R caddy.caddy /tmp/wordpress /var/www \
     && curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
