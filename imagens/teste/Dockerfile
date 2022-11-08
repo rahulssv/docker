@@ -14,7 +14,7 @@ RUN set -eux; \
 		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
     esac; \
     wget -O caddy.tar.gz "https://github.com/caddyserver/caddy/releases/download/v${CADDY_VERSION}/caddy_${CADDY_VERSION}_linux_${binArch}.tar.gz"; \
-    && tar -oxzf caddy.tar.gz -C /usr/sbin \
+    tar -oxzf caddy.tar.gz -C /usr/sbin \
     && rm caddy.tar.gz \
     && ln -s /usr/sbin/caddy /usr/bin/caddy
 
