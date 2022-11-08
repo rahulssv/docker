@@ -65,6 +65,7 @@ COPY teste/config/Caddyfile /etc/caddy/Caddyfile
 
 # Configure entrypoint
 COPY teste/config/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Configure PHP-FPM
 COPY teste/config/fpm-pool.conf /etc/php8/php-fpm.d/zzz_custom.conf
