@@ -92,8 +92,7 @@ RUN chown caddy.caddy /tmp/wordpress/wp-secrets.php && chmod 640 /tmp/wordpress/
 VOLUME /var/www/wordpress
 WORKDIR /var/www/wordpress
 
-ENV PORT=80 \
-    PUID=65432 \
+ENV PUID=65432 \
     PGID=65432
 
 ENTRYPOINT [ "/entrypoint.sh" ]
