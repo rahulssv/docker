@@ -11,8 +11,8 @@ RUN apk add --update --no-cache \
 	lighttpd-mod_auth \
   && rm -rf /var/cache/apk/*
 
-COPY lighttpd/arquivos/etc/lighttpd/* /etc/lighttpd/
-COPY lighttpd/arquivos/start.sh /usr/local/bin/
+COPY arquivos/etc/lighttpd/* /etc/lighttpd/
+COPY arquivos/start.sh /usr/local/bin/
 
 EXPOSE 80
 EXPOSE 443
