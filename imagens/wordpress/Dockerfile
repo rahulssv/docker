@@ -96,7 +96,8 @@ COPY config/Caddyfile /etc/caddy/Caddyfile
 COPY config/entrypoint.sh /entrypoint.sh
 
 # Configure PHP-FPM
-COPY config/fpm-pool.conf /etc/php81/php-fpm.d/zzz_custom.conf
+COPY config/fpm-pool.conf /etc/php81/php-fpm.conf
+# COPY config/fpm-pool.conf /etc/php81/php-fpm.d/zzz_custom.conf
 COPY config/php.ini /etc/php81/conf.d/zzz_custom.ini
 
 # Configure supervisord
