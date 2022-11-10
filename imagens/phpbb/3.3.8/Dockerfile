@@ -2,7 +2,7 @@ FROM alpine:3.16.2
 
 LABEL maintainer="igorferreir4@gmail.com"
 
-COPY phpbb/3.3.8/temp /tmp
+COPY 3.3.8/temp /tmp
 
 RUN apk add --no-cache curl \
     shadow \
