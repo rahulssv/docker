@@ -76,7 +76,7 @@ RUN apk update && apk upgrade && \
 		echo 'ignore_repeated_source = Off'; \
 		echo 'html_errors = Off'; \
 	} > /etc/php81/conf.d/error-logging.ini && \
-# Adduser
+# adduser
     adduser --disabled-password --uid 65432 caddy \
 # Wordpress
     && mkdir /var/www \
