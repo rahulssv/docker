@@ -12,20 +12,21 @@ services:
       MYSQL_PASSWORD: wordpress
 
   wordpress:
-    depends_on:
-      - db
-    build: ./
+    image: igorferreir4/wordpres:teste
     volumes:
-      - "site-data:/var/www/wp-content"
+      - "./teste:/var/www/wordpress"
     ports:
-      - "80:80"
+      - "27003:27003"
     environment:
       DB_HOST: db
       DB_PASSWORD: wordpress
       DB_NAME: wordpress
       DB_USER: wordpress
-      WORDPRESS_SITE_URL: http://localhost
+      # WORDPRESS_SITE_URL: http://localhost
       FS_METHOD: direct
+      PORT: 27003
+      PUID: 1000
+      PGID: 1000
       # For debugging only:
       #WP_DEBUG: "true"
       #WP_DEBUG_DISPLAY: "true"
