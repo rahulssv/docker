@@ -50,7 +50,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
         with:
-          context: imagens/
+          context: imagens/aspnet/
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platforms }}
           push: true
