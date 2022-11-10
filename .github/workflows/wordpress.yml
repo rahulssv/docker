@@ -4,7 +4,7 @@ on:
   workflow_call:
   push:
     paths: 
-      - 'imagens/teste/**'
+      - 'imagens/wordpress/**'
 
 jobs:
   build-and-push-image:
@@ -13,9 +13,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/teste/Dockerfile
-            platforms: linux/amd64,linux/arm64
-            tags: igorferreir4/wordpress:teste
+          - dockerfile: ./imagens/wordpress/Dockerfile
+            platforms: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/s390x
+            tags: igorferreir4/wordpress:php8.1
             cache: type=gha
             nomedocache: wordpress
     permissions:
@@ -44,7 +44,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
         with:
-          context: imagens/teste/
+          context: imagens/wordpress/
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platforms }}
           push: true
@@ -58,5 +58,5 @@ jobs:
           user: ${{ github.repository_owner }}
           pass: ${{ secrets.DOCKERHUB_TOKEN }}
           slug: igorferreir4/wordpress
-          readme: imagens/teste/README.md
+          readme: imagens/wordpress/README.md
           description: wordpress   
