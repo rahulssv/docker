@@ -92,7 +92,7 @@ RUN apk update && apk upgrade && \
 # Configure Caddy
 COPY config/Caddyfile /etc/caddy/Caddyfile
 
-# Configure entrypoint
+# Configure ENTRYPOINT
 COPY config/entrypoint.sh /entrypoint.sh
 
 # Configure PHP-FPM
