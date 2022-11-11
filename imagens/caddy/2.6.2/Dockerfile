@@ -11,7 +11,7 @@ FROM caddy:2.6.2-alpine
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
 # Change TZ to America/Sao_Paulo
-RUN apk add --no-cache tzdata && \
+RUN apk add --update --no-cache tzdata && \
     cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
     echo "America/Sao_Paulo" >  /etc/timezone && \
     apk del tzdata && \

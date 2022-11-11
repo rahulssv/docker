@@ -7,7 +7,8 @@ LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
     php-version="8.1" \
     phpbb-version="3.3.8"
 
-RUN apk add --no-cache curl \
+RUN apk add --update --no-cache \
+    curl \
     shadow \
     tzdata \
     imagemagick \
