@@ -7,6 +7,8 @@ COPY 3.3.8/temp /tmp
 RUN apk add --no-cache curl \
     shadow \
     imagemagick \
+    su-exec \
+    unzip \
     apache2 \
     php81 \
     php81-apache2 \
@@ -27,8 +29,6 @@ RUN apk add --no-cache curl \
     php81-xml \
     php81-zlib \
     php81-zip \
-    su-exec \
-    unzip \
     && mkdir /phpbb \
     && mkdir /phpbb/sqlite \
     && mv /tmp/www /phpbb/www \
@@ -68,7 +68,8 @@ ENV PHPBB_INSTALL= \
     PHPBB_DEBUG= \
     PHPBB_DEBUG_CONTAINER= \
     PUID=65432 \
-    PGID=65432
+    PGID=65432 \
+    TZ=UTC
 
 EXPOSE 80
 CMD ["/usr/local/bin/start.sh"]
