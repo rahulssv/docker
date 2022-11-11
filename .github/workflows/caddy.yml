@@ -1,4 +1,4 @@
-name: Caddy + Cloudflare + Layer4 + Cache-handler
+name: Caddy + Cloudflare + Layer4 + Cache
 
 on:
   workflow_call:
