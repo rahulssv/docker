@@ -53,10 +53,8 @@ RUN mv /tmp/TEMP/www /tmp/www && \
 
 WORKDIR /phpbb/www
 
-#VOLUME /phpbb/sqlite
-#VOLUME /phpbb/www/files
-#VOLUME /phpbb/www/store
-#VOLUME /phpbb/www/images/avatars/upload
+VOLUME /phpbb/sqlite
+VOLUME /phpbb/www
 
 ENV PHPBB_INSTALL= \
     PHPBB_DB_DRIVER=sqlite3 \

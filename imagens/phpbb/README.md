@@ -30,13 +30,12 @@ services:
       - '8888:80'
     volumes:
       - ./phpbb/sqlite:/phpbb/sqlite
-      - ./phpbb/files:/phpbb/www/files
-      - ./phpbb/store:/phpbb/www/store
-      - ./phpbb/avatars:/phpbb/www/images/avatars/upload
+      - ./phpbb/www:/phpbb/www
     environment:
-      - PHPBB_INSTALL=true
+      - TZ=America/Sao_Paulo
       - PUID=65432
       - PGID=65432
+      - PHPBB_INSTALL=true
       - PHPBB_DB_AUTOMIGRATE=true
       - PHPBB_DB_DRIVER=mysqli
       - PHPBB_DB_HOST=db-host
@@ -60,9 +59,7 @@ services:
       - '8888:80'
     volumes:
       - ./phpbb/sqlite:/phpbb/sqlite
-      - ./phpbb/files:/phpbb/www/files
-      - ./phpbb/store:/phpbb/www/store
-      - ./phpbb/avatars:/phpbb/www/images/avatars/upload
+      - ./phpbb/www:/phpbb/www
     environment:
       # - PHPBB_INSTALL=true
       - PUID=65432
@@ -73,6 +70,9 @@ services:
 
 This image utilises environment variables for basic configuration. Most of
 them are passed directly to phpBB's `config.php` or to the startup script.
+
+### TZ
+To change Time Zone
 
 ### PUID and PGID
 When using volumes, permissions issues can arise between the host OS and the container, we avoid this issue by allowing you to specify the user PUID and group PGID.
@@ -137,6 +137,8 @@ Default value: phpbb_
 
 ### PHPBB_DB_AUTOMIGRATE
 
+Use only with: PHPBB_DB_DRIVER=mysqli
+
 If set to `true`, instructs a container to run database migrations by
 executing `bin/phpbbcli.php db:migrate` on every startup.
 
@@ -154,11 +156,9 @@ Won't work for SQLite database engine as it is always available.
 
 ## Volumes
 
-By default there are four volumes created for each container:
+By default there are two volumes created for each container:
 - /phpbb/sqlite
-- /phpbb/www/files
-- /phpbb/www/store
-- /phpbb/www/images/avatars/upload
+- /phpbb/www
 
 # Additional configuration
 
@@ -205,14 +205,13 @@ services:
       - '8888:80'
     volumes:
       - ./phpbb/sqlite:/phpbb/sqlite
-      - ./phpbb/files:/phpbb/www/files
-      - ./phpbb/store:/phpbb/www/store
-      - ./phpbb/avatars:/phpbb/www/images/avatars/upload
+      - ./phpbb/www:/phpbb/www
       - ./phpbb/remoteip.conf:/etc/apache2/conf.d/remoteip.conf
     environment:
-      - PHPBB_INSTALL=true
+      - TZ=America/Sao_Paulo
       - PUID=65432
       - PGID=65432
+      - PHPBB_INSTALL=true
       - PHPBB_DB_AUTOMIGRATE=true
       - PHPBB_DB_DRIVER=mysqli
       - PHPBB_DB_HOST=db-host
