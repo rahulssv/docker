@@ -5,7 +5,7 @@
 	}
 }
 
-:80 {
+http://:{$PORT}, http://:80 {
 	root * /phpbb/www
 	php_fastcgi 127.0.0.1:9000
 	file_server
