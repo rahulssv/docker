@@ -10,7 +10,7 @@ if [ ! "$(ls -A "/phpbb/www" 2>/dev/null)" ]; then
     # Copy config.php to /phpbb/www
     cp /tmp/config.php /phpbb/www/config.php
     # Fix chown
-    chown -R phpbb.phpbb /phpbb
+    chown -R phpbb.phpbb /phpbb/www
 fi
 
 [[ "${PHPBB_INSTALL}" = "true" ]] && rm config.php
@@ -40,7 +40,7 @@ usermod --non-unique --uid $PUID phpbb
 
 groupmod --non-unique --gid $PGID phpbb
 
-chown -R phpbb:phpbb /phpbb
+chown -R phpbb:phpbb /phpbb/www
 
 # Start apache
 db_wait && db_migrate && exec httpd -DFOREGROUND "$@"
