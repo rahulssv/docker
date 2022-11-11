@@ -5,7 +5,8 @@ ARG MAJOR_VERSION=3.16 \
 
 WORKDIR /tmp
 
-RUN wget -O alpine.tar.gz "https://dl-cdn.alpinelinux.org/alpine/v${MAJOR_VERSION}/releases/$(uname -m)/alpine-minirootfs-${MINOR_VERSION}-$(uname -m).tar.gz" && \
+RUN apk add curl && \
+    curl -L "https://dl-cdn.alpinelinux.org/alpine/v${MAJOR_VERSION}/releases/$(uname -m)/alpine-minirootfs-${MINOR_VERSION}-$(uname -m).tar.gz" -O alpine.tar.gz && \
     tar -oxzf alpine.tar.gz && \
     rm alpine.tar.gz
 
