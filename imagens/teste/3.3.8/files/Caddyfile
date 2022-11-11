@@ -1,6 +1,6 @@
 {
-    order cache before rewrite
-    cache {
+	order cache before rewrite
+	cache {
 		ttl 604800s
 	}
 }

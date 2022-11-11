@@ -15,7 +15,7 @@ if [ ! "$(ls -A "/phpbb/www" 2>/dev/null)" ]; then
     # Unzip phpbb from /tmp/www src to volume
     unzip /tmp/www/phpbb3.zip -d /phpbb/www
     # Copy config.php to /phpbb/www
-    # cp /tmp/config.php /phpbb/www/config.php
+    cp /tmp/config.php /phpbb/www/config.php
     # Fix chown
     chown -R phpbb.phpbb /phpbb
 fi

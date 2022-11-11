@@ -44,7 +44,6 @@ COPY 3.3.8/files/ /tmp/TEMP/
 WORKDIR /tmp
 RUN mv /tmp/TEMP/www /tmp/www && \
     mv /tmp/TEMP/phpbb/config.php /tmp/config.php && \
-    cp /tmp/TEMP/phpbb.db /phpbb/sqlite && \
     cp /tmp/TEMP/php/php.ini /etc/php81/ && \
     cp /tmp/TEMP/php/php-cli.ini /etc/php81/ && \
     cp /tmp/TEMP/php/conf.d/* /etc/php81/conf.d/ && \
