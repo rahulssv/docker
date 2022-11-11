@@ -1,31 +1,19 @@
-FROM alpine:3.16.2
+FROM igorferreira/caddy:2.6.2 AS source
 
-LABEL maintainer="igorferreir4@gmail.com"
+FROM alpine:3.16.2 AS final
+COPY --from=source /usr/bin/caddy /usr/bin/caddy
 
-COPY 3.3.8/temp /tmp
-COPY 3.3.8/temp/Caddyfile /etc/caddy/Caddyfile
+LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
+    Description="Lightweight PHPBB container with Caddy 2.6.2 & PHP-FPM 8.1 based on Alpine Linux." \
+    alpine-version="3.16" \
+    caddy-version="2.6.2" \
+    php-version="8.1" \
+    phpbb-version="3.3.8"
 
-ENV CADDY_VERSION=2.6.2
-
-RUN set -eux; \
-	mkdir -p /config/caddy /data/caddy /etc/caddy /usr/share/caddy && \
-    apkArch="$(apk --print-arch)"; \
-    case "$apkArch" in \
-		x86_64)  binArch='amd64' ;; \
-		aarch64) binArch='arm64' ;; \
-        armhf)   binArch='armv6' ;; \
-		armv7)   binArch='armv7' ;; \
-		ppc64el|ppc64le) binArch='ppc64le' ;; \
-		s390x)   binArch='s390x' ;; \
-		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
-    esac; \
-    wget -O caddy.tar.gz "https://github.com/caddyserver/caddy/releases/download/v${CADDY_VERSION}/caddy_${CADDY_VERSION}_linux_${binArch}.tar.gz"; \
-    tar -oxzf caddy.tar.gz -C /usr/bin \
-    && rm -f caddy.tar.gz \
-    && chmod +x /usr/bin/caddy \
-    && caddy version
-
-RUN apk add --no-cache curl \
+RUN apk add --no-cache \
+    curl \
+    supervisor \
+    unzip \
     shadow \
     imagemagick \
     php81 \
@@ -46,33 +34,27 @@ RUN apk add --no-cache curl \
     php81-tokenizer \
     php81-xml \
     php81-zlib \
-    php81-zip \
-    su-exec \
-    unzip \
-    supervisor && \
+    php81-zip && \
     adduser --disabled-password --uid 65432 phpbb && \
-    sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php81/php.ini && \
-    sed -i 's/expose_php = On/expose_php = Off/g' /etc/php81/php.ini && \
-    sed -i 's/user = nobody/user = phpbb/g' /etc/php81/php-fpm.d/www.conf && \
-    sed -i 's/group = nobody/group = phpbb/g' /etc/php81/php-fpm.d/www.conf \
-    && mkdir /phpbb \
-    && mkdir /phpbb/sqlite \
-    && mv /tmp/www /phpbb/www \
-    && cd /phpbb/www \
-    && unzip phpbb3.zip \
-    && rm phpbb3.zip \
-    && cp /tmp/phpbb/config.php /phpbb/www \
-    && mkdir -p /phpbb/opcache \
-    && chown phpbb:phpbb /phpbb/opcache \
-    && cp /tmp/php/php.ini /etc/php81/ \
-    && cp /tmp/php/php-cli.ini /etc/php81/ \
-    && cp /tmp/php/conf.d/* /etc/php81/conf.d/ \
-    && cp /tmp/start.sh /usr/local/bin/ \
-    && chmod +x /usr/local/bin/start.sh \
-    && rm -r /tmp/* \
-    && rm -rf /var/cache/apk/*
+    mkdir -p /phpbb /phpbb/www /phpbb/sqlite /phpbb/opcache && \
+    chown -R phpbb:phpbb /phpbb && \
+    rm -rf /var/cache/apk/*
 
-COPY 3.3.8/temp/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY 3.3.8/files/ /tmp/TEMP/
+WORKDIR /tmp
+RUN mv /tmp/TEMP/www /tmp/www && \
+    mv /tmp/TEMP/phpbb/config.php /tmp/config.php && \
+    cp /tmp/TEMP/php/php.ini /etc/php81/ && \
+    cp /tmp/TEMP/php/php-cli.ini /etc/php81/ && \
+    cp /tmp/TEMP/php/conf.d/* /etc/php81/conf.d/ && \
+    cp /tmp/TEMP/supervisord.conf /etc/supervisord.conf && \
+    mkdir -p /etc/caddy && \
+    cp /tmp/TEMP/Caddyfile /etc/caddy && \
+    cp /tmp/TEMP/entrypoint.sh /usr/local/bin/ && \
+    chmod +x /usr/local/bin/entrypoint.sh && \
+    sed -i 's/user = nobody/user = phpbb/g' /etc/php81/php-fpm.d/www.conf && \
+    sed -i 's/group = nobody/group = phpbb/g' /etc/php81/php-fpm.d/www.conf && \
+    rm -r /tmp/TEMP
 
 WORKDIR /phpbb/www
 
@@ -92,5 +74,10 @@ ENV PHPBB_INSTALL= \
     PUID=65432 \
     PGID=65432
 
+ENTRYPOINT [ "/entrypoint.sh" ]
+
 EXPOSE 80
-CMD ["/usr/local/bin/start.sh"]
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1/adm
