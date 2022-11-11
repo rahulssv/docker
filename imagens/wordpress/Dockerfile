@@ -1,7 +1,7 @@
 FROM caddy:2.6.2-builder-alpine AS builder
 
 RUN xcaddy build \
-    --with https://github.com/caddyserver/cache-handler
+    --with github.com/caddyserver/cache-handler
 
 
 FROM alpine:3.16
