@@ -33,8 +33,3 @@ jobs:
     name: TS3AUDIOBOT
     uses: ./.github/workflows/ts3audiobot.yml
     secrets: inherit
-
-  wordpress:
-    name: WORDPRESS
-    uses: ./.github/workflows/wordpress.yml
-    secrets: inherit
