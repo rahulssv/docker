@@ -4,7 +4,7 @@ on:
   workflow_call:
   push:
     paths: 
-      - 'imagens/wordpress/**'
+      - 'imagens/teste/**'
 
 jobs:
   build-and-push-image:
