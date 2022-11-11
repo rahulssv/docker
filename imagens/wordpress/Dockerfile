@@ -10,6 +10,8 @@ LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
 ENV CADDY_VERSION=2.6.2 \
     TERM="xterm"
 
+WORKDIR /tmp
+
 RUN set -eux; \
 	mkdir -p /config/caddy /data/caddy /etc/caddy /usr/share/caddy && \
     apkArch="$(apk --print-arch)"; \
