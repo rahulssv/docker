@@ -9,6 +9,7 @@ LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
 
 RUN apk add --no-cache curl \
     shadow \
+    tzdata \
     imagemagick \
     su-exec \
     unzip \
