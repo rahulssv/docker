@@ -12,6 +12,6 @@ RUN apk add curl && \
 
 FROM scratch
 
-COPY --from=source /tmp/* /
+COPY --from=source /tmp/ /
 
 CMD ["/bin/sh"]
