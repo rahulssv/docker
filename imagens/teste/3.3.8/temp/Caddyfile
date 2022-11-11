@@ -1,0 +1,14 @@
+{
+    order cache before rewrite
+    cache {
+		ttl 604800s
+	}
+}
+
+:80 {
+	root * /phpbb/www
+	php_fastcgi 127.0.0.1:9000
+	file_server
+	encode gzip
+	cache
+}
