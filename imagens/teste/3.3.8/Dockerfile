@@ -52,8 +52,8 @@ RUN apk add --no-cache curl \
     adduser --disabled-password --uid 65432 phpbb && \
     sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php81/php.ini && \
     sed -i 's/expose_php = On/expose_php = Off/g' /etc/php81/php.ini && \
-    sed -i 's/user = nobody/user = phpbb/g' /etc/php81/php-fpm.d/www.conf && \
-    sed -i 's/group = nobody/group = phpbb/g' /etc/php81/php-fpm.d/www.conf \
+    sed -i 's/user = nobody/user = phpbb/g' /etc/php81/php-fpm.conf && \
+    sed -i 's/group = nobody/group = phpbb/g' /etc/php81/php-fpm.conf \
     && mkdir /phpbb \
     && mkdir /phpbb/sqlite \
     && mv /tmp/www /phpbb/www \
