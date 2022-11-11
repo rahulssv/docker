@@ -1,14 +1,23 @@
-#!/bin/sh
+#!/bin/ash
+
+# terminate on errors
+set -e
 
 usermod --non-unique --uid $PUID phpbb
 
 groupmod --non-unique --gid $PGID phpbb
 
-chown -R phpbb:phpbb /phpbb
+chown -R phpbb.phpbb /phpbb/www
 
-set -e
+# Check if volume is empty
+if [ ! "$(ls -A "/var/www/wordpress" 2>/dev/null)" ]; then
+    echo 'Setting up wordpress volume'
+    # Copy Wordpress from /tmp src to volume
+    cp -r /tmp/wordpress/* /var/www/wordpress/
+    chown -R phpbb.phpbb /phpbb/www
 
-[[ "${PHPBB_INSTALL}" = "true" ]] && rm config.php
-[[ "${PHPBB_INSTALL}" != "true" ]] && rm -rf install
+    # Generate secrets
+    curl -f https://api.wordpress.org/secret-key/1.1/salt/ >> /var/www/wordpress/wp-secrets.php
+fi
 
-exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf "$@"
+exec "$@"
