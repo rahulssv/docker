@@ -14,6 +14,8 @@ RUN apk add --no-cache \
     curl \
     supervisor \
     unzip \
+    su-exec \
+    tzdata \
     shadow \
     imagemagick \
     php81 \
