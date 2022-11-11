@@ -1,9 +1,8 @@
 FROM scratch
 
 ARG MAJOR_VERSION=3.16 \
-    MINOR_VERSION=3.16.2 \
-    BUILDPLATFORM=
+    MINOR_VERSION=3.16.2
 
-ADD https://dl-cdn.alpinelinux.org/alpine/v${MAJOR_VERSION}/releases/${BUILDPLATFORM}/alpine-minirootfs-${MINOR_VERSION}-${BUILDPLATFORM}.tar.gz /
+ADD https://dl-cdn.alpinelinux.org/alpine/v${MAJOR_VERSION}/releases/${TARGETARCH}/alpine-minirootfs-${MINOR_VERSION}-${TARGETARCH}.tar.gz /
 
 CMD ["/bin/sh"]
