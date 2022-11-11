@@ -18,9 +18,12 @@ RUN set -eux; \
 		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
     esac; \
     wget -O caddy.tar.gz "https://github.com/caddyserver/caddy/releases/download/v${CADDY_VERSION}/caddy_${CADDY_VERSION}_linux_${binArch}.tar.gz"; \
-    tar -oxzf caddy.tar.gz -C /usr/sbin \
-    && rm caddy.tar.gz \
-    && ln -s /usr/sbin/caddy /usr/bin/caddy
+    tar -oxzf caddy.tar.gz -C /usr/bin \
+    && rm -f caddy.tar.gz \
+    && chmod +x /usr/bin/caddy \
+    && caddy version
+
+RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
 
 # Install packages
 RUN apk update && apk upgrade && \
@@ -49,10 +52,34 @@ RUN apk update && apk upgrade && \
     php81-opcache \
     php81-iconv \
     php81-pecl-imagick \
+    libcurl \
     supervisor \
     unzip \
     shadow \
     curl && \
+    rm -rf /var/cache/apk/* && \
+# Configure opcache
+    { \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.fast_shutdown=1'; \
+	} > /etc/php81/conf.d/opcache-recommended.ini && \
+# Configure logs
+# https://www.php.net/manual/en/errorfunc.constants.php
+# https://github.com/docker-library/wordpress/issues/420#issuecomment-517839670
+    { \
+		echo 'error_reporting = E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_RECOVERABLE_ERROR'; \
+		echo 'display_errors = Off'; \
+		echo 'display_startup_errors = Off'; \
+		echo 'log_errors = On'; \
+		echo 'error_log = /dev/stderr'; \
+		echo 'log_errors_max_len = 1024'; \
+		echo 'ignore_repeated_errors = On'; \
+		echo 'ignore_repeated_source = Off'; \
+		echo 'html_errors = Off'; \
+	} > /etc/php81/conf.d/error-logging.ini && \
 # adduser
     adduser --disabled-password --uid 65432 caddy \
 # Wordpress
@@ -69,28 +96,29 @@ RUN apk update && apk upgrade && \
 # Configure Caddy
 COPY config/Caddyfile /etc/caddy/Caddyfile
 
-# Configure entrypoint
+# Configure ENTRYPOINT
 COPY config/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
 # Configure PHP-FPM
-COPY config/fpm-pool.conf /etc/php81/php-fpm.d/zzz_custom.conf
+COPY config/fpm-pool.conf /etc/php81/php-fpm.conf
+# COPY config/fpm-pool.conf /etc/php81/php-fpm.d/zzz_custom.conf
 COPY config/php.ini /etc/php81/conf.d/zzz_custom.ini
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Add WP CLI
-RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x /usr/local/bin/wp
-
 # WP config
 COPY config/wp-config.php /tmp/wordpress
-RUN chown caddy.caddy /tmp/wordpress/wp-config.php && chmod 640 /tmp/wordpress/wp-config.php
 
 # Append WP secrets
 COPY config/wp-secrets.php /tmp/wordpress
-RUN chown caddy.caddy /tmp/wordpress/wp-secrets.php && chmod 640 /tmp/wordpress/wp-secrets.php
+
+# Add WP CLI and fix chown and chmod to files in COPY
+RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x /usr/local/bin/wp \
+    && chmod +x /entrypoint.sh \
+    && chown caddy.caddy /tmp/wordpress/wp-config.php && chmod 640 /tmp/wordpress/wp-config.php \
+    && chown caddy.caddy /tmp/wordpress/wp-secrets.php && chmod 640 /tmp/wordpress/wp-secrets.php
 
 # Wordpress volume
 VOLUME /var/www/wordpress
