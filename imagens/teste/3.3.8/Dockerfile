@@ -1,4 +1,4 @@
-FROM igorferreira/caddy:2.6.2 AS source
+FROM igorferreir4/caddy:2.6.2 AS source
 
 FROM alpine:3.16.2 AS final
 COPY --from=source /usr/bin/caddy /usr/bin/caddy
