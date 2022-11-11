@@ -40,7 +40,7 @@ usermod --non-unique --uid $PUID phpbb
 
 groupmod --non-unique --gid $PGID phpbb
 
-chown -R phpbb:phpbb /phpbb/www
+chown -R phpbb:phpbb /phpbb/www /phpbb/sqlite
 
 # Start apache
 db_wait && db_migrate && exec httpd -DFOREGROUND "$@"
