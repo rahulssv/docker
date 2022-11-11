@@ -8,10 +8,10 @@ WORKDIR /tmp
 RUN set -eux; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
-		x86_64)  binArch='amd64' ;; \
-		armhf)   binArch='armv6' ;; \
+		x86_64)  binArch='x86_64' ;; \
+		armhf)   binArch='armhf' ;; \
 		armv7)   binArch='armv7' ;; \
-		aarch64) binArch='arm64' ;; \
+		aarch64) binArch='aarch64' ;; \
 		ppc64el|ppc64le) binArch='ppc64le' ;; \
 		s390x)   binArch='s390x' ;; \
 		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
