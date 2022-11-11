@@ -1,12 +1,8 @@
-FROM caddy:2.6.2-builder-alpine AS builder
-
-RUN xcaddy build \
-    --with github.com/caddyserver/cache-handler
-
+FROM igorferreira/caddy:2.6.2 AS source
 
 FROM alpine:3.16
 
-COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+COPY --from=source /usr/bin/caddy /usr/bin/caddy
 
 LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
     Description="Lightweight WordPress container with Caddy 2.6.2 & PHP-FPM 8.1 based on Alpine Linux." \
