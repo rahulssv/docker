@@ -1,11 +1,11 @@
 FROM alpine:3.16
 
 LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
-    Description="Lightweight WordPress container with Caddy 2.6.2 & PHP-FPM 8.1 based on Alpine Linux."
+    Description="Lightweight WordPress container with Caddy 2.6.2 & PHP-FPM 8.1 based on Alpine Linux." \
     alpine-version="3.16" \
     caddy-version="2.6.2" \
     php-version="8.1" \
-    wordpress-version="latest" \
+    wordpress-version="latest"
 
 ENV CADDY_VERSION=2.6.2 \
     TERM="xterm"
