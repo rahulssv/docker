@@ -34,6 +34,7 @@ RUN apk add --no-cache curl \
     php81-zlib \
     php81-zip && \
     mkdir -p /phpbb /phpbb/sqlite /phpbb/www /phpbb/opcache /run/apache2 && \
+    chown -R phpbb:phpbb /phpbb && \
     chown apache:apache /run/apache2 /phpbb/opcache && \
     adduser --disabled-password --uid 65432 phpbb && \
     rm -rf /var/cache/apk/*
