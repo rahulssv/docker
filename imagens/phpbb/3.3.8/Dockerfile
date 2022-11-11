@@ -46,8 +46,8 @@ RUN mv /tmp/TEMP/www /tmp/www && \
     cp /tmp/TEMP/php/php.ini /etc/php81/ && \
     cp /tmp/TEMP/php/php-cli.ini /etc/php81/ && \
     cp /tmp/TEMP/php/conf.d/* /etc/php81/conf.d/ && \
-    cp /tmp/TEMP/start.sh / && \
-    chmod +x /start.sh && \
+    cp /tmp/TEMP/start.sh /usr/local/bin/ && \
+    chmod +x /usr/local/bin/start.sh && \
     rm -r /tmp/TEMP
 
 WORKDIR /phpbb/www
