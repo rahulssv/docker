@@ -1,9 +1,9 @@
 FROM alpine:3.16.2
 
 LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
-    Description="Lightweight PHPBB container with Caddy 2.6.2 & PHP-FPM 8.1 based on Alpine Linux." \
+    Description="Lightweight PHPBB container with Apache 2.4 & PHP-FPM 8.1 based on Alpine Linux." \
     alpine-version="3.16" \
-    caddy-version="2.6.2" \
+    apache-version="2.4" \
     php-version="8.1" \
     phpbb-version="3.3.8"
 
