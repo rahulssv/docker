@@ -39,4 +39,4 @@ groupmod --non-unique --gid $PGID phpbb
 
 chown -R phpbb.phpbb /phpbb
 
-exec /usr/bin/supervisord -c /etc/supervisord.conf "$@"
+exec "$@"

@@ -78,9 +78,8 @@ ENV PHPBB_INSTALL= \
 
 EXPOSE 80
 
-CMD [ "/entrypoint.sh" ]
-# ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
 
-# CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1/adm
