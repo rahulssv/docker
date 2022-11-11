@@ -3,7 +3,7 @@ FROM alpine:3.16.2
 LABEL maintainer="igorferreir4@gmail.com"
 
 COPY 3.3.8/temp /tmp
-COPY temp/Caddyfile /etc/caddy/Caddyfile
+COPY 3.3.8/temp/Caddyfile /etc/caddy/Caddyfile
 
 ENV CADDY_VERSION=2.6.2
 
@@ -71,7 +71,7 @@ RUN apk add --no-cache curl \
     && rm -r /tmp/* \
     && rm -rf /var/cache/apk/*
 
-COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY 3.3.8/temp/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /phpbb/www
 
