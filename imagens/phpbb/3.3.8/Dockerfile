@@ -1,8 +1,11 @@
 FROM alpine:3.16.2
 
-LABEL maintainer="igorferreir4@gmail.com"
-
-COPY 3.3.8/temp /tmp
+LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
+    Description="Lightweight PHPBB container with Caddy 2.6.2 & PHP-FPM 8.1 based on Alpine Linux." \
+    alpine-version="3.16" \
+    caddy-version="2.6.2" \
+    php-version="8.1" \
+    phpbb-version="3.3.8"
 
 RUN apk add --no-cache curl \
     shadow \
@@ -28,25 +31,24 @@ RUN apk add --no-cache curl \
     php81-tokenizer \
     php81-xml \
     php81-zlib \
-    php81-zip \
-    && mkdir /phpbb \
-    && mkdir /phpbb/sqlite \
-    && mv /tmp/www /phpbb/www \
-    && cd /phpbb/www \
-    && unzip phpbb3.zip \
-    && rm phpbb3.zip \
-    && cp /tmp/phpbb/config.php /phpbb/www \
-    && mkdir -p /run/apache2 /phpbb/opcache \
-    && chown apache:apache /run/apache2 /phpbb/opcache \
-    && cp /tmp/apache2/httpd.conf /etc/apache2/ \
-    && cp /tmp/apache2/conf.d/* /etc/apache2/conf.d/ \
-    && cp /tmp/php/php.ini /etc/php81/ \
-    && cp /tmp/php/php-cli.ini /etc/php81/ \
-    && cp /tmp/php/conf.d/* /etc/php81/conf.d/ \
-    && cp /tmp/start.sh /usr/local/bin/ \
-    && chmod +x /usr/local/bin/start.sh \
-    && adduser --disabled-password --uid 65432 phpbb \
-    && rm -r /tmp/*
+    php81-zip && \
+    mkdir -p /phpbb /phpbb/sqlite /phpbb/www /phpbb/opcache /run/apache2 && \
+    chown apache:apache /run/apache2 /phpbb/opcache && \
+    adduser --disabled-password --uid 65432 phpbb && \
+    rm -rf /var/cache/apk/*
+
+COPY 3.3.8/files/ /tmp/TEMP/
+WORKDIR /tmp
+RUN mv /tmp/TEMP/www /tmp/www && \
+    mv /tmp/TEMP/phpbb/config.php /tmp/config.php && \
+    cp /tmp/TEMP/apache2/httpd.conf /etc/apache2/ && \
+    cp /tmp/TEMP/apache2/conf.d/* /etc/apache2/conf.d/ && \
+    cp /tmp/TEMP/php/php.ini /etc/php81/ && \
+    cp /tmp/TEMP/php/php-cli.ini /etc/php81/ && \
+    cp /tmp/TEMP/php/conf.d/* /etc/php81/conf.d/ && \
+    cp /tmp/TEMP/start.sh / && \
+    chmod +x /start.sh && \
+    rm -r /tmp/TEMP
 
 WORKDIR /phpbb/www
 
