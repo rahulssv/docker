@@ -5,8 +5,18 @@ ARG MAJOR_VERSION=3.16 \
 
 WORKDIR /tmp
 
-RUN apk add curl && \
-    curl -L "https://dl-cdn.alpinelinux.org/alpine/v${MAJOR_VERSION}/releases/$(uname -m)/alpine-minirootfs-${MINOR_VERSION}-$(uname -m).tar.gz" -o alpine.tar.gz && \
+RUN set -eux; \
+	apkArch="$(apk --print-arch)"; \
+	case "$apkArch" in \
+		x86_64)  binArch='amd64' ;; \
+		armhf)   binArch='armv6' ;; \
+		armv7)   binArch='armv7' ;; \
+		aarch64) binArch='arm64' ;; \
+		ppc64el|ppc64le) binArch='ppc64le' ;; \
+		s390x)   binArch='s390x' ;; \
+		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
+	esac; \
+    curl -L "https://dl-cdn.alpinelinux.org/alpine/v${MAJOR_VERSION}/releases/${binArch}/alpine-minirootfs-${MINOR_VERSION}-${binArch}.tar.gz" -o alpine.tar.gz && \
     tar -oxzf alpine.tar.gz && \
     rm alpine.tar.gz
 
