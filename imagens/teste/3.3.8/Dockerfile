@@ -50,8 +50,8 @@ RUN mv /tmp/TEMP/www /tmp/www && \
     cp /tmp/TEMP/supervisord.conf /etc/supervisord.conf && \
     mkdir -p /etc/caddy && \
     cp /tmp/TEMP/Caddyfile /etc/caddy && \
-    cp /tmp/TEMP/entrypoint.sh /usr/local/bin/ && \
-    chmod +x /usr/local/bin/entrypoint.sh && \
+    cp /tmp/TEMP/entrypoint.sh / && \
+    chmod +x /entrypoint.sh && \
     sed -i 's/user = nobody/user = phpbb/g' /etc/php81/php-fpm.d/www.conf && \
     sed -i 's/group = nobody/group = phpbb/g' /etc/php81/php-fpm.d/www.conf && \
     rm -r /tmp/TEMP
