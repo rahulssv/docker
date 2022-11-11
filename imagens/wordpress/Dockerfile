@@ -49,6 +49,7 @@ RUN apk update && apk upgrade && \
     php81-opcache \
     php81-iconv \
     php81-pecl-imagick \
+    libcurl \
     supervisor \
     unzip \
     shadow \
