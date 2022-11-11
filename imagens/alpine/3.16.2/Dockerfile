@@ -16,6 +16,7 @@ RUN set -eux; \
 		s390x)   binArch='s390x' ;; \
 		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
 	esac; \
+    apk add curl && \
     curl -L "https://dl-cdn.alpinelinux.org/alpine/v${MAJOR_VERSION}/releases/${binArch}/alpine-minirootfs-${MINOR_VERSION}-${binArch}.tar.gz" -o alpine.tar.gz && \
     tar -oxzf alpine.tar.gz && \
     rm alpine.tar.gz
