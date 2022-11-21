@@ -1,4 +1,4 @@
-FROM alpine:3.16.2
+FROM alpine:3.16
 
 LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
     Description="Lightweight PHPBB container with Apache 2.4 & PHP-FPM 8.1 based on Alpine Linux." \

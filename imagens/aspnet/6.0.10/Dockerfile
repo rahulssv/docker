@@ -3,7 +3,7 @@
 # https://github.com/dotnet/dotnet-docker/blob/main/src/runtime/6.0/alpine3.16
 # https://github.com/dotnet/dotnet-docker/blob/main/src/aspnet/6.0/alpine3.16
 
-FROM alpine:3.16.2
+FROM alpine:3.16
 
 RUN apk add --update --no-cache \
         ca-certificates \
