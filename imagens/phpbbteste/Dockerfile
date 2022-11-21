@@ -65,6 +65,6 @@ ENV PUID=65432 \
 
 EXPOSE 80
 
-WORKDIR /phpbb/www
+WORKDIR /phpbb
 
 CMD ["/usr/local/bin/start.sh"]
