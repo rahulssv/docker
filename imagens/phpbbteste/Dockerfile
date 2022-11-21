@@ -10,10 +10,6 @@ LABEL Maintainer="Igor Ferreira <igorferreir4@gmail.com>" \
 COPY --from=caddy:2.6.2 /usr/bin/caddy /usr/bin/caddy
 COPY files/Caddyfile /etc/caddy/Caddyfile
 
-# set up nsswitch.conf for Go's "netgo" implementation
-# - https://github.com/docker-library/golang/blob/1eb096131592bcbc90aa3b97471811c798a93573/1.14/alpine3.12/Dockerfile#L9
-RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
-
 # See https://caddyserver.com/docs/conventions#file-locations for details
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data
