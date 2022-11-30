@@ -2,22 +2,21 @@ FROM alpine/git:latest as src
 
 RUN git clone -b feature/tus-uploads https://github.com/TobiasGoerke/filebrowser.git /src
 
-FROM node:10.15.2-alpine as nodejs-build
+# FROM node:10.15.2-alpine as nodejs-build
+FROM node:19.2-alpine3.16 as nodejs-build
 WORKDIR /frontend
 COPY --from=src /src/frontend/package.json ./
 RUN npm install
 COPY --from=src /src/frontend ./
 RUN npm run build
 
-
-FROM golang:1.19 as builder
+FROM golang:1.19.3-alpine3.15 as builder
 WORKDIR /src
-COPY --from=src /src /src
+COPY --from=src /src ./
 RUN go mod download
 
 COPY --from=nodejs-build /frontend ./frontend
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build
-
 
 FROM alpine:latest
 RUN apk --update add ca-certificates \
