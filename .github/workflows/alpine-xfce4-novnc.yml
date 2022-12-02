@@ -1,10 +1,10 @@
-name: handbrake
+name: alpine-xfce4-novnc
 
 on:
   workflow_call:
   push:
     paths: 
-      - 'imagens/handbrake/**'
+      - 'imagens/alpine-xfce4-novnc/**'
 
 jobs:
   build-and-push-image:
@@ -13,11 +13,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/handbrake/Dockerfile
+          - dockerfile: ./imagens/alpine-xfce4-novnc/Dockerfile
             platforms: linux/arm64/v8
-            tags: igorferreir4/handbrake:latest
+            tags: igorferreir4/alpine-xfce4-novnc:latest
             cache: type=gha
-            nomedocache: handbrake
+            nomedocache: alpine-xfce4-novnc
     permissions:
       contents: read
       packages: write
@@ -44,7 +44,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
         with:
-          context: imagens/handbrake/
+          context: imagens/alpine-xfce4-novnc/
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platforms }}
           push: true
@@ -57,6 +57,6 @@ jobs:
         with:
           user: ${{ github.repository_owner }}
           pass: ${{ secrets.DOCKERHUB_TOKEN }}
-          slug: igorferreir4/handbrake
-          readme: imagens/handbrake/README.md
-          description: handbrake with plugins
+          slug: igorferreir4/alpine-xfce4-novnc
+          readme: imagens/alpine-xfce4-novnc/README.md
+          description: alpine-xfce4-novnc with plugins

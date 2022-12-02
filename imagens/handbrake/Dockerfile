@@ -1,2 +1,0 @@
-#
-FROM jlesage/handbrake:latest
