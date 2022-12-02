@@ -16,7 +16,7 @@ COPY --from=src /src ./
 RUN go mod download
 
 COPY --from=nodejs-build /frontend ./frontend
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build
+RUN CGO_ENABLED=0 GOOS=linux go build
 
 FROM alpine:latest
 RUN apk --update add ca-certificates \
