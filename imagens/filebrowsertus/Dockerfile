@@ -1,6 +1,7 @@
 FROM alpine/git:latest as src
 
-RUN git clone -b feature/tus-uploads https://github.com/TobiasGoerke/filebrowser.git /src
+COPY imagens/filebrowser-feature-tus-uploads/ /src/
+# RUN git clone -b feature/tus-uploads https://github.com/TobiasGoerke/filebrowser.git /src
 
 # FROM node:10.15.2-alpine as nodejs-build
 FROM node:16-alpine as nodejs-build
