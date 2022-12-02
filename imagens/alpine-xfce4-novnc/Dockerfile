@@ -36,8 +36,8 @@ RUN set -xe && \
   mkdir -p $NOVNC_HOME/utils/websockify && \
   wget -qO- https://github.com/novnc/noVNC/archive/v1.3.0.tar.gz | tar xz --strip 1 -C $NOVNC_HOME && \
   wget -qO- https://github.com/novnc/websockify/archive/v0.10.0.tar.gz | tar xzf - --strip 1 -C $NOVNC_HOME/utils/websockify && \
-  chmod +x -v $NOVNC_HOME/utils/*.sh && \
-  ln -s $NOVNC_HOME/vnc_auto.html $NOVNC_HOME/index.html && \
+  chmod +x -v $NOVNC_HOME/utils/novnc_proxy && \
+  ln -s $NOVNC_HOME/vnc_lite.html $NOVNC_HOME/index.html && \
   rm -rf /var/cache/apk/*
 
 WORKDIR $HOME
