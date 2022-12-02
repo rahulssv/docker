@@ -44,5 +44,6 @@ WORKDIR $HOME
 EXPOSE $VNC_PORT $NOVNC_PORT
 
 COPY run_novnc /usr/bin/
+RUN sudo chmod +x /usr/bin/run_novnc
 
 CMD ["/usr/bin/run_novnc"]
