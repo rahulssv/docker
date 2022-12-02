@@ -66,6 +66,9 @@ RUN \
         bash \
         nasm \
         meson \
+        # DRM
+        libdrm \
+        libdrm-dev \
         # misc libraries
         jansson-dev \
         libxml2-dev \
