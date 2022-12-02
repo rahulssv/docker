@@ -38,7 +38,7 @@ RUN set -xe && \
   wget -qO- https://github.com/novnc/websockify/archive/v0.10.0.tar.gz | tar xzf - --strip 1 -C $NOVNC_HOME/utils/websockify && \
   chmod +x -v $NOVNC_HOME/utils/novnc_proxy && \
   ln -s $NOVNC_HOME/vnc_lite.html $NOVNC_HOME/index.html && \
-  rm -rf /var/cache/apk/*
+  sudo rm -rf /var/cache/apk/*
 
 WORKDIR $HOME
 EXPOSE $VNC_PORT $NOVNC_PORT
