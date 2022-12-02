@@ -5,7 +5,7 @@ import { removePrefix } from "./utils";
 
 // Make following configurable by envs?
 export const chunkSize = 100 * 1000 * 1000;
-const parallelUploads = 10;
+const parallelUploads = 5;
 const retryDelays = [0, 3000, 5000, 10000, 20000];
 
 export async function upload(url, content = "", overwrite = false, onupload) {
