@@ -6,11 +6,12 @@ RUN set -xe && \
   apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
   apk --update --no-cache add xvfb x11vnc xfce4 xfce4-terminal paper-icon-theme chromium python3 bash doas htop procps && \
   mkdir -p /usr/share/wallpapers && \
-  wget https://img2.goodfon.com/original/2048x1820/3/b6/android-5-0-lollipop-material-5355.jpg -O /usr/share/wallpapers/android-5-0-lollipop-material-5355.jpg && \
   echo "CHROMIUM_FLAGS=\"--no-sandbox --no-first-run --disable-gpu\"" >> /etc/chromium/chromium.conf && \
   adduser --disabled-password alpine && \
   adduser alpine wheel && \
   echo "permit persist :wheel" >> /etc/doas.d/doas.conf
+
+COPY android-5-0-lollipop-material-5355.jpg /usr/share/wallpapers/android-5-0-lollipop-material-5355.jpg
 
 USER alpine
 
