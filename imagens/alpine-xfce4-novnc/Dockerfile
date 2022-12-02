@@ -1,19 +1,16 @@
-FROM alpine
+FROM alpine:3.17
 
 COPY config /etc/skel/.config
 
-RUN set -xe \
-  && echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing"  >> /etc/apk/repositories \
-  && apk --update --no-cache add xvfb x11vnc xfce4 xfce4-terminal paper-icon-theme arc-theme@testing chromium python3 bash doas htop procps curl \
-  && mkdir -p /usr/share/wallpapers \
-  && curl https://img2.goodfon.com/original/2048x1820/3/b6/android-5-0-lollipop-material-5355.jpg -o /usr/share/wallpapers/android-5-0-lollipop-material-5355.jpg \
-  && echo "CHROMIUM_FLAGS=\"--no-sandbox --no-first-run --disable-gpu\"" >> /etc/chromium/chromium.conf \
-  && addgroup alpine \
-  && adduser -G alpine -s /bin/bash -D alpine \
-  && echo "alpine:alpine" | /usr/sbin/chpasswd \
-  && adduser alpine wheel \
-  && echo "permit persist :wheel" >> /etc/doas.d/doas.conf \
-  && apk del curl 
+RUN set -xe && \
+  apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk --update --no-cache add xvfb x11vnc xfce4 xfce4-terminal paper-icon-theme chromium python3 bash doas htop procps && \
+  mkdir -p /usr/share/wallpapers && \
+  wget https://img2.goodfon.com/original/2048x1820/3/b6/android-5-0-lollipop-material-5355.jpg -o /usr/share/wallpapers/android-5-0-lollipop-material-5355.jpg && \
+  echo "CHROMIUM_FLAGS=\"--no-sandbox --no-first-run --disable-gpu\"" >> /etc/chromium/chromium.conf && \
+  adduser --disabled-password alpine && \
+  adduser alpine wheel && \
+  echo "permit persist :wheel" >> /etc/doas.d/doas.conf
 
 USER alpine
 
@@ -31,17 +28,15 @@ ENV USER=alpine \
     NOVNC_PORT=6080 \
     NOVNC_HOME=/home/alpine/noVNC 
 
-RUN set -xe \
-  && doas apk update \
-  && doas apk add ca-certificates wget \
-  && doas update-ca-certificates \
-  && mkdir -p $NOVNC_HOME/utils/websockify \
-  && wget -qO- https://github.com/novnc/noVNC/archive/v1.3.0.tar.gz | tar xz --strip 1 -C $NOVNC_HOME \
-  && wget -qO- https://github.com/novnc/websockify/archive/v0.10.0.tar.gz | tar xzf - --strip 1 -C $NOVNC_HOME/utils/websockify \
-  && chmod +x -v $NOVNC_HOME/utils/*.sh \
-  && ln -s $NOVNC_HOME/vnc_auto.html $NOVNC_HOME/index.html \
-  && doas apk del wget \
-  && rm -rf /var/cache/apk/*
+RUN set -xe && \
+  doas apk --update add ca-certificates && \
+  doas update-ca-certificates && \
+  mkdir -p $NOVNC_HOME/utils/websockify && \
+  wget -qO- https://github.com/novnc/noVNC/archive/v1.3.0.tar.gz | tar xz --strip 1 -C $NOVNC_HOME && \
+  wget -qO- https://github.com/novnc/websockify/archive/v0.10.0.tar.gz | tar xzf - --strip 1 -C $NOVNC_HOME/utils/websockify && \
+  chmod +x -v $NOVNC_HOME/utils/*.sh && \
+  ln -s $NOVNC_HOME/vnc_auto.html $NOVNC_HOME/index.html && \
+  rm -rf /var/cache/apk/*
 
 WORKDIR $HOME
 EXPOSE $VNC_PORT $NOVNC_PORT
