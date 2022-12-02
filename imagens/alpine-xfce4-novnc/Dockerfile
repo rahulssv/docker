@@ -4,12 +4,13 @@ COPY config /etc/skel/.config
 
 RUN set -xe && \
   apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-  apk --update --no-cache add xvfb x11vnc xfce4 xfce4-terminal paper-icon-theme chromium python3 bash doas htop procps && \
+  apk --update --no-cache add xvfb x11vnc xfce4 xfce4-terminal paper-icon-theme chromium python3 bash sudo htop procps && \
   mkdir -p /usr/share/wallpapers && \
   echo "CHROMIUM_FLAGS=\"--no-sandbox --no-first-run --disable-gpu\"" >> /etc/chromium/chromium.conf && \
-  adduser --disabled-password alpine && \
-  adduser alpine wheel && \
-  echo "permit persist :wheel" >> /etc/doas.d/doas.conf
+  addgroup alpine && \
+  adduser -G alpine -s /bin/bash -D alpine && \
+  echo "alpine:alpine" | /usr/sbin/chpasswd && \
+  echo "alpine ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 COPY android-5-0-lollipop-material-5355.jpg /usr/share/wallpapers/android-5-0-lollipop-material-5355.jpg
 
@@ -30,8 +31,8 @@ ENV USER=alpine \
     NOVNC_HOME=/home/alpine/noVNC 
 
 RUN set -xe && \
-  doas apk --update add ca-certificates && \
-  doas update-ca-certificates && \
+  sudo apk --update add ca-certificates && \
+  sudo update-ca-certificates && \
   mkdir -p $NOVNC_HOME/utils/websockify && \
   wget -qO- https://github.com/novnc/noVNC/archive/v1.3.0.tar.gz | tar xz --strip 1 -C $NOVNC_HOME && \
   wget -qO- https://github.com/novnc/websockify/archive/v0.10.0.tar.gz | tar xzf - --strip 1 -C $NOVNC_HOME/utils/websockify && \
