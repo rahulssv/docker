@@ -45,4 +45,4 @@ EXPOSE $VNC_PORT $NOVNC_PORT
 
 COPY run_novnc /usr/bin/
 
-CMD ["run_novnc"]
+CMD ["/usr/bin/run_novnc"]
