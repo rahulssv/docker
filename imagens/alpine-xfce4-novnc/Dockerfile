@@ -11,7 +11,7 @@ RUN set -xe \
   && addgroup alpine \
   && adduser -G alpine -s /bin/bash -D alpine \
   && echo "alpine:alpine" | /usr/sbin/chpasswd \
-  && adduser alpine wheel
+  && adduser alpine wheel \
   && echo "permit persist :wheel" >> /etc/doas.d/doas.conf \
   && apk del curl 
 
