@@ -34,6 +34,8 @@ RUN set -xe && \
     mkdir -p /usr/share/wallpapers && \
     echo "CHROMIUM_FLAGS=\"--no-sandbox --no-first-run --disable-gpu\"" >> /etc/chromium/chromium.conf
 
+COPY bg.jpg /usr/share/wallpapers/bg.jpg
+
 ENV USER=root \
     DISPLAY=:1 \
     LANG=pt_BR.UTF-8 \

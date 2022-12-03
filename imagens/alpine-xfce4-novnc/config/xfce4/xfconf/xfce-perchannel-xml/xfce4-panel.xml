@@ -71,7 +71,7 @@
       <property name="style" type="uint" value="1"/>
     </property>
     <property name="plugin-14" type="string" value="directorymenu">
-      <property name="base-directory" type="string" value="/home/alpine"/>
+      <property name="base-directory" type="string" value="/root"/>
     </property>
     <property name="plugin-16" type="string" value="launcher">
       <property name="items" type="array">
