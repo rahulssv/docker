@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-RUN apk --update --upgrade --no-cache add bash && \
+RUN apk --update --upgrade --no-cache add bash x264 && \
     apk add --no-cache handbrake --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 COPY start.sh /usr/bin/start.sh
