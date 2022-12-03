@@ -1,3 +1,4 @@
+#
 FROM alpine:3.17
 
 ENV NOVNC_TAG="v1.3.0"
