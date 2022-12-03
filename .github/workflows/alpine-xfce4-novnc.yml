@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-push-image:
-    runs-on: Igor-PC
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
