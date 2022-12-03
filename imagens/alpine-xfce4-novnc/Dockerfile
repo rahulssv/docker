@@ -1,20 +1,35 @@
 FROM alpine:3.17
-LABEL maintiner="igorferreir4@gmail.com"
 
-ENV SERVER "localhost:5900"
-WORKDIR /
+ENV NOVNC_TAG="v1.3.0"
 
-COPY start.sh /start.sh
+ENV WEBSOCKIFY_TAG="v0.10.0"
 
-# Install package using --no-cache to update index and remove unwanted files
-RUN apk add --no-cache python3 bash git procps \
-	&& cd / \
-	&& git clone https://github.com/novnc/noVNC /novnc \
-	&& git clone https://github.com/novnc/websockify /novnc/utils/websockify \
-	&& rm -rf /novnc/.git /novnc/utils/websockify/.git \
-	&& ln -s /novnc/vnc.html /novnc/index.html \
-	&& chmod +x /start.sh
+ENV VNC_SERVER "localhost:5900"
 
-EXPOSE 6080
+RUN apk --no-cache --update --upgrade add \
+    bash \
+    python3 \
+    python3-dev \
+    gfortran \
+    py-pip \
+    build-base \
+    procps \
+    git
 
-ENTRYPOINT ["/bin/sh", "/start.sh"]
+RUN pip install --no-cache-dir numpy
+
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+RUN git config --global advice.detachedHead false && \
+    git clone https://github.com/novnc/noVNC --branch ${NOVNC_TAG} /root/noVNC && \
+    git clone https://github.com/novnc/websockify --branch ${WEBSOCKIFY_TAG} /root/noVNC/utils/websockify
+
+RUN cp /root/noVNC/vnc.html /root/noVNC/index.html
+
+RUN sed -i "/wait ${proxy_pid}/i if [ -n \"\$AUTOCONNECT\" ]; then sed -i \"s/'autoconnect', false/'autoconnect', '\$AUTOCONNECT'/\" /root/noVNC/app/ui.js; fi" /root/noVNC/utils/novnc_proxy
+
+RUN sed -i "/wait ${proxy_pid}/i if [ -n \"\$VNC_PASSWORD\" ]; then sed -i \"s/WebUtil.getConfigVar('password')/'\$VNC_PASSWORD'/\" /root/noVNC/app/ui.js; fi" /root/noVNC/utils/novnc_proxy
+
+RUN sed -i "/wait ${proxy_pid}/i if [ -n \"\$VIEW_ONLY\" ]; then sed -i \"s/UI.rfb.viewOnly = UI.getSetting('view_only');/UI.rfb.viewOnly = \$VIEW_ONLY;/\" /root/noVNC/app/ui.js; fi" /root/noVNC/utils/novnc_proxy
+
+ENTRYPOINT [ "bash", "-c", "/root/noVNC/utils/novnc_proxy --vnc ${VNC_SERVER}" ]
