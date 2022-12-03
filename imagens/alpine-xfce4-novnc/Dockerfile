@@ -19,7 +19,7 @@ RUN apk --no-cache --update --upgrade add \
 
 RUN pip install --no-cache-dir numpy
 
-RUN ln -s /usr/bin/python3 /usr/bin/python
+# RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN git config --global advice.detachedHead false && \
     git clone https://github.com/novnc/noVNC --branch ${NOVNC_TAG} /root/noVNC && \
