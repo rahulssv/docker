@@ -27,7 +27,29 @@ RUN git config --global advice.detachedHead false && \
 
 RUN cp /root/noVNC/vnc.html /root/noVNC/index.html
 
-RUN apk --update --no-cache add xvfb x11vnc xfce4 xfce4-terminal paper-icon-theme chromium htop procps
+COPY config /etc/skel/.config
+RUN set -xe && \
+    apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing arc-theme && \
+    apk --update --no-cache add xvfb x11vnc xfce4 xfce4-terminal paper-icon-theme chromium htop  && \
+    mkdir -p /usr/share/wallpapers && \
+    echo "CHROMIUM_FLAGS=\"--no-sandbox --no-first-run --disable-gpu\"" >> /etc/chromium/chromium.conf
+
+ENV USER=root \
+    DISPLAY=:1 \
+    LANG=pt_BR.UTF-8 \
+    LANGUAGE=pt_BR.UTF-8 \
+    HOME=/root \
+    TERM=xterm \
+    SHELL=/bin/bash \
+    VNC_PASSWD=alpinelinux \
+    VNC_PORT=5900 \
+    VNC_RESOLUTION=1024x768 \
+    VNC_COL_DEPTH=24  \
+    NOVNC_PORT=6080 \
+    NOVNC_HOME=/root/noVNC
+
+COPY run_novnc /usr/bin/
+RUN sudo chmod +x /usr/bin/run_novnc
 
 RUN sed -i "/wait ${proxy_pid}/i if [ -n \"\$AUTOCONNECT\" ]; then sed -i \"s/'autoconnect', false/'autoconnect', '\$AUTOCONNECT'/\" /root/noVNC/app/ui.js; fi" /root/noVNC/utils/novnc_proxy
 
@@ -35,4 +57,5 @@ RUN sed -i "/wait ${proxy_pid}/i if [ -n \"\$VNC_PASSWORD\" ]; then sed -i \"s/W
 
 RUN sed -i "/wait ${proxy_pid}/i if [ -n \"\$VIEW_ONLY\" ]; then sed -i \"s/UI.rfb.viewOnly = UI.getSetting('view_only');/UI.rfb.viewOnly = \$VIEW_ONLY;/\" /root/noVNC/app/ui.js; fi" /root/noVNC/utils/novnc_proxy
 
-ENTRYPOINT [ "bash", "-c", "/root/noVNC/utils/novnc_proxy --vnc ${VNC_SERVER}" ]
+CMD ["/usr/bin/run_novnc"]
+# ENTRYPOINT [ "bash", "-c", "/root/noVNC/utils/novnc_proxy --vnc ${VNC_SERVER}" ]
