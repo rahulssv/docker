@@ -51,7 +51,7 @@ ENV USER=root \
     NOVNC_HOME=/root/noVNC
 
 COPY run_novnc /usr/bin/
-RUN sudo chmod +x /usr/bin/run_novnc
+RUN chmod +x /usr/bin/run_novnc
 
 RUN sed -i "/wait ${proxy_pid}/i if [ -n \"\$AUTOCONNECT\" ]; then sed -i \"s/'autoconnect', false/'autoconnect', '\$AUTOCONNECT'/\" /root/noVNC/app/ui.js; fi" /root/noVNC/utils/novnc_proxy
 
