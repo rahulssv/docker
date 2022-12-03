@@ -27,6 +27,8 @@ RUN git config --global advice.detachedHead false && \
 
 RUN cp /root/noVNC/vnc.html /root/noVNC/index.html
 
+RUN apk --update --no-cache add xvfb x11vnc xfce4 xfce4-terminal paper-icon-theme chromium htop procps
+
 RUN sed -i "/wait ${proxy_pid}/i if [ -n \"\$AUTOCONNECT\" ]; then sed -i \"s/'autoconnect', false/'autoconnect', '\$AUTOCONNECT'/\" /root/noVNC/app/ui.js; fi" /root/noVNC/utils/novnc_proxy
 
 RUN sed -i "/wait ${proxy_pid}/i if [ -n \"\$VNC_PASSWORD\" ]; then sed -i \"s/WebUtil.getConfigVar('password')/'\$VNC_PASSWORD'/\" /root/noVNC/app/ui.js; fi" /root/noVNC/utils/novnc_proxy
