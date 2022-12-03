@@ -15,23 +15,23 @@ ARG DOCKER_IMAGE_VERSION=unknown
 #   https://code.videolan.org/videolan/x264/-/tree/stable.
 ARG HANDBRAKE_VERSION=1.5.1
 ARG X264_VERSION=baee400fa9ced6f5481a728138fed6e867b0ff7f
-ARG LIBVA_VERSION=2.16.0
-ARG INTEL_VAAPI_DRIVER_VERSION=2.4.1
-ARG GMMLIB_VERSION=22.3.1
-ARG INTEL_MEDIA_DRIVER_VERSION=22.5.4
+# ARG LIBVA_VERSION=2.16.0
+# ARG INTEL_VAAPI_DRIVER_VERSION=2.4.1
+# ARG GMMLIB_VERSION=22.3.1
+# ARG INTEL_MEDIA_DRIVER_VERSION=22.5.4
 # ARG INTEL_MEDIA_SDK_VERSION=22.3.0
-ARG INTEL_ONEVPL_GPU_RUNTIME_VERSION=22.5.4
+# ARG INTEL_ONEVPL_GPU_RUNTIME_VERSION=22.5.4
 ARG YAD_VERSION=12.1
 
 # Define software download URLs.
 ARG HANDBRAKE_URL=https://github.com/HandBrake/HandBrake/releases/download/${HANDBRAKE_VERSION}/HandBrake-${HANDBRAKE_VERSION}-source.tar.bz2
 ARG X264_URL=https://code.videolan.org/videolan/x264/-/archive/${X264_VERSION}/x264-${X264_VERSION}.tar.gz
-ARG LIBVA_URL=https://github.com/intel/libva/releases/download/${LIBVA_VERSION}/libva-${LIBVA_VERSION}.tar.bz2
-ARG INTEL_VAAPI_DRIVER_URL=https://github.com/intel/intel-vaapi-driver/releases/download/${INTEL_VAAPI_DRIVER_VERSION}/intel-vaapi-driver-${INTEL_VAAPI_DRIVER_VERSION}.tar.bz2
-ARG GMMLIB_URL=https://github.com/intel/gmmlib/archive/intel-gmmlib-${GMMLIB_VERSION}.tar.gz
-ARG INTEL_MEDIA_DRIVER_URL=https://github.com/intel/media-driver/archive/intel-media-${INTEL_MEDIA_DRIVER_VERSION}.tar.gz
+# ARG LIBVA_URL=https://github.com/intel/libva/releases/download/${LIBVA_VERSION}/libva-${LIBVA_VERSION}.tar.bz2
+# ARG INTEL_VAAPI_DRIVER_URL=https://github.com/intel/intel-vaapi-driver/releases/download/${INTEL_VAAPI_DRIVER_VERSION}/intel-vaapi-driver-${INTEL_VAAPI_DRIVER_VERSION}.tar.bz2
+# ARG GMMLIB_URL=https://github.com/intel/gmmlib/archive/intel-gmmlib-${GMMLIB_VERSION}.tar.gz
+# ARG INTEL_MEDIA_DRIVER_URL=https://github.com/intel/media-driver/archive/intel-media-${INTEL_MEDIA_DRIVER_VERSION}.tar.gz
 # ARG INTEL_MEDIA_SDK_URL=https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-${INTEL_MEDIA_SDK_VERSION}.tar.gz
-ARG INTEL_ONEVPL_GPU_RUNTIME_URL=https://github.com/oneapi-src/oneVPL-intel-gpu/archive/refs/tags/intel-onevpl-${INTEL_ONEVPL_GPU_RUNTIME_VERSION}.tar.gz
+# ARG INTEL_ONEVPL_GPU_RUNTIME_URL=https://github.com/oneapi-src/oneVPL-intel-gpu/archive/refs/tags/intel-onevpl-${INTEL_ONEVPL_GPU_RUNTIME_VERSION}.tar.gz
 ARG YAD_URL=https://github.com/v1cont/yad/releases/download/v${YAD_VERSION}/yad-${YAD_VERSION}.tar.xz
 
 # Other build arguments.
@@ -103,30 +103,30 @@ RUN \
     echo "Downloading x264 sources..." && \
     mkdir x264 && \
     curl -# -L ${X264_URL} | tar xz --strip 1 -C x264 && \
-    # Download libva sources.
-    echo "Downloading libva sources..." && \
-    mkdir libva && \
-    curl -# -L ${LIBVA_URL} | tar xj --strip 1 -C libva && \
-    # Download Intel VAAPI driver sources.
-    echo "Downloading Intel VAAPI driver sources..." && \
-    mkdir intel-vaapi-driver && \
-    curl -# -L ${INTEL_VAAPI_DRIVER_URL} | tar xj --strip 1 -C intel-vaapi-driver && \
-    # Download gmmlib sources.
-    echo "Downloading gmmlib sources..." && \
-    mkdir gmmlib && \
-    curl -# -L ${GMMLIB_URL} | tar xz --strip 1 -C gmmlib && \
-    # Download Intel Media driver.
-    echo "Downloading Intel Media driver sources..." && \
-    mkdir intel-media-driver && \
-    curl -# -L ${INTEL_MEDIA_DRIVER_URL} | tar xz --strip 1 -C intel-media-driver && \
+    # # Download libva sources.
+    # echo "Downloading libva sources..." && \
+    # mkdir libva && \
+    # curl -# -L ${LIBVA_URL} | tar xj --strip 1 -C libva && \
+    # # Download Intel VAAPI driver sources.
+    # echo "Downloading Intel VAAPI driver sources..." && \
+    # mkdir intel-vaapi-driver && \
+    # curl -# -L ${INTEL_VAAPI_DRIVER_URL} | tar xj --strip 1 -C intel-vaapi-driver && \
+    # # Download gmmlib sources.
+    # echo "Downloading gmmlib sources..." && \
+    # mkdir gmmlib && \
+    # curl -# -L ${GMMLIB_URL} | tar xz --strip 1 -C gmmlib && \
+    # # Download Intel Media driver.
+    # echo "Downloading Intel Media driver sources..." && \
+    # mkdir intel-media-driver && \
+    # curl -# -L ${INTEL_MEDIA_DRIVER_URL} | tar xz --strip 1 -C intel-media-driver && \
     # # Download Intel Media SDK sources.
     # echo "Downloading Intel Media SDK sources..." && \
     # mkdir MediaSDK && \
     # curl -# -L ${INTEL_MEDIA_SDK_URL} | tar xz --strip 1 -C MediaSDK && \
-    # Download Intel OneVPL GPU Runtime sources.
-    echo "" && \
-    mkdir oneVPL-intel-gpu && \
-    curl -# -L ${INTEL_ONEVPL_GPU_RUNTIME_URL} | tar xz --strip 1 -C oneVPL-intel-gpu && \
+    # # Download Intel OneVPL GPU Runtime sources.
+    # echo "" && \
+    # mkdir oneVPL-intel-gpu && \
+    # curl -# -L ${INTEL_ONEVPL_GPU_RUNTIME_URL} | tar xz --strip 1 -C oneVPL-intel-gpu && \
     # Download HandBrake sources.
     echo "Downloading HandBrake sources..." && \
     if echo "${HANDBRAKE_URL}" | grep -q '\.git$'; then \
@@ -155,49 +155,49 @@ RUN \
         && \
     make -j$(nproc) install && \
     cd ../ && \
-    # Compile libva.
-    echo "Compiling libva..." && \
-    cd libva && \
-    ./configure \
-        --prefix=/usr \
-        --mandir=/tmp/libva-man \
-        --infodir=/tmp/liva-info \
-        --localstatedir=/var \
-        --enable-x11 \
-        --disable-glx \
-        --disable-wayland \
-        --disable-static \
-        --enable-shared \
-        --with-drivers-path=/opt/intel/mediasdk/lib \
-        && \
-    make -j$(nproc) && \
-    make install && \
-    cd ../ && \
-    # Compile Intel VAAPI driver.
-    echo "Compiling Intel VAAPI driver..." && \
-    cd intel-vaapi-driver && \
-    ./configure && \
-    make -j$(nproc) && \
-    make install && \
-    cd .. && \
-    # Compile Intel Media driver.
-    echo "Compiling Intel Media driver..." && \
-    add-pkg libexecinfo-dev && \
-    cd intel-media-driver && \
-    mkdir build && cd build && \
-    cmake \
-        -Wno-dev \
-        -DBUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=/opt/intel/mediasdk \
-        -DLIBVA_DRIVERS_PATH=/opt/intel/mediasdk/lib \
-        -DINSTALL_DRIVER_SYSCONF=OFF \
-        -DMEDIA_RUN_TEST_SUITE=OFF \
-        -DSKIP_GMM_CHECK=ON \
-        ../ && \
-    make -j$(nproc) && \
-    make install && \
-    cd .. && \
-    cd .. && \
+    # # Compile libva.
+    # echo "Compiling libva..." && \
+    # cd libva && \
+    # ./configure \
+    #     --prefix=/usr \
+    #     --mandir=/tmp/libva-man \
+    #     --infodir=/tmp/liva-info \
+    #     --localstatedir=/var \
+    #     --enable-x11 \
+    #     --disable-glx \
+    #     --disable-wayland \
+    #     --disable-static \
+    #     --enable-shared \
+    #     --with-drivers-path=/opt/intel/mediasdk/lib \
+    #     && \
+    # make -j$(nproc) && \
+    # make install && \
+    # cd ../ && \
+    # # Compile Intel VAAPI driver.
+    # echo "Compiling Intel VAAPI driver..." && \
+    # cd intel-vaapi-driver && \
+    # ./configure && \
+    # make -j$(nproc) && \
+    # make install && \
+    # cd .. && \
+    # # Compile Intel Media driver.
+    # echo "Compiling Intel Media driver..." && \
+    # add-pkg libexecinfo-dev && \
+    # cd intel-media-driver && \
+    # mkdir build && cd build && \
+    # cmake \
+    #     -Wno-dev \
+    #     -DBUILD_TYPE=Release \
+    #     -DCMAKE_INSTALL_PREFIX=/opt/intel/mediasdk \
+    #     -DLIBVA_DRIVERS_PATH=/opt/intel/mediasdk/lib \
+    #     -DINSTALL_DRIVER_SYSCONF=OFF \
+    #     -DMEDIA_RUN_TEST_SUITE=OFF \
+    #     -DSKIP_GMM_CHECK=ON \
+    #     ../ && \
+    # make -j$(nproc) && \
+    # make install && \
+    # cd .. && \
+    # cd .. && \
     # # Compile Intel Media SDK.
     # echo "Compiling Intel Media SDK..." && \
     # cd MediaSDK && \
@@ -227,19 +227,19 @@ RUN \
     # make install && \
     # cd .. && \
     # cd .. && \
-    # Compile Intel OneVPL GPU Runtime.
-    echo "Compiling Intel oneVPL GPU Runtime..." && \
-    cd oneVPL-intel-gpu && \
-    mkdir build && \
-    cd build && \
-    cmake \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_LIBDIR=lib \
-        .. && \
-    make -j$(nproc) && \
-    make install && \
-    cd .. && \
-    cd .. && \
+    # # Compile Intel OneVPL GPU Runtime.
+    # echo "Compiling Intel oneVPL GPU Runtime..." && \
+    # cd oneVPL-intel-gpu && \
+    # mkdir build && \
+    # cd build && \
+    # cmake \
+    #     -DCMAKE_BUILD_TYPE=Release \
+    #     -DCMAKE_INSTALL_LIBDIR=lib \
+    #     .. && \
+    # make -j$(nproc) && \
+    # make install && \
+    # cd .. && \
+    # cd .. && \
     # Compile HandBrake.
     echo "Compiling HandBrake..." && \
     cd HandBrake && \
@@ -256,13 +256,13 @@ RUN \
     cd .. && \
     # Strip symbols.
     if [ "${HANDBRAKE_DEBUG_MODE}" = "none" ]; then \
-        find /usr/lib -type f -name "libva*.so*" -exec strip -s {} ';'; \
-        find /opt/intel/mediasdk -type f -name "*.so*" -exec strip -s {} ';'; \
+        # find /usr/lib -type f -name "libva*.so*" -exec strip -s {} ';'; \
+        # find /opt/intel/mediasdk -type f -name "*.so*" -exec strip -s {} ';'; \
         strip -s /usr/bin/ghb; \
         strip -s /usr/bin/HandBrakeCLI; \
     fi && \
     # HandBrake is looking for libmfx-gen.so under /opt/intel/mediasdk/lib64.
-    ln -s lib /opt/intel/mediasdk/lib64 && \
+    # ln -s lib /opt/intel/mediasdk/lib64 && \
     # Cleanup.
     del-pkg build-dependencies && \
     rm -r \
