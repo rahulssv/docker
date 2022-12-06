@@ -1,11 +1,13 @@
 FROM alpine:3.17
 
+ENV JELLYFIN_VERSION=10.8.8
+
 RUN apk add --update --upgrade --no-cache ffmpeg aspnetcore6-runtime
 
-RUN wget https://repo.jellyfin.org/releases/server/portable/versions/stable/combined/10.8.8/jellyfin_10.8.8.tar.gz && \
-    tar xvzf jellyfin_10.8.8.tar.gz && \
-    rm jellyfin_10.8.8.tar.gz && \
-    mv jellyfin_10.8.8 jellyfin
+RUN wget -O jellyfin.tar.gz "https://repo.jellyfin.org/releases/server/portable/versions/stable/combined/$JELLYFIN_VERSION/jellyfin_$JELLYFIN_VERSION.tar.gz" && \
+    tar xvzf jellyfin.tar.gz && \
+    rm jellyfin.tar.gz && \
+    mv jellyfin_$JELLYFIN_VERSION jellyfin
 
 CMD dotnet /jellyfin/jellyfin.dll
 
