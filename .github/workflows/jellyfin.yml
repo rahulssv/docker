@@ -1,10 +1,10 @@
-name: handbrake
+name: jellyfin
 
 on:
   workflow_call:
   push:
     paths: 
-      - 'imagens/handbrake/**'
+      - 'imagens/jellyfin/**'
 
 jobs:
   build-and-push-image:
@@ -13,11 +13,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/handbrake/Dockerfile
-            platforms: linux/arm64/v8
-            tags: igorferreir4/handbrake:latest
+          - dockerfile: ./imagens/jellyfin/Dockerfile
+            platforms: linux/amd64,linux/arm64/v8
+            tags: igorferreir4/jellyfin:latest
             cache: type=gha
-            nomedocache: handbrake
+            nomedocache: jellyfin
     permissions:
       contents: read
       packages: write
@@ -44,7 +44,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
         with:
-          context: imagens/handbrake/
+          context: imagens/jellyfin/
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platforms }}
           push: true
@@ -57,6 +57,6 @@ jobs:
         with:
           user: ${{ github.repository_owner }}
           pass: ${{ secrets.DOCKERHUB_TOKEN }}
-          slug: igorferreir4/handbrake
-          readme: imagens/handbrake/README.md
-          description: handbrake with plugins
+          slug: igorferreir4/jellyfin
+          readme: imagens/jellyfin/README.md
+          description: jellyfin with plugins
