@@ -5,8 +5,8 @@ registries:
   dockerhub:
     type: docker-registry
     url: https://registry.hub.docker.com
-    username: ${{ github.repository_owner }}
-    password: ${{ secrets.DOCKERHUB_TOKEN }}
+    username: igorferreir4 # ${{ github.repository_owner }}
+    password: dckr_pat_M5U5j01Cc-AXajMK4keFhPqqzYg # ${{ secrets.DOCKERHUB_TOKEN }}
     replaces-base: true
 
 updates:
