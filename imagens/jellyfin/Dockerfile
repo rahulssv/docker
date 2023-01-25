@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-ENV JELLYFIN_VERSION=10.8.8
+ENV JELLYFIN_VERSION=10.8.9
 
 RUN apk add --update --upgrade --no-cache ffmpeg aspnetcore6-runtime
 
