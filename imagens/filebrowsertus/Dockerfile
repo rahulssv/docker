@@ -4,7 +4,7 @@ COPY filebrowser-feature-tus-uploads/ /src/
 # RUN git clone -b feature/tus-uploads https://github.com/TobiasGoerke/filebrowser.git /src
 
 # FROM node:10.15.2-alpine as nodejs-build
-FROM node:16-alpine as nodejs-build
+FROM node:19-alpine as nodejs-build
 WORKDIR /frontend
 COPY --from=src /src/frontend/package.json ./
 RUN npm install
