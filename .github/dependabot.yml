@@ -11,7 +11,7 @@ registries:
 
 updates:
   - package-ecosystem: "docker"
-    directory: "/imagens/filebrowsertus"
+    directory: "/imagens"
     registries:
       - dockerhub # Allow version updates for dependencies in this registry
     schedule:
