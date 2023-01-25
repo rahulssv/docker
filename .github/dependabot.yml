@@ -11,11 +11,82 @@ registries:
 
 updates:
   - package-ecosystem: "docker"
-    directory: "/imagens"
+    directory: "/imagens/aspnet/3.1.30"
     registries:
       - dockerhub # Allow version updates for dependencies in this registry
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/aspnet/6.0.10"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/caddy/2.6.2"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/filebrowsertus"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/jellyfin"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/lighttpd/1.4.64"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/lighttpd/1.4.67-edge"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/php-fpm/8.1.12"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily" 
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/phpbb/3.3.8"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/ts3audiobot/0.12.2"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily" 
+
+  - package-ecosystem: "docker"
+    directory: "/imagens/ts3audiobot/0.13.0-alpha.41"
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry
+    schedule:
+      interval: "daily"  
+      
   # - package-ecosystem: "github-actions"
   #   directory: "/"
   #   schedule:
