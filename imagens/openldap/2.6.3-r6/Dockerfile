@@ -18,6 +18,8 @@ RUN apk add --update openldap openldap-back-mdb && \
 COPY scripts/* /etc/openldap/
 COPY docker-entrypoint.sh /
 
+RUN chmod +x /docker-entrypoint.sh
+
 EXPOSE 389
 EXPOSE 636
 
