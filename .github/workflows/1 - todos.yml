@@ -33,8 +33,3 @@ jobs:
     name: TS3AUDIOBOT
     uses: ./.github/workflows/ts3audiobot.yml
     secrets: inherit
-
-  openldap:
-    name: OPENLDAP
-    uses: ./.github/workflows/openldap.yml
-    secrets: inherit
