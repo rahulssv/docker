@@ -1,8 +1,6 @@
 #
 FROM alpine:3.17
 
-ENV LIGHTTPD_VERSION=1.4.67-r0
-
 RUN apk add --update --no-cache \
         openldap openldap-back-mdb openldap-clients \
         openldap-passwd-pbkdf2 openldap-overlay-memberof \
