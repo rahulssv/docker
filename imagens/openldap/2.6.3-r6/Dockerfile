@@ -1,3 +1,4 @@
+#
 FROM alpine:3.17
 
 ENV LIGHTTPD_VERSION=1.4.67-r0
