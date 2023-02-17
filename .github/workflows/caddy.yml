@@ -1,4 +1,4 @@
-name: Caddy + Cloudflare + Layer4 + Cache
+name: Caddy + Cloudflare DNS + Cloudflare IPs + Layer4
 
 on:
   workflow_call:
