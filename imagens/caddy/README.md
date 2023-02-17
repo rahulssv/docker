@@ -8,9 +8,9 @@ Plugins:
 ```sh
 github.com/caddy-dns/cloudflare
 
+github.com/WeidiDeng/caddy-cloudflare-ip
+
 github.com/mholt/caddy-l4
 
 github.com/RussellLuo/caddy-ext/layer4
-
-github.com/caddyserver/cache-handler
 ```
