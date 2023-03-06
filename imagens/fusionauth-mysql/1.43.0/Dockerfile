@@ -30,7 +30,6 @@
 #
 
 FROM fusionauth/fusionauth-app:1.43.0
-COPY arquivos/mysql-connector-java-8.0.30.jar /usr/local/fusionauth/fusionauth-app/lib
-RUN chown fusionauth:fusionauth /usr/local/fusionauth/fusionauth-app/lib/mysql-connector-java-8.0.30.jar
+COPY --chown=fusionauth:fusionauth arquivos/mysql-connector-java-8.0.30.jar /usr/local/fusionauth/fusionauth-app/lib
 
 # ADD --chown=fusionauth:fusionauth https://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/8.0.30/mysql-connector-java-8.0.30.jar /usr/local/fusionauth/fusionauth-app/lib
