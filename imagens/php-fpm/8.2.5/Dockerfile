@@ -67,6 +67,10 @@ RUN set -ex; \
 	err="$(php --version 3>&1 1>&2 2>&3)"; \
 	[ -z "$err" ]
 
+RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
+    && docker-php-ext-configure mysqli --with-mysqli=mysqlnd \
+    && docker-php-ext-install pdo_mysql
+
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN set -eux; \
