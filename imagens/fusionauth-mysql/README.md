@@ -1,1 +1,0 @@
-FusionAuth App with MySQL JDBC connector
