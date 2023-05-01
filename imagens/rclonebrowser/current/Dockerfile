@@ -63,7 +63,7 @@ RUN \
     install_app_icon.sh "$APP_ICON_URL"
 
 # Add files.
-COPY rootfs/ /
+COPY current/rootfs/ /
 
 # Set environment variables.
 ENV APP_NAME="RcloneBrowser" \
