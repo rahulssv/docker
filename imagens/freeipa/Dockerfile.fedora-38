@@ -1,5 +1,9 @@
+FROM hectorm/qemu-user-static:v50-arm64v8 as qemu
+
 # Clone from the Fedora 38 image
 FROM registry.fedoraproject.org/fedora:38
+
+COPY --from=qemu /usr/bin/qemu-x86_64-static /usr/bin
 
 RUN groupadd -g 288 kdcproxy ; useradd -u 288 -g 288 -c 'IPA KDC Proxy User' -r -d '/var/lib/kdcproxy' -s '/sbin/nologin' kdcproxy
 RUN groupadd -g 289 ipaapi; useradd -u 289 -g 289 -c 'IPA Framework User' -r -d / -s '/sbin/nologin' ipaapi
