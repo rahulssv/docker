@@ -34,7 +34,7 @@ jobs:
     uses: ./.github/workflows/ts3audiobot.yml
     secrets: inherit
 
-  fusionauth-mysql:
-    name: FUSIONAUTH-MYSQL
-    uses: ./.github/workflows/fusionauth-mysql.yml
+  freeipa:
+    name: FREEIPA
+    uses: ./.github/workflows/freeipa.yml
     secrets: inherit

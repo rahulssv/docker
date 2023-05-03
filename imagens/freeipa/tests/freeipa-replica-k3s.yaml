@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: freeipa-replica-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: freeipa-replica-service
+spec:
+  selector:
+    app: freeipa-replica
+  clusterIP: 10.43.202.202
+  publishNotReadyAddresses: true
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  - name: https
+    port: 443
+    targetPort: 443
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+    targetPort: 53
+  - name: dns-udp
+    port: 53
+    protocol: UDP
+    targetPort: 53
+  - name: kerberos-tcp
+    port: 88
+    protocol: TCP
+    targetPort: 88
+  - name: kerberos-udp
+    port: 88
+    protocol: UDP
+    targetPort: 88
+  - name: kpasswd-tcp
+    port: 464
+    protocol: TCP
+    targetPort: 464
+  - name: kpasswd-udp
+    port: 464
+    protocol: UDP
+    targetPort: 464
+  - name: ldap
+    port: 389
+    protocol: TCP
+    targetPort: 389
+  - name: ldaps
+    port: 636
+    protocol: TCP
+    targetPort: 636
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: freeipa-replica
+  labels:
+    app: freeipa-replica
+spec:
+  restartPolicy: Never
+  containers:
+  - name: freeipa-replica
+    image: localhost/freeipa-server:latest
+    imagePullPolicy: Never
+    securityContext:
+      readOnlyRootFilesystem: true
+    volumeMounts:
+    - name: freeipa-server-data
+      mountPath: /data
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    - containerPort: 443
+      protocol: TCP
+    - containerPort: 53
+      protocol: UDP
+    - containerPort: 88
+      protocol: TCP
+    - containerPort: 88
+      protocol: UDP
+    args: ["ipa-replica-install", "-U", "-r", "CLUSTER.LOCAL", "-P", "admin@CLUSTER.LOCAL", "--ip-address=10.43.202.202", "--no-ntp", "--skip-mem-check"]
+    env:
+    - name: PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: freeipa-server-password
+          key: admin.password
+    readinessProbe:
+      exec:
+        command: [ "/usr/bin/systemctl", "status", "ipa" ]
+      initialDelaySeconds: 60
+      timeoutSeconds: 10
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 3
+  dnsPolicy: "None"
+  dnsConfig:
+    nameservers:
+      - 10.43.201.201
+  hostAliases:
+  - ip: "10.43.202.202"
+    hostnames:
+    - "freeipa-replica.dom1.default.svc.cluster.local"
+  subdomain: dom1
+  setHostnameAsFQDN: true
+  volumes:
+  - name: freeipa-server-data
+    persistentVolumeClaim:
+      claimName: freeipa-replica-pvc
