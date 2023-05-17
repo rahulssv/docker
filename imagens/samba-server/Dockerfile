@@ -15,8 +15,8 @@ ENV GID 1000
 
 RUN apk add --no-cache samba-server samba-common-tools openssl curl
 
-COPY --chown=0:0 --from=build /tmp/s6-overlay.tar.gz /tmp/
-RUN tar -xzf /tmp/s6-overlay.tar.gz -C /
+COPY --chown=0:0 --from=build /tmp/s6-overlay.tar.xz /tmp/
+RUN tar -xzf /tmp/s6-overlay.tar.xz -C /
 
 COPY s6/config.init /etc/cont-init.d/00-config
 COPY s6/smbd.run /etc/services.d/smbd/run
