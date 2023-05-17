@@ -5,10 +5,10 @@ ENV S6-VERSION=v3.1.5.0
 RUN apk add --no-cache openssl curl && \
     apkArch="$(apk --print-arch)"; \
 	  case "$apkArch" in \
-      amd64|x86_64) ARCH='x86_64';; \
-      arm) ARCH='arm';; \
-      armhf|arm/v7) ARCH='armhf';; \
-      aarch64|arm64|arm/v8) ARCH='aarch64';; \
+      amd64|x86_64) ARCH='x86_64'; \
+      arm) ARCH='arm'; \
+      armhf|arm/v7) ARCH='armhf'; \
+      aarch64|arm64|arm/v8) ARCH='aarch64'; \
       *) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
     esac; \
     curl -o /tmp/s6-overlay.tar.gz -fsSL --compressed https://github.com/just-containers/s6-overlay/releases/download/${S6-VERSION}/s6-overlay-${ARCH}.tar.xz
