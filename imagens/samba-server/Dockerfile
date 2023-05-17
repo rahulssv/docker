@@ -1,22 +1,11 @@
-FROM alpine:3.18 AS build
-
-ENV S6VERSION=v3.1.5.0
-
-RUN apk add --no-cache openssl curl && \
-    apkArch="$(apk --print-arch)" && \
-    curl -o /tmp/s6-overlay.tar.xz -fsSL --compressed https://github.com/just-containers/s6-overlay/releases/download/${S6VERSION}/s6-overlay-${apkArch}.tar.xz
-
-FROM alpine:3.18 AS final
+FROM alpine:3.18
 
 ENV USERNAME samba
 ENV PASSWORD password
 ENV UID 1000
 ENV GID 1000
 
-RUN apk add --no-cache samba-server samba-common-tools openssl curl
-
-COPY --chown=0:0 --from=build /tmp/s6-overlay.tar.xz /tmp/
-RUN tar -xf /tmp/s6-overlay.tar.xz -C /
+RUN apk add --no-cache samba-server samba-common-tools openssl curl s6-overlay
 
 COPY s6/config.init /etc/cont-init.d/00-config
 COPY s6/smbd.run /etc/services.d/smbd/run
