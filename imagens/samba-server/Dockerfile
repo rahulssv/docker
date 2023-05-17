@@ -4,10 +4,11 @@ ARG TARGETARCH
 
 ENV S6-VERSION=v3.1.5.0
 
-RUN apk add --no-cache openssl curl \
-  && ARCH= && Arch="${TARGETARCH}" \
-  && case "${Arch##*-}" in \
-    amd64|x86_64) ARCH='amd64';; \
+RUN apk add --no-cache openssl curl && \
+    ARCH= && \
+    Arch="${TARGETARCH}" && \
+    case "${Arch##*-}" in \
+    amd64|x86_64) ARCH='x86_64';; \
     aarch64|arm64|arm/v8) ARCH='aarch64';; \
     arm) ARCH='arm';; \
     armhf|arm/v7) ARCH='armhf';; \
