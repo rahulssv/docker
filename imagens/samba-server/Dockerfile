@@ -13,7 +13,7 @@ RUN apk add --no-cache openssl curl \
     armhf|arm/v7) ARCH='armhf';; \
     *) echo "unsupported architecture"; exit 1 ;; \
   esac \
-  && curl -o /tmp/s6-overlay.tar.gz -fsSL --compressed https://github.com/just-containers/s6-overlay/releases/download/$S6-VERSION/s6-overlay-$ARCH.tar.gz
+  && curl -o /tmp/s6-overlay.tar.gz -fsSL --compressed https://github.com/just-containers/s6-overlay/releases/download/${S6-VERSION}/s6-overlay-${ARCH}.tar.gz
 
 FROM alpine:3.18
 
