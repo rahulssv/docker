@@ -14,7 +14,7 @@ jobs:
       matrix:
         include:
           - dockerfile: ./imagens/samba-server/Dockerfile
-            platforms: linux/amd64,linux/arm64/v8,linux/arm/v7,linux/arm/v6
+            platforms: linux/amd64,linux/arm64/v8
             tags: igorferreir4/samba-server:alpine-3.18,igorferreir4/samba-server:latest
             cache: type=gha
             nomedocache: samba-server
