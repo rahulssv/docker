@@ -11,7 +11,8 @@ COPY s6/config.init /etc/cont-init.d/00-config
 COPY s6/smbd.run /etc/services.d/smbd/run
 COPY s6/nmbd.run /etc/services.d/nmbd/run
 
-RUN chmod +x /etc/cont-init.d/00-config /etc/services.d/smbd/run /etc/services.d/nmbd/run
+RUN chmod +x /etc/cont-init.d/00-config /etc/services.d/smbd/run /etc/services.d/nmbd/run && \
+    mkdir /nmbd-logs /smbd-logs
 
 EXPOSE 137/udp 138/udp 139/tcp 445/tcp
 
