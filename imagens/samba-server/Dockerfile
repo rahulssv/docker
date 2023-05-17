@@ -4,7 +4,7 @@ ENV S6VERSION=v3.1.5.0
 
 RUN apk add --no-cache openssl curl && \
     apkArch="$(apk --print-arch)" && \
-    curl -o /tmp/s6-overlay.tar.gz -fsSL --compressed https://github.com/just-containers/s6-overlay/releases/download/${S6VERSION}/s6-overlay-${apkArch}.tar.xz
+    curl -o /tmp/s6-overlay.tar.xz -fsSL --compressed https://github.com/just-containers/s6-overlay/releases/download/${S6VERSION}/s6-overlay-${apkArch}.tar.xz
 
 FROM alpine:3.18
 
