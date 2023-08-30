@@ -1,6 +1,7 @@
 name: php-fpm
 
 on:
+  workflow_dispatch:
   workflow_call:
   push:
     paths: 
