@@ -9,7 +9,8 @@ RUN set -eux; \
 	esac; \
 	wget -O caddy "https://github.com/igorferreir4/caddy/releases/download/v2.7.4/caddy-linux-${binArch}"; \
 	rm /usr/bin/caddy; \
-    mv caddy /usr/bin
+    mv caddy /usr/bin; \
+    chmod +x /usr/bin/caddy
 
 # Change TZ to America/Sao_Paulo
 RUN apk add --update --no-cache tzdata && \
