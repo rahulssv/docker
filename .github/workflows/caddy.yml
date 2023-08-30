@@ -1,6 +1,7 @@
 name: Caddy + Cloudflare DNS + Cloudflare IPs + Layer4
 
 on:
+  workflow_dispatch:
   workflow_call:
   push:
     paths: 

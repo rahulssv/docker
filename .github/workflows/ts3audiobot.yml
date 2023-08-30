@@ -1,6 +1,7 @@
 name: Ts3AudioBot
 
 on:
+  workflow_dispatch:
   workflow_call:
   push:
     paths: 
