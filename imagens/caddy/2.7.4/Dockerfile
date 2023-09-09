@@ -19,6 +19,8 @@ RUN apk add --update --no-cache tzdata && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
 
+CMD ["caddy", "docker-proxy"]
+
 # FROM caddy:2.7.4-builder-alpine AS builder
 
 # RUN xcaddy build \
