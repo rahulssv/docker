@@ -1,4 +1,4 @@
-name: Caddy + Cloudflare DNS + Cloudflare IPs + Layer4
+name: Caddy + Cloudflare DNS + Cloudflare IPs + Layer4 + Docker Proxy
 
 on:
   workflow_dispatch:
