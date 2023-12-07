@@ -1,3 +1,4 @@
+#
 FROM golang:1.20.10-alpine3.17 AS builder
 LABEL org.opencontainers.image.version="v8.1"
 LABEL org.opencontainers.image.licenses="MIT"
