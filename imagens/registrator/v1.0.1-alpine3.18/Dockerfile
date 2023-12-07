@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.url="https://github.com/mario-ezquerro/registrato
 LABEL org.regitrator.maintainer="Mario Ezquerro"
 
 WORKDIR /go/src/github.com/mario-ezquerro/registrator/
-COPY . .
+COPY ./v1.0.1-alpine3.18/ .
 RUN \
 	apk add --no-cache curl git \
 	&& curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh \
