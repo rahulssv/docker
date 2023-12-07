@@ -1,39 +1,25 @@
-FROM python:3.8-slim-buster
+FROM golang:1.20.10-alpine3.17 AS builder
+LABEL org.opencontainers.image.version="v8.1"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.title="Imagen regitrator use with carefull"
+LABEL org.opencontainers.image.url="https://github.com/mario-ezquerro/registrator"
+LABEL org.regitrator.maintainer="Mario Ezquerro"
 
-ENV \
-  # python:
-  PYTHONFAULTHANDLER=1 \
-  PYTHONUNBUFFERED=1 \
-  PYTHONHASHSEED=random \
-  PYTHONDONTWRITEBYTECODE=1 \
-  # pip:
-  PIP_NO_CACHE_DIR=off \
-  PIP_DISABLE_PIP_VERSION_CHECK=on \
-  PIP_DEFAULT_TIMEOUT=100 \
-  # poetry:
-  POETRY_VERSION=1.4.2 \
-  POETRY_NO_INTERACTION=1 \
-  POETRY_VIRTUALENVS_CREATE=false \
-  POETRY_CACHE_DIR='/var/cache/pypoetry' \
-  PATH="$PATH:/root/.local/bin"
+WORKDIR /go/src/github.com/mario-ezquerro/registrator/
+COPY . .
+RUN \
+	apk add --no-cache curl git \
+	&& curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh \
+	&& dep ensure -vendor-only \
+	&& CGO_ENABLED=0 GOOS=linux go build \
+		-a -installsuffix cgo \
+		-mod=mod \
+		-ldflags "-X main.Version=$(cat VERSION)" \
+		-o bin/registrator \
+		.
 
-# System deps:
-RUN apt-get update \
-  && apt-get install --no-install-recommends -y \
-    bash \
-    curl \
-  # Cleaning cache:
-  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-  && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+FROM alpine:3.17
+RUN apk add --no-cache ca-certificates
+COPY --from=builder /go/src/github.com/mario-ezquerro/registrator/bin/registrator /bin/registrator
 
-# Installing `poetry` package manager:
-# https://github.com/python-poetry/poetry
-RUN curl -sSL https://install.python-poetry.org | python - \
-  && poetry --version
-
-WORKDIR /code
-COPY . /code/
-
-RUN poetry install --no-interaction --no-ansi --only main
-
-ENTRYPOINT ["serviceregistrator"]
+ENTRYPOINT ["/bin/registrator"]
