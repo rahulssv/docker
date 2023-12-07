@@ -34,7 +34,7 @@ jobs:
     uses: ./.github/workflows/ts3audiobot.yml
     secrets: inherit
 
-  freeipa:
-    name: FREEIPA
-    uses: ./.github/workflows/freeipa.yml
+  registrator:
+    name: REGISTRATOR
+    uses: ./.github/workflows/registrator.yml
     secrets: inherit
