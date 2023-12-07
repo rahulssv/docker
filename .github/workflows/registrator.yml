@@ -14,11 +14,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./imagens/registrator/v1.0.1-alpine3.17/Dockerfile
-            platforms: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/s390x
-            tags: igorferreir4/registrator:v1.0.1-alpine3.17
-            cache: type=gha
-            nomedocache: registrator-v1.0.1-alpine3.17
+          # - dockerfile: ./imagens/registrator/v1.0.1-alpine3.17/Dockerfile
+          #   platforms: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/s390x
+          #   tags: igorferreir4/registrator:v1.0.1-alpine3.17
+          #   cache: type=gha
+          #   nomedocache: registrator-v1.0.1-alpine3.17
           - dockerfile: ./imagens/registrator/v1.0.1-alpine3.18/Dockerfile
             platforms: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/s390x
             tags: igorferreir4/registrator:latest , igorferreir4/registrator:v1.0.1-alpine3.18
@@ -50,7 +50,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
         with:
-          context: imagens/registrator/
+          context: imagens/registrator/v1.0.1-alpine3.18/
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platforms }}
           push: true
