@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-push-image:
-    runs-on: self-hosted #ubuntu-latest
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -23,7 +23,7 @@ jobs:
             platforms: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/s390x
             tags: igorferreir4/registrator:latest , igorferreir4/registrator:v1.0.1-alpine3.18
             cache: type=gha
-            nomedocache: registrator-v1.0.1-alpine3.18-teste
+            nomedocache: registrator-v1.0.1-alpine3.18
     permissions:
       contents: read
       packages: write
