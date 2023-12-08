@@ -1,9 +1,9 @@
 FROM golang:1.21.5-alpine3.18 AS builder
 LABEL org.opencontainers.image.version="v8.1"
 LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.title="Imagen regitrator use with carefull"
-LABEL org.opencontainers.image.url="https://github.com/mario-ezquerro/registrator"
-LABEL org.regitrator.maintainer="Mario Ezquerro"
+LABEL org.opencontainers.image.title="Consul Registrator"
+LABEL org.opencontainers.image.url="https://github.com/igorferreir4/docker/tree/main/imagens/registrator"
+LABEL org.regitrator.maintainer="Igor Ferreira"
 
 WORKDIR /go/src/github.com/mario-ezquerro/registrator/
 COPY ./v1.0.1-alpine3.18/ .
