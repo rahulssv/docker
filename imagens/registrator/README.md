@@ -20,7 +20,7 @@ Usage of /bin/registrator:
 ## Example Docker Compose
 ```
   registrator:
-    image: igorferreir4/registrator:latestregistrator:latest
+    image: igorferreir4/registrator:latest
     container_name: consul-registrator
     restart: always
     volumes:
