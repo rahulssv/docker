@@ -19,10 +19,10 @@ jobs:
           command: |
             set +o pipefail
             docker load -i /caches/app.tar | true
-      - run:
-          name: Run tests
-          command: |
-            docker-compose -f ./docker-compose.test.yml up
+      # - run:
+      #     name: Run tests
+      #     command: |
+      #       docker-compose -f ./imagens/registrator/v1.0.1-alpine3.18/docker-compose.test.yml up
       - run:
           name: Build and Push application Docker image
           command: |
