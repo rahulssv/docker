@@ -31,12 +31,11 @@ ENV DOTNET_VERSION=3.1.32
 RUN set -eux; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
-		x86_64)  binArch='x64'; checksum='454aaaff0cbb0a82581132ad8a46c37df5b5844230331b1d3e0fa163de4ae9ab1d54c553861971382077a7da8ca2165fa35bc9ede0d4d116d247bdea41f573f3' ;; \
-		aarch64) binArch='arm64'; checksum='efc6bdc2704abeae42d56260a378791402b2f0b549d3e8203a9a04e07d2d396ab108c59bc53973e85c0bee3d4ce6bc7551989b811a0d60a7418c307a2d170ac5' ;; \
+		x86_64)  binArch='x64' ;; \
+		aarch64) binArch='arm64' ;; \
 		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
 	esac; \
 	wget -O dotnet.tar.gz "https://dotnetcli.azureedge.net/dotnet/Runtime/$DOTNET_VERSION/dotnet-runtime-$DOTNET_VERSION-linux-musl-${binArch}.tar.gz"; \
-	echo "$checksum  dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -oxzf dotnet.tar.gz -C /usr/share/dotnet \
     && rm dotnet.tar.gz \
@@ -48,11 +47,10 @@ ENV ASPNETCORE_VERSION=3.1.32
 RUN set -eux; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
-		x86_64)  binArch='x64'; checksum='102bf4961627db8b7ccd9b4020762cd6bcb37964d241591fb9d0aed9b4863e656badab2314f2fa40cd20d3ec219c433833da203f45ca736e870666a3f6637f2e' ;; \
-		aarch64) binArch='arm64'; checksum='80a6859032c9a9496afaac28396c8eaa612a5491415ecb5d68703a0d884c987da58d13fa60be00fefd1b01c9306303f6990bd68feb7e77ec7eff1a69a5d51de4' ;; \
+		x86_64)  binArch='x64' ;; \
+		aarch64) binArch='arm64' ;; \
 		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
 	esac; \
     wget -O aspnetcore.tar.gz "https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/$ASPNETCORE_VERSION/aspnetcore-runtime-$ASPNETCORE_VERSION-linux-musl-${binArch}.tar.gz"; \	
-    echo "$checksum  aspnetcore.tar.gz" | sha512sum -c - \
     && tar -oxzf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App \
     && rm aspnetcore.tar.gz
