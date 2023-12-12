@@ -1,60 +1,133 @@
 version: 2.1
-jobs:
-  build:
+
+executors:
+  docker-executor:
     docker:
-      - image: cimg/base:2022.09
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD
+      - image: cimg/base:2023.12
+
+commands:
+  setup:
     steps:
       - checkout
-      - setup_remote_docker
-      - restore_cache:
-          keys:
-            - v1-{{ .Branch }}
-          paths:
-            - /caches/app.tar
-      - run:
-          name: Load Docker image layer cache
-          command: |
-            set +o pipefail
-            docker load -i /caches/app.tar | true
+      - setup_remote_docker:
+          version: docker24
+          docker_layer_caching: false
       # - run:
-      #     name: Run tests
+      #     name: Setup Qemu
       #     command: |
-      #       docker-compose -f ./imagens/registrator/v1.0.1-alpine3.18/docker-compose.test.yml up
+      #       docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - run:
-          name: Build and Push application Docker image
+          name: Install qemu-user-static
+          command: sudo apt-get update && sudo apt-get install -y qemu-user-static
+      - run:
+          name: Verify qemu-user-static installation
+          command: qemu-x86_64-static --version
+      - run:
+          name: Create builder
           command: |
-            TAG=0.1.$CIRCLE_BUILD_NUM
-            docker build -t $DOCKERHUB_USERNAME/circleci-docker-example:$TAG .
-            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-            docker push $DOCKERHUB_USERNAME/circleci-docker-example:$TAG
+            export DOCKER_CLI_EXPERIMENTAL=enabled
+            docker context create multi-arch-build
+            docker buildx create --use multi-arch-build
+
+jobs:
+  build-registrator:
+    executor: docker-executor
+    resource_class: arm.large
+    environment:
+      IMAGE_REPO: igorferreir4/registrator
+      IMAGE_TAGS: teste
+      IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
+      CACHE_REPO: igorferreir4/buildcaches
+      CACHE_NAME: registrator
+    steps: 
+      - setup
+      - run:
+          name: Login to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - run:
+          name: Build multiarch docker image and push
+          command: |
+            DOCKER_CLI_EXPERIMENTAL=enabled
+            BUILDX_ARGS=""
+            for tag in $(echo $IMAGE_TAGS | tr "," " "); do
+              BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
+            done
+            docker buildx build \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 \
+            --push --platform $IMAGE_ARCHS $BUILDX_ARGS ./imagens/registrator/v1.0.1-alpine3.18/
+      - run:
+          name: Build cache for amd64 image and push
+          command: |
+            docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 --platform linux/amd64 .
+      - run:
+          name: Build cache for arm64 image and push
+          command: |
+            docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 --platform linux/arm64 .
+      - run:
+          name: Build cache for armv6 image and push
+          command: |
+            docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 --platform linux/arm/v6 .
+      - run:
+          name: Build cache for armv7 image and push
+          command: |
+            docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 --platform linux/arm/v7 .
+
+  build-caddy:
+    executor: docker-executor
+    resource_class: arm.large
+    environment:
+      IMAGE_REPO: igorferreir4/caddy
+      IMAGE_TAGS: teste
+      IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
+      CACHE_REPO: igorferreir4/buildcaches
+      CACHE_NAME: caddy
+    steps: 
+      - setup
+      - run:
+          name: Login to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - run:
+          name: Build multiarch docker image and push
+          command: |
+            DOCKER_CLI_EXPERIMENTAL=enabled
+            BUILDX_ARGS=""
+            for tag in $(echo $IMAGE_TAGS | tr "," " "); do
+              BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
+            done
+            docker buildx build \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 \
+            --push --platform $IMAGE_ARCHS $BUILDX_ARGS ./imagens/caddy/2.7.6/
+      - run:
+          name: Build cache for amd64 image and push
+          command: |
+            docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 --platform linux/amd64 .
+      - run:
+          name: Build cache for arm64 image and push
+          command: |
+            docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 --platform linux/arm64 .
+      - run:
+          name: Build cache for armv6 image and push
+          command: |
+            docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 --platform linux/arm/v6 .
+      - run:
+          name: Build cache for armv7 image and push
+          command: |
+            docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 --platform linux/arm/v7 .
 
 
-# # Use the latest 2.1 version of CircleCI pipeline process engine.
-# # See: https://circleci.com/docs/configuration-reference
-# version: 2.1
+workflows:
+  build-and-push-registrator:
+    jobs:
+      - build-registrator
 
-# # Define a job to be invoked later in a workflow.
-# # See: https://circleci.com/docs/configuration-reference/#jobs
-# jobs:
-#   say-hello:
-#     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-#     # See: https://circleci.com/docs/configuration-reference/#executor-job
-#     docker:
-#       - image: cimg/base:stable
-#     # Add steps to the job
-#     # See: https://circleci.com/docs/configuration-reference/#steps
-#     steps:
-#       - checkout
-#       - run:
-#           name: "Say hello"
-#           command: "echo Hello, World!"
-
-# # Orchestrate jobs using workflows
-# # See: https://circleci.com/docs/configuration-reference/#workflows
-# workflows:
-#   say-hello-workflow:
-#     jobs:
-#       - say-hello
+  build-and-push-caddy:
+    jobs:
+      - build-caddy
