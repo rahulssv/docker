@@ -39,6 +39,7 @@ jobs:
       IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_NAME: registrator
+    working_directory: ~/registrator/v1.0.1-alpine3.18
     steps: 
       - setup
       - run:
@@ -58,7 +59,7 @@ jobs:
             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 \
             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 \
             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 \
-            --push --platform $IMAGE_ARCHS $BUILDX_ARGS ./imagens/registrator/v1.0.1-alpine3.18/
+            --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
       - run:
           name: Build cache for amd64 image and push
           command: |
