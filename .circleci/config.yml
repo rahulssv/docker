@@ -39,7 +39,7 @@ jobs:
       IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_NAME: registrator
-    working_directory: ~/imagens/registrator/v1.0.1-alpine3.18
+    working_directory: ./imagens/registrator/v1.0.1-alpine3.18
     steps: 
       - setup
       - run:
