@@ -55,7 +55,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v5
         with:
-          context: imagens/registrator/
+          context: imagens/registrator/v1.0.1-alpine3.19/
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platforms }}
           push: true

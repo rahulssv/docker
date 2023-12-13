@@ -54,6 +54,7 @@ jobs:
       - run:
           name: Build multiarch docker image and push
           command: |
+            pwd
             DOCKER_CLI_EXPERIMENTAL=enabled
             BUILDX_ARGS=""
             for tag in $(echo $IMAGE_TAGS | tr "," " "); do
