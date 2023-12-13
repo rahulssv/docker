@@ -26,6 +26,4 @@ FROM alpine:3.19
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /go/src/github.com/mario-ezquerro/registrator/bin/registrator /bin/registrator
 
-RUN echo "teste"
-
 ENTRYPOINT ["/bin/registrator"]
