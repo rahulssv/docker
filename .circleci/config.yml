@@ -62,7 +62,7 @@ jobs:
             done
             docker buildx build \
             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo \
-            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo \
+            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
       # - run:
       #     name: Build cache for amd64 image and push
