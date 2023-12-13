@@ -41,12 +41,12 @@ jobs:
       CACHE_NAME: registratorcircleci
     steps: 
       - setup
-      - run:
-          name: Teste
-          command: |
-            cd imagens/registrator/v1.0.1-alpine3.19
-            pwd
-            ls -la
+      # - run:
+      #     name: Teste
+      #     command: |
+      #       cd imagens/registrator/v1.0.1-alpine3.19
+      #       pwd
+      #       ls -la
       - run:
           name: Login to Docker Hub
           command: |
@@ -54,7 +54,7 @@ jobs:
       - run:
           name: Build multiarch docker image and push
           command: |
-            pwd
+            cd imagens/registrator/v1.0.1-alpine3.19
             DOCKER_CLI_EXPERIMENTAL=enabled
             BUILDX_ARGS=""
             for tag in $(echo $IMAGE_TAGS | tr "," " "); do
