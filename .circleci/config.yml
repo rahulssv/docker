@@ -61,10 +61,7 @@ jobs:
               BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
             done
             docker buildx build \
-            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 \
-            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 \
-            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 \
-            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo \
             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
       # - run:
