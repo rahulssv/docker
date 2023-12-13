@@ -8,8 +8,7 @@ executors:
 commands:
   setup:
     steps:
-      - checkout:
-          path: ~/docker
+      - checkout
       - setup_remote_docker:
           version: docker24
           docker_layer_caching: false
