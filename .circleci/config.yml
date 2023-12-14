@@ -12,4 +12,6 @@ workflows:
           base-revision: main
           # config-path: .circleci/teste.yml
           mapping: |
-            imagens/registrator/v1.0.1-alpine3.19/.* registrator-v1.0.1-alpine3.19 true .circleci/registrator-v1.0.1-alpine3.19.yml
+            imagens/registrator/v1.0.1-alpine3.19/.* registrator-v1 true .circleci/registrator-v1.0.1-alpine3.19.yml
+            imagens/registrator/v1.0.1-alpine3.18/.* registrator-v2 true .circleci/registrator-v1.0.1-alpine3.18.yml
+            imagens/registrator/v1.0.1-alpine3.17/.* registrator-v3 true .circleci/registrator-v1.0.1-alpine3.17.yml
