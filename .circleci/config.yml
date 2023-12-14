@@ -3,13 +3,13 @@ version: 2.1
 setup: true
 
 orbs:
-  dynamic: bjd2385/dynamic-continuation@3.7.1
+  path-filtering: circleci/path-filtering@1.0.0
 
 workflows:
-  on-commit:
+  generate-config:
     jobs:
-      - dynamic/continue:
-          context: dynamic-continuation
-          auto-detect: false
-          modules: |
-            imagens/registrator/v1.0.1-alpine3.19
+      - path-filtering/filter:
+          base-revision: main
+          config-path: .circleci/continue_config.yml
+          mapping: |
+            imagens/registrator/v1.0.1-alpine3.19/.* build-registrator true .circleci/registrator-v1.0.1-alpine3.19.yml
