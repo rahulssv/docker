@@ -14,16 +14,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # - dockerfile: ./imagens/registrator/v1.0.1-alpine3.17/Dockerfile
-          #   platforms: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/s390x
-          #   tags: igorferreir4/registrator:v1.0.1-alpine3.17
-          #   cache: type=gha
-          #   nomedocache: registrator-v1.0.1-alpine3.17
-          # - dockerfile: ./imagens/registrator/v1.0.1-alpine3.18/Dockerfile
-          #   platforms: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/s390x
-          #   tags: igorferreir4/registrator:latest , igorferreir4/registrator:v1.0.1-alpine3.18
-          #   cache: type=gha
-          #   nomedocache: registrator-v1.0.1-alpine3.18
+          - dockerfile: ./imagens/registrator/v1.0.1-alpine3.17/Dockerfile
+            platforms: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/s390x
+            tags: igorferreir4/registrator:v1.0.1-alpine3.17
+            cache: type=gha
+            nomedocache: registrator-v1.0.1-alpine3.17
+          - dockerfile: ./imagens/registrator/v1.0.1-alpine3.18/Dockerfile
+            platforms: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/s390x
+            tags: igorferreir4/registrator:latest , igorferreir4/registrator:v1.0.1-alpine3.18
+            cache: type=gha
+            nomedocache: registrator-v1.0.1-alpine3.18
           - dockerfile: ./imagens/registrator/v1.0.1-alpine3.19/Dockerfile
             platforms: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
             tags: igorferreir4/registrator:testegha
