@@ -6,6 +6,11 @@ executors:
       - image: cimg/base:2023.12
     resource_class: large
 
+parameters:
+  build:
+    type: boolean
+    default: false
+
 commands:
   setup:
     steps:
@@ -79,5 +84,8 @@ jobs:
 
 workflows:
   buildteste18:
+    when: 
+      or: 
+        - << pipeline.parameters.build >>
     jobs:
       - teste18
