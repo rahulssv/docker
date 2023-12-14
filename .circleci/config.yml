@@ -10,6 +10,6 @@ workflows:
     jobs:
       - path-filtering/filter:
           base-revision: main
-          config-path: .circleci/continue_config.yml
+          config-path: .circleci/registrator-v1.0.1-alpine3.19.yml
           mapping: |
             imagens/registrator/v1.0.1-alpine3.19/.* build-registrator true .circleci/registrator-v1.0.1-alpine3.19.yml
