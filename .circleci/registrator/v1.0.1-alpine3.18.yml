@@ -10,7 +10,10 @@ parameters:
   build-and-push:
     type: boolean
     default: false
-
+  run-all:
+    type: boolean
+    default: false
+    
 commands:
   setup:
     steps:
@@ -87,5 +90,6 @@ workflows:
     when: 
       or: 
         - << pipeline.parameters.build-and-push >>
+        - << pipeline.parameters.run-all >>
     jobs:
       - teste18
