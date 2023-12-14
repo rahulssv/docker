@@ -11,4 +11,4 @@ workflows:
       - path-filtering/filter:
           base-revision: main
           mapping: |
-            imagens/registrator/v1.0.1-alpine3.18/.* build-registrator-v2 true .circleci/registrator-v1.0.1-alpine3.18.yml
+            imagens/registrator/v1.0.1-alpine3.19/.* build-and-push-registrator-19 true ".circleci/registrator-v1.0.1-alpine3.19.yml"
