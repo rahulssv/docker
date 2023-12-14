@@ -1,4 +1,8 @@
-FROM golang:1.20.10-alpine3.17 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.20.10-alpine3.17 AS builder
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
 LABEL org.opencontainers.image.version="v8.1"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="Imagen regitrator use with carefull"
@@ -6,7 +10,7 @@ LABEL org.opencontainers.image.url="https://github.com/mario-ezquerro/registrato
 LABEL org.regitrator.maintainer="Mario Ezquerro"
 
 WORKDIR /go/src/github.com/mario-ezquerro/registrator/
-COPY ./v1.0.1-alpine3.17/ .
+COPY . .
 RUN \
 	apk add --no-cache curl git \
 	&& curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh \
