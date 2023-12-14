@@ -34,7 +34,7 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-  build-registrator:
+  build_registrator_v1_0_1_alpine3_19:
     executor: docker-executor
     environment:
       IMAGE_REPO: igorferreir4/registrator
@@ -42,7 +42,7 @@ jobs:
       IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_NAME: registrator-v1.0.1-alpine3.19
-    working_directory: ~/project/imagens/registrator/v1.0.1-alpine3.19
+    working_directory: ~/project/imagens/registrator/v1.0.1-alpine3.17
     steps:
       - checkout:
           path: ~/project
@@ -80,4 +80,4 @@ jobs:
 workflows:
   build-and-push-registrator-19:
     jobs:
-      - build-registrator
+      - build_registrator_v1_0_1_alpine3_19

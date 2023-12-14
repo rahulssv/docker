@@ -34,7 +34,7 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-  build-registrator:
+  build_registrator_v1_0_1_alpine3_17:
     executor: docker-executor
     environment:
       IMAGE_REPO: igorferreir4/registrator
@@ -80,4 +80,4 @@ jobs:
 workflows:
   build-and-push-registrator-17:
     jobs:
-      - build-registrator
+      - build_registrator_v1_0_1_alpine3_17

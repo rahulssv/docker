@@ -1,0 +1,21 @@
+version: 2.1
+
+executors:
+  docker-executor:
+    docker:
+      - image: cimg/base:2023.12
+    resource_class: large
+
+jobs:
+  nada:
+    executor: docker-executor
+    steps:
+      - run:
+          name: nada
+          command: |
+            echo "nada a fazer"
+
+workflows:
+  nada-a-fazer:
+    jobs:
+      - nada
