@@ -7,15 +7,15 @@ executors:
     resource_class: small
 
 jobs:
-  nada:
+  nothing-to-do:
     executor: docker-executor
     steps:
       - run:
-          name: nada
+          name: No changes found. Nothing to do.
           command: |
-            echo "nada a fazer"
+            echo "No changes found. Nothing to do."
 
 workflows:
-  nada-a-fazer:
+  nothing-to-do-workflow:
     jobs:
-      - nada
+      - nothing-to-do

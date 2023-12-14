@@ -7,7 +7,7 @@ executors:
     resource_class: large
 
 parameters:
-  build:
+  build-and-push:
     type: boolean
     default: false
 
@@ -86,6 +86,6 @@ workflows:
   buildteste18:
     when: 
       or: 
-        - << pipeline.parameters.build >>
+        - << pipeline.parameters.build-and-push >>
     jobs:
       - teste18

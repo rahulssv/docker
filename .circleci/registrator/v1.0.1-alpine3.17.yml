@@ -6,6 +6,11 @@ executors:
       - image: cimg/base:2023.12
     resource_class: large
 
+parameters:
+  build-and-push:
+    type: boolean
+    default: false
+
 commands:
   setup:
     steps:
@@ -34,14 +39,14 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-  teste19:
+  teste17:
     executor: docker-executor
     environment:
       IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAGS: teste19
+      IMAGE_TAGS: teste17
       IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
       CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: registrator-v1.0.1-alpine3.19
+      CACHE_NAME: registrator-v1.0.1-alpine3.17
     working_directory: ~/project/imagens/registrator/v1.0.1-alpine3.17
     steps:
       - checkout:
@@ -78,6 +83,9 @@ jobs:
 
 
 workflows:
-  buildteste19:
+  buildteste18:
+    when: 
+      or: 
+        - << pipeline.parameters.build-and-push >>
     jobs:
-      - teste19
+      - teste17

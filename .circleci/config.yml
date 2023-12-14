@@ -6,10 +6,13 @@ orbs:
   path-filtering: circleci/path-filtering@1.0.0
 
 workflows:
-  generate-config:
+  checking-changes:
     jobs:
       - path-filtering/filter:
           base-revision: main
-          config-path: .circleci/nada.yml
-          mapping: |
-            imagens/registrator/v1.0.1-alpine3.18/.* build true .circleci/registrator-v1.0.1-alpine3.18.yml
+          config-path: .circleci/nothing-to-do.yml
+          mapping: .circleci/mapping.conf
+          # mapping: |
+          #   imagens/registrator/v1.0.1-alpine3.19/.* build-and-push true .circleci/registrator/v1.0.1-alpine3.19.yml
+          #   imagens/registrator/v1.0.1-alpine3.18/.* build-and-push true .circleci/registrator/v1.0.1-alpine3.18.yml
+          #   imagens/registrator/v1.0.1-alpine3.17/.* build-and-push true .circleci/registrator/v1.0.1-alpine3.17.yml
