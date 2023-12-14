@@ -12,4 +12,4 @@ workflows:
           base-revision: main
           config-path: .circleci/nada.yml
           mapping: |
-            imagens/registrator/v1.0.1-alpine3.18/.* build-code true .circleci/registrator-v1.0.1-alpine3.18.yml
+            imagens/registrator/v1.0.1-alpine3.18/.* buildteste18 true .circleci/registrator-v1.0.1-alpine3.18.yml
