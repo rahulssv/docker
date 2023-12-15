@@ -17,9 +17,9 @@ parameters:
 commands:
   setup:
     steps:
-      - setup_remote_docker:
-          version: docker24
-          docker_layer_caching: false
+      # - setup_remote_docker:
+      #     version: docker24
+      #     docker_layer_caching: false
       - run:
           name: Setup Qemu
           command: |
@@ -42,15 +42,18 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-  build-registrator-v1-0-1-alpine3-17:
-    executor: docker-executor
+  build-caddy-v2_6_2:
+    machine:
+      image: ubuntu-2204:2023.10.1
+    resource_class: large
+    # executor: docker-executor
     environment:
-      IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAGS: v1.0.1-alpine3.17
-      IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
+      IMAGE_REPO: igorferreir4/caddy
+      IMAGE_TAGS: 2.6.2
+      IMAGE_ARCHS: linux/amd64,linux/arm64/v8
       CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: registrator-v1.0.1-alpine3.17
-    working_directory: ~/project/imagens/registrator/v1.0.1-alpine3.17
+      CACHE_NAME: caddy-v2.6.2
+    working_directory: ~/project/containers/caddy/2.6.2
     steps:
       - checkout:
           path: ~/project
@@ -64,15 +67,15 @@ jobs:
               BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
             done
             docker buildx build \
-            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo \
-            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo,mode=max \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
+            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
 
 workflows:
-  build-registrator-v1-0-1-alpine3-17-workflow:
+  caddy-v2.6.2:
     when: 
       or: 
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      - build-registrator-v1-0-1-alpine3-17
+      - build-caddy-v2_6_2

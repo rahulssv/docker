@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   registrator:
-    image: igorferreir4/registrator:v1.0.1-alpine3.18
+    image: igorferreir4/registrator:v1.0.1-alpine3.19
     container_name: consul-registrator-traefik
     restart: always
     volumes:

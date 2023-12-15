@@ -13,7 +13,7 @@ parameters:
   run-all:
     type: boolean
     default: false
-
+    
 commands:
   setup:
     steps:
@@ -42,15 +42,15 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-   build-registrator-v1-0-1-alpine3-19:
+  build-registrator-v1-0-1-alpine3-18:
     executor: docker-executor
     environment:
       IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAGS: v1.0.1-alpine3.19
+      IMAGE_TAGS: v1.0.1-alpine3.18
       IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
       CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: registrator-v1.0.1-alpine3.19
-    working_directory: ~/project/imagens/registrator/v1.0.1-alpine3.19
+      CACHE_NAME: registrator-v1.0.1-alpine3.18
+    working_directory: ~/project/containers/registrator/v1.0.1-alpine3.18
     steps:
       - checkout:
           path: ~/project
@@ -64,32 +64,15 @@ jobs:
               BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
             done
             docker buildx build \
-            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo \
-            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo,mode=max \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
+            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
-      # - run:
-      #     name: Build cache for amd64 image and push
-      #     command: |
-      #       docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 --platform linux/amd64 .
-      # - run:
-      #     name: Build cache for arm64 image and push
-      #     command: |
-      #       docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 --platform linux/arm64 .
-      # - run:
-      #     name: Build cache for armv6 image and push
-      #     command: |
-      #       docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 --platform linux/arm/v6 .
-      # - run:
-      #     name: Build cache for armv7 image and push
-      #     command: |
-      #       docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 --platform linux/arm/v7 .
-
 
 workflows:
-   build-registrator-v1-0-1-alpine3-19-workflow:
+  registrator-v1-0-1-alpine3-18:
     when: 
       or: 
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      -  build-registrator-v1-0-1-alpine3-19
+      - build-registrator-v1-0-1-alpine3-18

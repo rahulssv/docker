@@ -7,7 +7,7 @@ executors:
     resource_class: small
 
 jobs:
-  nothing-to-do:
+  nothing-to-do-job:
     executor: docker-executor
     steps:
       - run:
@@ -16,6 +16,6 @@ jobs:
             echo "No changes found. Nothing to do."
 
 workflows:
-  nothing-to-do-workflow:
+  nothing-to-do:
     jobs:
-      - nothing-to-do
+      - nothing-to-do-job
