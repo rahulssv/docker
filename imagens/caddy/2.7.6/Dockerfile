@@ -11,7 +11,7 @@
 # 	rm /usr/bin/caddy; \
 #     mv caddy /usr/bin; \
 #     chmod +x /usr/bin/caddy
-#
+
 # # Change TZ to America/Sao_Paulo
 # RUN apk add --update --no-cache tzdata && \
 #     cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
