@@ -18,7 +18,7 @@
 #     echo "America/Sao_Paulo" >  /etc/timezone && \
 #     apk del tzdata && \
 #     rm -rf /var/cache/apk/*
-
+#
 # CMD ["caddy", "docker-proxy"]
 
 FROM caddy:2.7.6-builder-alpine AS builder

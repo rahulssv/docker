@@ -50,7 +50,7 @@ jobs:
       IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_NAME: caddy-v2.7.6
-    working_directory: ~/project/imagens/caddy/v2.7.6
+    working_directory: ~/project/imagens/caddy/2.7.6
     steps:
       - checkout:
           path: ~/project
