@@ -17,9 +17,9 @@ parameters:
 commands:
   setup:
     steps:
-      - setup_remote_docker:
-          version: docker24
-          docker_layer_caching: false
+      # - setup_remote_docker:
+      #     version: docker24
+      #     docker_layer_caching: false
       - run:
           name: Setup Qemu
           command: |
@@ -42,11 +42,11 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-  teste17:
+  build-registrator-v1-0-1-alpine3-17:
     executor: docker-executor
     environment:
       IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAGS: teste17
+      IMAGE_TAGS: v1.0.1-alpine3.17
       IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_NAME: registrator-v1.0.1-alpine3.17
@@ -67,29 +67,12 @@ jobs:
             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo \
             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-tudo,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
-      # - run:
-      #     name: Build cache for amd64 image and push
-      #     command: |
-      #       docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-amd64 --platform linux/amd64 .
-      # - run:
-      #     name: Build cache for arm64 image and push
-      #     command: |
-      #       docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-arm64 --platform linux/arm64 .
-      # - run:
-      #     name: Build cache for armv6 image and push
-      #     command: |
-      #       docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv6 --platform linux/arm/v6 .
-      # - run:
-      #     name: Build cache for armv7 image and push
-      #     command: |
-      #       docker buildx build --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME-armv7 --platform linux/arm/v7 .
-
 
 workflows:
-  buildteste17:
+  build-registrator-v1-0-1-alpine3-17-workflow:
     when: 
       or: 
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      - teste17
+      - build-registrator-v1-0-1-alpine3-17

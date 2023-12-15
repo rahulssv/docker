@@ -17,9 +17,9 @@ parameters:
 commands:
   setup:
     steps:
-      - setup_remote_docker:
-          version: docker24
-          docker_layer_caching: false
+      # - setup_remote_docker:
+      #     version: docker24
+      #     docker_layer_caching: false
       - run:
           name: Setup Qemu
           command: |
@@ -42,11 +42,11 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-  teste19:
+   build-registrator-v1-0-1-alpine3-19:
     executor: docker-executor
     environment:
       IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAGS: teste19
+      IMAGE_TAGS: v1.0.1-alpine3.19
       IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_NAME: registrator-v1.0.1-alpine3.19
@@ -86,10 +86,10 @@ jobs:
 
 
 workflows:
-  buildteste19:
+   build-registrator-v1-0-1-alpine3-19-workflow:
     when: 
       or: 
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      - teste19
+      -  build-registrator-v1-0-1-alpine3-19
