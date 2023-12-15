@@ -63,32 +63,6 @@ jobs:
             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
 
-  teste-docker:
-    executor: docker-executor
-    environment:
-      IMAGE_REPO: igorferreir4/testes
-      IMAGE_TAGS: teste-docker
-      IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
-      CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: teste-docker
-    working_directory: ~/project/containers/registrator/v1.0.1-alpine3.19
-    steps:
-      - checkout:
-          path: ~/project
-      - setup
-      - run:
-          name: Build multiarch docker image and push
-          command: |
-            DOCKER_CLI_EXPERIMENTAL=enabled
-            BUILDX_ARGS=""
-            for tag in $(echo $IMAGE_TAGS | tr "," " "); do
-              BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
-            done
-            docker buildx build \
-            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
-            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
-            --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
-
   teste-remote-docker:
     executor: docker-executor
     environment:
@@ -119,12 +93,7 @@ jobs:
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
 
 workflows:
-  teste-1:
+  testes:
     jobs:
       - teste-machine
-  teste-2:
-    jobs:
-      - teste-docker
-  teste-3:
-    jobs:
       - teste-remote-docker
