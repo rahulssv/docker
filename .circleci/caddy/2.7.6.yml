@@ -17,9 +17,9 @@ parameters:
 commands:
   setup:
     steps:
-      - setup_remote_docker:
-          version: docker24
-          docker_layer_caching: false
+      # - setup_remote_docker:
+      #     version: docker24
+      #     docker_layer_caching: false
       - run:
           name: Setup Qemu
           command: |
@@ -43,7 +43,10 @@ commands:
 
 jobs:
   build-caddy-v2-7-6:
-    executor: docker-executor
+    machine:
+      image: ubuntu-2204:2023.10.1
+    resource_class: large
+    # executor: docker-executor
     environment:
       IMAGE_REPO: igorferreir4/caddy
       IMAGE_TAGS: 2.7.6,latest
