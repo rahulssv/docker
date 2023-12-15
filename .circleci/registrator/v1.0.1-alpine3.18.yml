@@ -17,9 +17,9 @@ parameters:
 commands:
   setup:
     steps:
-      # - setup_remote_docker:
-      #     version: docker24
-      #     docker_layer_caching: false
+      - setup_remote_docker:
+          version: docker24
+          docker_layer_caching: false
       - run:
           name: Setup Qemu
           command: |
