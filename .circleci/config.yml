@@ -12,7 +12,3 @@ workflows:
           base-revision: main
           config-path: .circleci/nothing-to-do.yml
           mapping: .circleci/mapping.conf
-          # mapping: |
-          #   imagens/registrator/v1.0.1-alpine3.19/.* build-and-push true .circleci/registrator/v1.0.1-alpine3.19.yml
-          #   imagens/registrator/v1.0.1-alpine3.18/.* build-and-push true .circleci/registrator/v1.0.1-alpine3.18.yml
-          #   imagens/registrator/v1.0.1-alpine3.17/.* build-and-push true .circleci/registrator/v1.0.1-alpine3.17.yml
