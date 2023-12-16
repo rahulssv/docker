@@ -1,0 +1,40 @@
+name: 1 - Executar Todos
+
+on:
+  workflow_dispatch:
+
+jobs:
+  aspnet:
+    name: ASP.NET
+    uses: ./.github/workflows/aspnet.yml
+    secrets: inherit
+
+  caddy:
+    name: CADDY
+    uses: ./.github/workflows/caddy.yml
+    secrets: inherit
+
+  lighttpd:
+    name: LIGHTTPD
+    uses: ./.github/workflows/lighttpd.yml
+    secrets: inherit
+
+  php-fpm:
+    name: PHP-FPM
+    uses: ./.github/workflows/php-fpm.yml
+    secrets: inherit
+
+  phpbb:
+    name: PHPBB
+    uses: ./.github/workflows/phpbb.yml
+    secrets: inherit  
+    
+  ts3audiobot:
+    name: TS3AUDIOBOT
+    uses: ./.github/workflows/ts3audiobot.yml
+    secrets: inherit
+
+  registrator:
+    name: REGISTRATOR
+    uses: ./.github/workflows/registrator.yml
+    secrets: inherit
