@@ -1,99 +1,14 @@
 version: 2.1
 
-executors:
-  docker-executor:
-    docker:
-      - image: cimg/base:2023.12
-    resource_class: large
+setup: true
 
-commands:
-  setup:
-    steps:
-      # - setup_remote_docker:
-      #     version: docker24
-      #     docker_layer_caching: false
-      - run:
-          name: Setup Qemu
-          command: |
-            docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      # - run:
-      #     name: Install qemu-user-static
-      #     command: sudo apt-get update && sudo apt-get install -y qemu-user-static
-      # - run:
-      #     name: Verify qemu-user-static installation
-      #     command: qemu-x86_64-static --version
-      - run:
-          name: Create builder
-          command: |
-            export DOCKER_CLI_EXPERIMENTAL=enabled
-            docker context create multi-arch-build
-            docker buildx create --use multi-arch-build
-      - run:
-          name: Login to Docker Hub
-          command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
-
-jobs:
-  teste-machine:
-    machine:
-      image: ubuntu-2204:2023.10.1
-    resource_class: large
-    # executor: docker-executor
-    environment:
-      IMAGE_REPO: igorferreir4/testes
-      IMAGE_TAGS: teste-machine
-      IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
-      CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: teste-machine
-    working_directory: ~/project/containers/registrator/v1.0.1-alpine3.19
-    steps:
-      - checkout:
-          path: ~/project
-      - setup
-      - run:
-          name: Build multiarch docker image and push
-          command: |
-            DOCKER_CLI_EXPERIMENTAL=enabled
-            BUILDX_ARGS=""
-            for tag in $(echo $IMAGE_TAGS | tr "," " "); do
-              BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
-            done
-            docker buildx build \
-            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
-            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
-            --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
-
-  teste-remote-docker:
-    executor: docker-executor
-    environment:
-      IMAGE_REPO: igorferreir4/testes
-      IMAGE_TAGS: teste-remote-docker
-      IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
-      CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: teste-remote-docker
-    working_directory: ~/project/containers/registrator/v1.0.1-alpine3.19
-    steps:
-      - checkout:
-          path: ~/project
-      - setup_remote_docker:
-          version: docker24
-          docker_layer_caching: false
-      - setup
-      - run:
-          name: Build multiarch docker image and push
-          command: |
-            DOCKER_CLI_EXPERIMENTAL=enabled
-            BUILDX_ARGS=""
-            for tag in $(echo $IMAGE_TAGS | tr "," " "); do
-              BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
-            done
-            docker buildx build \
-            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
-            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
-            --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
+orbs:
+  path-filtering: circleci/path-filtering@1.0.0
 
 workflows:
-  testes:
+  checking-changes:
     jobs:
-      - teste-machine
-      - teste-remote-docker
+      - path-filtering/filter:
+          base-revision: main
+          config-path: .circleci/nothing-to-do.yml
+          mapping: .circleci/mapping.conf

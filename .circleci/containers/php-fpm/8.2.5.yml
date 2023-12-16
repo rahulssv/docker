@@ -2,8 +2,8 @@ version: 2.1
 
 executors:
   docker-executor:
-    docker:
-      - image: cimg/base:2023.12
+    machine:
+      image: ubuntu-2204:2023.10.1
     resource_class: large
 
 parameters:
@@ -13,23 +13,14 @@ parameters:
   run-all:
     type: boolean
     default: false
-    
+
 commands:
   setup:
     steps:
-      - setup_remote_docker:
-          version: docker24
-          docker_layer_caching: false
       - run:
           name: Setup Qemu
           command: |
             docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      # - run:
-      #     name: Install qemu-user-static
-      #     command: sudo apt-get update && sudo apt-get install -y qemu-user-static
-      # - run:
-      #     name: Verify qemu-user-static installation
-      #     command: qemu-x86_64-static --version
       - run:
           name: Create builder
           command: |
@@ -42,15 +33,15 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-  build-registrator-v1-0-1-alpine3-18:
+  build-php-fpm-8_2_5:
     executor: docker-executor
     environment:
-      IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAGS: v1.0.1-alpine3.18
-      IMAGE_ARCHS: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
+      IMAGE_REPO: igorferreir4/caddy
+      IMAGE_TAGS: 8.2.5
+      IMAGE_ARCHS: linux/amd64,linux/arm64/v8
       CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: registrator-v1.0.1-alpine3.18
-    working_directory: ~/project/containers/registrator/v1.0.1-alpine3.18
+      CACHE_NAME: phpfpm-8.2.5
+    working_directory: ~/project/containers/php-fpm/8.2.5
     steps:
       - checkout:
           path: ~/project
@@ -69,10 +60,10 @@ jobs:
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
 
 workflows:
-  registrator-v1-0-1-alpine3-18:
+  phpfpm-8.2.5:
     when: 
       or: 
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      - build-registrator-v1-0-1-alpine3-18
+      - build-php-fpm-8_2_5
