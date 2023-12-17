@@ -29,7 +29,9 @@ RUN apk update && apk add --no-cache \
 	php83-bcmath \
 	php83-pcntl \
 	php83-mysqli \
-	php83-pecl-igbinary
+	php83-pecl-igbinary \
+	php83-pecl-apcu \
+	php83-dev
 
 # Configura e instala as extensões PHP
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
