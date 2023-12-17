@@ -15,7 +15,7 @@ RUN apk update && apk add --no-cache \
 	bash \	
 	ghostscript \
 	imagemagick \
-	php-pecl-imagick \
+	php82-pecl-imagick \
 	php83-pecl-igbinary \
 	php83-mbstring \
 	php83-dom \
