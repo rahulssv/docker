@@ -15,36 +15,34 @@ RUN apk update && apk add --no-cache \
 	bash \	
 	ghostscript \
 	imagemagick \
-	openssl \
-	php83-curl \
-	php83-dom \
-	php83-exif \
-	php83-fileinfo \
-	php83-intl \
-	php83-mbstring \
-	php83-openssl \
-	php83-xml \
-	php83-zip \
-	php83-opcache \
-	php83-bcmath \
-	php83-pcntl \
-	php83-mysqli \
-	php83-pecl-igbinary \
-	php83-pecl-apcu \
-	php83-dev
+	openssl
+	# php83-curl \
+	# php83-dom \
+	# php83-exif \
+	# php83-fileinfo \
+	# php83-intl \
+	# php83-mbstring \
+	# php83-openssl \
+	# php83-xml \
+	# php83-zip \
+	# php83-opcache \
+	# php83-bcmath \
+	# php83-pcntl \
+	# php83-mysqli \
+	# php83-pecl-igbinary \
+	# php83-pecl-apcu \
+	# php83-dev
 
 # Configura e instala as extensões PHP
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install mysqli \
-    && docker-php-ext-install zip \
     && docker-php-ext-install -j$(nproc) intl \
-    && docker-php-ext-install mbstring \
-    && docker-php-ext-install exif pcntl bcmath opcache
+    && docker-php-ext-install exif igbinary imagick zip apcu opcache \
+    && docker-php-ext-install bc image
 
-RUN pecl install imagick-3.7.0 \
-	&& docker-php-ext-enable imagick \
-	&& rm -r /tmp/pear
+# RUN pecl install imagick-3.7.0 \
+# 	&& docker-php-ext-enable imagick \
+# 	&& rm -r /tmp/pear
 
 RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-configure mysqli --with-mysqli=mysqlnd \
