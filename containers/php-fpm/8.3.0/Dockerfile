@@ -43,10 +43,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) intl \
     && docker-php-ext-install exif zip opcache
 
-# RUN pecl install imagick-3.7.0 \
-# 	&& docker-php-ext-enable imagick \
-# 	&& rm -r /tmp/pear
-
 RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-configure mysqli --with-mysqli=mysqlnd \
     && docker-php-ext-install pdo_mysql
