@@ -42,7 +42,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install -j$(nproc) intl \
     && docker-php-ext-install exif zip opcache \
-    && docker-php-ext-install bc image
+    && docker-php-ext-install image
 
 # RUN pecl install imagick-3.7.0 \
 # 	&& docker-php-ext-enable imagick \
