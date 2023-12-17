@@ -37,7 +37,7 @@ RUN apk update && apk add --no-cache \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install -j$(nproc) intl \
-    && docker-php-ext-install exif igbinary imagick zip apcu opcache \
+    && docker-php-ext-install exif imagick zip apcu opcache \
     && docker-php-ext-install bc image
 
 # RUN pecl install imagick-3.7.0 \
