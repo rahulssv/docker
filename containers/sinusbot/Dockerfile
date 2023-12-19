@@ -37,7 +37,7 @@ RUN chmod 755 entrypoint.sh
 
 # Install dependencies and clean up afterwards
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends x11vnc xvfb libxcursor1 libnss3 libegl1-mesa libasound2 libglib2.0-0 libxcomposite-dev less jq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends x11vnc xvfb libxcursor1 libevent-2.1-6 libnss3 libegl1-mesa libasound2 libglib2.0-0 libxcomposite-dev less jq && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 # Download/Install TeamSpeak Client
