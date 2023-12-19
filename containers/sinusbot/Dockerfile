@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM --platform=linux/amd64 debian:buster-slim
 
 # Install dependencies and clean up afterwards
 RUN apt-get update && \
