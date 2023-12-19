@@ -9,8 +9,8 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends binfmt-support qemu qemu-user qemu-user-static && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
-RUN update-binfmts --enable qemu-x86_64 \
-    && update-binfmts --display qemu-x86_64
+# RUN update-binfmts --enable qemu-x86_64 \
+#     && update-binfmts --display qemu-x86_64
 
 # Set locale
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
