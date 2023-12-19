@@ -10,8 +10,7 @@ RUN apt-get update && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 RUN update-binfmts --enable qemu-x86_64 \
-    && update-binfmts --display qemu-x86_64 \
-    && qemu-x86_64-static -cpu host
+    && update-binfmts --display qemu-x86_64
 
 # Set locale
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
