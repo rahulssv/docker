@@ -6,7 +6,7 @@ RUN apt-get update && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends qemu qemu-user qemu-user-static && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends binfmt-support qemu qemu-user qemu-user-static && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 RUN update-binfmts --enable qemu-x86_64 \
