@@ -5,7 +5,7 @@ LABEL version="1.0.2"
 
 # Install dependencies and clean up afterwards
 RUN dpkg --add-architecture amd64 && apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates:amd64 bzip2:amd64 unzip:amd64 curl:amd64 python3:amd64 procps:amd64 libpci3:amd64 libxslt1.1:amd64 libxkbcommon0:amd64 locales:amd64 libc6:amd64 libstdc++6:amd64 qemu-user-static && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates:amd64 bzip2:amd64 unzip:amd64 curl:amd64 python3:amd64 procps:amd64 libpci3:amd64 libxslt1.1:amd64 libxkbcommon0:amd64 libc6:amd64 libstdc++6:amd64 locales qemu-user-static && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 # Set locale
