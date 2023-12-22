@@ -16,7 +16,7 @@ fi
 
 ln -fs data/config.ini config.ini
 
-SINUSBOT="./sinusbot"
+SINUSBOT="/usr/bin/qemu-x86_64-static ./sinusbot"
 YTDL="yt-dlp"
 
 echo "Updating yt-dlp..."
