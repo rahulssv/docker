@@ -5,12 +5,8 @@ LABEL version="1.0.2"
 
 # Install dependencies and clean up afterwards
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates bzip2 unzip curl python3 procps libpci3 libxslt1.1 libxkbcommon0 locales qemu-user-static binfmt-support && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates bzip2 unzip curl python3 procps libpci3 libxslt1.1 libxkbcommon0 locales qemu-user-static && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
-
-RUN update-binfmts --enable qemu-x86_64 \
-    && update-binfmts --display qemu-x86_64 \
-    && qemu-x86_64-static -cpu host
 
 # Set locale
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
