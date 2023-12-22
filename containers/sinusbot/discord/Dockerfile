@@ -1,11 +1,11 @@
 # Use a base image that includes QEMU
-FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
+FROM multiarch/qemu-user-static as qemu
 
 # Use the original image
 FROM debian:buster-slim
 
 # Copy the QEMU binary from the QEMU image
-COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin
+COPY --from=qemu /usr/bin/qemu-x86_64-static /usr/bin
 
 LABEL description="SinusBot - Discord only image"
 LABEL version="1.0.2"
