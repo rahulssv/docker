@@ -1,18 +1,11 @@
-# Use a base image that includes QEMU
-FROM multiarch/qemu-user-static as qemu
-
-# Use the original image
 FROM debian:buster-slim
-
-# Copy the QEMU binary from the QEMU image
-COPY --from=qemu /usr/bin/qemu-x86_64-static /usr/bin
 
 LABEL description="SinusBot - Discord only image"
 LABEL version="1.0.2"
 
 # Install dependencies and clean up afterwards
 RUN dpkg --add-architecture amd64 && apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates bzip2 unzip curl python3 procps libpci3:amd64 libxslt1.1:amd64 libxkbcommon0:amd64 libc6:amd64 libstdc++6:amd64 locales && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates bzip2 unzip curl python3 procps libpci3:amd64 libxslt1.1:amd64 libxkbcommon0:amd64 libc6:amd64 libstdc++6:amd64 locales qemu-user-static && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 # Set locale
