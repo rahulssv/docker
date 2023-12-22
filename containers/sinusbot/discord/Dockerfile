@@ -31,6 +31,8 @@ RUN bash install.sh text-to-speech
 ADD entrypoint.sh .
 RUN chmod 755 entrypoint.sh
 
+RUN dpkg --add-architecture i386 && apt-get install libc6:i386
+
 EXPOSE 8087
 
 VOLUME ["/opt/sinusbot/data", "/opt/sinusbot/scripts"]
