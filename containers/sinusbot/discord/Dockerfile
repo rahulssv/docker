@@ -35,7 +35,7 @@ RUN dpkg --add-architecture amd64 && apt-get update && apt-get install -y libc6:
 
 RUN apt-get install -y libstdc++6:amd64
 
-RUN apt install qemu qemu-user
+RUN apt install qemu qemu-user -y
 
 EXPOSE 8087
 
