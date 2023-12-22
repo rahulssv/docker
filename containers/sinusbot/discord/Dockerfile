@@ -31,7 +31,7 @@ RUN bash install.sh text-to-speech
 ADD entrypoint.sh .
 RUN chmod 755 entrypoint.sh
 
-RUN dpkg --add-architecture amd64 && apt-get install libc6-amd64
+RUN dpkg --add-architecture amd64 && apt-get update && apt-get install -y libc6:amd64
 
 EXPOSE 8087
 
