@@ -4,8 +4,8 @@ LABEL description="SinusBot - Discord only image"
 LABEL version="1.0.2"
 
 # Install dependencies and clean up afterwards
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates bzip2 unzip curl python3 procps libpci3 libxslt1.1 libxkbcommon0 locales qemu-user-static && \
+RUN dpkg --add-architecture amd64 && apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates:amd64 bzip2:amd64 unzip:amd64 curl:amd64 python3:amd64 procps:amd64 libpci3:amd64 libxslt1.1:amd64 libxkbcommon0:amd64 locales:amd64 libc6:amd64 libstdc++6:amd64 qemu-user-static && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 # Set locale
@@ -30,12 +30,6 @@ RUN bash install.sh text-to-speech
 
 ADD entrypoint.sh .
 RUN chmod 755 entrypoint.sh
-
-RUN dpkg --add-architecture amd64 && apt-get update && apt-get install -y libc6:amd64
-
-RUN apt-get install -y libstdc++6:amd64
-
-RUN apt install qemu qemu-user -y
 
 EXPOSE 8087
 
