@@ -35,6 +35,8 @@ RUN dpkg --add-architecture amd64 && apt-get update && apt-get install -y libc6:
 
 RUN apt-get install -y libstdc++6:amd64
 
+RUN apt install qemu qemu-user
+
 EXPOSE 8087
 
 VOLUME ["/opt/sinusbot/data", "/opt/sinusbot/scripts"]
