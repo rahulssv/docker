@@ -33,6 +33,8 @@ RUN chmod 755 entrypoint.sh
 
 RUN dpkg --add-architecture amd64 && apt-get update && apt-get install -y libc6:amd64
 
+RUN apt-get install -y libstdc++6:amd64
+
 EXPOSE 8087
 
 VOLUME ["/opt/sinusbot/data", "/opt/sinusbot/scripts"]
