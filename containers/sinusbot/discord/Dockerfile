@@ -31,7 +31,7 @@ RUN bash install.sh text-to-speech
 ADD entrypoint.sh .
 RUN chmod 755 entrypoint.sh
 
-RUN dpkg --add-architecture i386 && apt-get install libc6-i386
+RUN dpkg --add-architecture i386 && apt-get install libc6-i386-cross
 
 EXPOSE 8087
 
