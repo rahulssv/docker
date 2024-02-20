@@ -1,0 +1,13 @@
+<% "$( ([ "$LDAP_AUDITLOG" = "" ] || [ "$LDAP_AUDITLOG" = "0" ]) && true || echo \
+"dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: auditlog
+
+dn: olcOverlay=auditlog,olcDatabase={2}mdb,cn=config
+changetype: add
+objectClass: top
+objectClass: olcOverlayConfig
+objectClass: olcAuditlogConfig
+olcOverlay: auditlog
+olcAuditlogFile: ${LDAP_AUDITLOG_FILE}")" %>

@@ -1,0 +1,6 @@
+dn: <% $LDAP_ROOT %>
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: <% $(echo $LDAP_ROOT | cut -d',' -f1 | cut -d'=' -f2) %>
+dc: <% $(echo $LDAP_ROOT | cut -d',' -f1 | cut -d'=' -f2) %>

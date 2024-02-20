@@ -1,0 +1,6 @@
+dn: cn=module{0},cn=config
+objectClass: top
+objectClass: olcModuleList
+cn: module{0}
+olcModulePath: /usr/lib/ldap
+olcModuleLoad: back_mdb

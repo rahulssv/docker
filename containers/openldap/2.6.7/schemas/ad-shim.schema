@@ -1,0 +1,129 @@
+#
+
+objectIdentifier AdShim 1.3.6.1.4.1.57257:1003
+
+attributetype ( AdShim:1.1000
+        NAME 'accountExpires'
+        DESC 'account expires'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1001
+        NAME 'badPasswordTime'
+        DESC 'bad password time'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1002
+        NAME 'badPwdCount'
+        DESC 'bad password count'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1003
+        NAME 'lastLogon'
+        DESC 'last logon'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1004
+        NAME 'lastLogonTimestamp'
+        DESC 'last logon timestamp'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1005
+        NAME 'logonCount'
+        DESC 'logon count'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1006
+        NAME 'department'
+        DESC 'department'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1007
+        NAME 'pwdLastSet'
+        DESC 'password last set'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1008
+        NAME 'sAMAccountName'
+        DESC 'sam account name'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1009
+        NAME 'userAccountControl'
+        DESC 'user account control'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1010
+        NAME 'userPrincipalName'
+        DESC 'user principal name'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1011
+        NAME 'whenChanged'
+        DESC 'when changed'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1012
+        NAME 'whenCreated'
+        DESC 'when created'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1013
+        NAME 'lockoutTime'
+        DESC 'lockout time'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( AdShim:1.1014
+        NAME 'employeeID'
+        DESC 'employee id'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+objectclass ( AdShim:2.1
+    NAME 'adShim'
+    DESC 'active directory shim'
+	  STRUCTURAL
+	  SUP inetOrgPerson
+    MAY ( accountExpires $
+			    badPasswordTime $
+			    badPwdCount $
+			    lastLogon $
+          lastLogonTimestamp $
+			    logonCount $
+			    pwdLastSet $
+			    sAMAccountName $
+			    userAccountControl $
+			    userPrincipalName $
+			    whenChanged $
+			    whenCreated $
+			    department $
+			    lockoutTime $
+			    employeeID ) )
