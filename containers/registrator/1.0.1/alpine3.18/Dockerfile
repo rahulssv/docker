@@ -27,3 +27,5 @@ RUN apk add --no-cache ca-certificates
 COPY --from=builder /go/src/github.com/mario-ezquerro/registrator/bin/registrator /bin/registrator
 
 ENTRYPOINT ["/bin/registrator"]
+
+# A
