@@ -15,7 +15,7 @@ RUN \
 	apk add --no-cache curl git \
 	&& curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh \
 	&& dep ensure -vendor-only \
-	&& CGO_ENABLED=0 GOOS=linux go build \
+	&& CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETPLATFORM} go build \
 		-a -installsuffix cgo \
 		-mod=mod \
 		-ldflags "-X main.Version=$(cat VERSION)" \
