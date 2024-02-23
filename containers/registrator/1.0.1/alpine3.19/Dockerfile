@@ -1,4 +1,5 @@
-FROM --platform=$BUILDPLATFORM golang:1.21.5-alpine3.19 AS builder
+FROM golang:1.21.5-alpine3.19 AS builder
+# FROM --platform=$BUILDPLATFORM golang:1.21.5-alpine3.19 AS builder
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -15,7 +16,7 @@ RUN \
 	apk add --no-cache curl git \
 	&& curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh \
 	&& dep ensure -vendor-only \
-	&& CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETPLATFORM} go build \
+	&& CGO_ENABLED=0 GOOS=linux go build \
 		-a -installsuffix cgo \
 		-mod=mod \
 		-ldflags "-X main.Version=$(cat VERSION)" \
@@ -27,5 +28,3 @@ RUN apk add --no-cache ca-certificates
 COPY --from=builder /go/src/github.com/mario-ezquerro/registrator/bin/registrator /bin/registrator
 
 ENTRYPOINT ["/bin/registrator"]
-
-# A
