@@ -65,7 +65,7 @@ jobs:
 
    build-arm64:
     machine:
-      image: ubuntu-2204:2024.01.1
+      image: cimg/base:2024.01
     resource_class: arm.large
     environment:
       IMAGE_REPO: igorferreir4/registrator
@@ -77,6 +77,7 @@ jobs:
     steps:
       - checkout:
           path: ~/project
+      - setup_remote_docker
       - run:
           name: Build multiarch docker image and push
           command: |
