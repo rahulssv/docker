@@ -65,7 +65,7 @@ jobs:
 
    build-arm64:
     machine:
-      image: cimg/base:2024.01
+      image: ubuntu-2204:2024.01.1
     resource_class: arm.large
     environment:
       IMAGE_REPO: igorferreir4/registrator
