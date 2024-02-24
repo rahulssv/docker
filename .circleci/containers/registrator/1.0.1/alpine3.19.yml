@@ -84,7 +84,7 @@ jobs:
             for tag in $(echo $IMAGE_TAGS | tr "," " "); do
               BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
             done
-            docker buildx build \
+            docker build \
             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
