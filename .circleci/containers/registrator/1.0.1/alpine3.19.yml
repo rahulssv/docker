@@ -15,7 +15,7 @@ parameters:
     default: false
 
 commands:
-  setup:
+  setup-qemu:
     steps:
       - run:
           name: Setup Qemu
@@ -27,6 +27,8 @@ commands:
             export DOCKER_CLI_EXPERIMENTAL=enabled
             docker context create multi-arch-build
             docker buildx create --use multi-arch-build
+  login-docker:
+    steps:
       - run:
           name: Login to Docker Hub
           command: |
@@ -45,7 +47,8 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-      - setup
+      - setup-qemu
+      - login-docker
       - run:
           name: Build multiarch docker image and push
           command: |
@@ -74,11 +77,12 @@ jobs:
     steps:
       - checkout:
           path: ~/project
+      - login-docker
       - run:
           name: Build multiarch docker image and push
           command: |
             # Build da imagem com cache e tags
-            docker build --cache-from $CACHE_REPO:$CACHE_TAG -t $IMAGE_NAME:$tag .
+            docker build --cache-from $CACHE_REPO:$CACHE_TAG -t $IMAGE_NAME:$IMAGE_TAGS .
             # Exportar o cache da imagem base para o Docker Hub
             docker save $CACHE_NAME:$CACHE_TAG | docker push $CACHE_REPO:$CACHE_TAG
             # Exportar a imagem final para o Docker Hub
@@ -95,7 +99,7 @@ jobs:
           name: Teste SSH depois da Build
           command: |
             curl ifconfig.me
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 5" >> /home/$SSH_USER/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 6" >> /home/$SSH_USER/circleci.txt"
 
 workflows:
    registrator-1-0-1-alpine3-19:
