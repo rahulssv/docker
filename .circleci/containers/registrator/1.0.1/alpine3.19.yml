@@ -103,7 +103,29 @@ jobs:
             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
 
-   servidor:
+   teste-amd64:
+    executor: docker-machine
+    resource_class: medium
+    steps:
+      - checkout:
+          path: ~/project
+      - run:
+          name: docker compose up -d
+          command: |
+            docker compose -f docker-compose.amd64 up -d
+
+   teste-arm64:
+    executor: docker-machine
+    resource_class: medium
+    steps:
+      - checkout:
+          path: ~/project
+      - run:
+          name: docker compose up -d
+          command: |
+            docker compose -f docker-compose.arm64 up -d
+
+   deploy:
     executor: docker-machine
     resource_class: medium
     steps:
@@ -113,7 +135,7 @@ jobs:
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste 31" >> ~/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste deploy" >> ~/circleci.txt"
       # - run:
       #     name: Teste SSH depois da Build
       #     command: |
@@ -128,7 +150,13 @@ workflows:
     jobs:
       - amd64
       - arm64
-      - servidor:
+      - teste-amd64:
           requires:
             - amd64
+      - teste-arm64:
+          requires:
             - arm64
+      - deploy:
+          requires:
+            - teste-amd64
+            - teste-arm64
