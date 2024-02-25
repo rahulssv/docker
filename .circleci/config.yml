@@ -6,7 +6,7 @@ orbs:
   path-filtering: circleci/path-filtering@1.0.0
 
 workflows:
-  checking-changes:
+  procurando-mudanças:
     jobs:
       - path-filtering/filter:
           base-revision: main
