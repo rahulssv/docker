@@ -4,7 +4,6 @@ executors:
   docker-machine:
     machine:
       image: ubuntu-2204:2024.01.1
-      docker_layer_caching: true
     resource_class: large
 
 parameters:
@@ -125,13 +124,7 @@ jobs:
       - run:
           name: Check logs
           command: |
-            docker logs registrator | jq '.[].message | select(. == "Syncing services on * containers")'
-            if [ $? -eq 0 ]; then
-              echo "EXPRESSÃO ENCONTRADA!"
-            else
-              echo "ERRO, EXPRESSÃO NÃO ENCONTRADA!!"
-              exit 1
-            fi
+            docker logs registrator | awk '/Syncing 27 services on * containers/ { print "EXPRESSÃO ENCONTRADA!"; exit 0 } END { if (NR == 0) print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 }'
 
    teste-arm64:
     executor: docker-machine
@@ -154,7 +147,11 @@ jobs:
       - run:
           name: Check logs
           command: |
-            docker logs registrator | awk '/Syncing services on / { exit 0 }' || exit 1
+            docker logs registrator | awk '/Syncing services on * containers/ { print "EXPRESSÃO ENCONTRADA!"; exit 0 } END { if (NR == 0) print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 }'
+      # - run:
+      #     name: Check logs
+      #     command: |
+      #       docker logs registrator | awk '/Syncing services on / { exit 0 }' || exit 1
 
    deploy:
     executor: docker-machine
