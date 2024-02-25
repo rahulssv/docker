@@ -120,7 +120,7 @@ jobs:
       - save_cache:
           key: v1-{{ .Branch }}
           paths:
-            - /
+            - /caches/app.tar
 
    servidor:
     executor: docker-docker
