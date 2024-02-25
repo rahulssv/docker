@@ -124,8 +124,8 @@ jobs:
       #       docker save $IMAGE_REPO:$IMAGE_TAGS | docker push $IMAGE_REPO:$IMAGE_TAGS
 
    servidor:
-    executor: docker-machine
-    resource_class: medium
+    executor: docker-docker
+    # resource_class: medium
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -138,7 +138,7 @@ jobs:
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 18" >> /home/$SSH_USER/circleci.txt"
+            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 19" >> /home/$SSH_USER/circleci.txt"
 
 workflows:
    registrator-1-0-1-alpine3-19:
