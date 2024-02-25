@@ -113,12 +113,13 @@ jobs:
       - run:
           name: docker compose up -d
           command: |
-            ls -lah
             docker compose -f docker-compose.amd64 up -d
+            docker logs registrator
+            docker logs consul-server
 
    teste-arm64:
     executor: docker-machine
-    resource_class: medium
+    resource_class: arm.medium
     working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
     steps:
       - checkout:
@@ -126,8 +127,9 @@ jobs:
       - run:
           name: docker compose up -d
           command: |
-            ls -lah
             docker compose -f docker-compose.arm64 up -d
+            docker logs registrator
+            docker logs consul-server
 
    deploy:
     executor: docker-machine
