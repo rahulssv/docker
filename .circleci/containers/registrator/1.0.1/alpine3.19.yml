@@ -1,6 +1,11 @@
 version: 2.1
 
 executors:
+  docker-docker:
+    docker:
+      - image: cimg/base:2024.01-22.04
+    resource_class: small
+
   docker-machine:
     machine:
       image: ubuntu-2204:2024.01.1
@@ -112,10 +117,14 @@ jobs:
             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ checksum "Dockerfile" }}
+          paths:
+            - /caches/app.tar
 
    servidor:
-    executor: docker-machine
-    resource_class: medium
+    executor: docker-docker
+    # resource_class: medium
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -123,7 +132,11 @@ jobs:
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "~/50GB/docker/executar-docker-compose-up-d.sh >> ~/circleci.txt 2>&1"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste 1" >> ~/circleci.txt"
+      # - run:
+      #     name: Teste SSH depois da Build
+      #     command: |
+      #       ssh $SSH_USER@$SSH_HOST_IGOR_ARM "~/50GB/docker/executar-docker-compose-up-d.sh >> ~/circleci.txt 2>&1"
 
 workflows:
    registrator-1-0-1-alpine3-19:
