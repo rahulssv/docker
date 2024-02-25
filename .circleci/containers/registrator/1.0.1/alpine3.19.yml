@@ -124,7 +124,7 @@ jobs:
       - run:
           name: Check logs
           command: |
-            docker logs registrator | grep -q "Syncing services on"
+            docker logs registrator | grep -q Syncing 27 services on * containers
             if [ $? -ne 0 ]; then
               echo "ERRO!"
               exit 1
@@ -151,7 +151,7 @@ jobs:
       - run:
           name: Check logs
           command: |
-            docker logs registrator | grep -q "Syncing services on"
+            docker logs registrator | grep -q Syncing services on * containers
             if [ $? -ne 0 ]; then
               echo "ERRO!"
               exit 1
