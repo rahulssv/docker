@@ -130,15 +130,15 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "SHA256:hLlCCj1OZj3pbBbgrGvfHjdTf20F4IYKyKvyJTMXC/A"
-      # - run:
-      #     name: Add Pub Key
-      #     command: |
-      #       mkdir -p ~/.ssh
-      #       echo "${OCI_PUB_KEY}" >> ~/.ssh/known_hosts
+      - run:
+          name: Add Pub Key
+          command: |
+            mkdir -p ~/.ssh
+            echo "${OCI_PUB_KEY}" >> ~/.ssh/known_hosts
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 20" >> /home/$SSH_USER/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 21" >> /home/$SSH_USER/circleci.txt"
 
 workflows:
    registrator-1-0-1-alpine3-19:
