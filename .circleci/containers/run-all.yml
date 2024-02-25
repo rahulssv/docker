@@ -1,0 +1,15 @@
+version: 2.1
+
+parameters:
+  run-all:
+    type: boolean
+    default: false
+
+workflows:
+  main:
+    when: 
+      or: 
+        - << pipeline.parameters.run-all >>
+    jobs:
+      - include: ./.circleci/containers/caddy/2.7.6.yml
+      - include: ./.circleci/containers/caddy/2.7.4.yml
