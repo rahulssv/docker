@@ -11,5 +11,6 @@ workflows:
 
     jobs:
       include:
-        - ./.circleci/containers/caddy/2.7.6.yml
-        - ./.circleci/containers/caddy/2.7.4.yml
+        type: array
+          - ./.circleci/containers/caddy/2.7.6.yml
+          - ./.circleci/containers/caddy/2.7.4.yml
