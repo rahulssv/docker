@@ -112,6 +112,7 @@ jobs:
       - run:
           name: docker compose up -d
           command: |
+            ls -lah
             docker compose -f docker-compose.amd64 up -d
 
    teste-arm64:
@@ -123,6 +124,7 @@ jobs:
       - run:
           name: docker compose up -d
           command: |
+            ls -lah
             docker compose -f docker-compose.arm64 up -d
 
    deploy:
