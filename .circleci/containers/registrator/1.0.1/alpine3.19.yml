@@ -113,7 +113,7 @@ jobs:
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste 4" >> ~/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste 31" >> ~/circleci.txt"
       # - run:
       #     name: Teste SSH depois da Build
       #     command: |
