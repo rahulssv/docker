@@ -11,6 +11,5 @@ workflows:
 
     jobs:
       tudo:
-        include:
-          type: array
-          default: [./.circleci/containers/caddy/2.7.6.yml, ./.circleci/containers/caddy/2.7.4.yml]
+        - include: ./.circleci/containers/caddy/2.7.6.yml
+        - include: ./.circleci/containers/caddy/2.7.4.yml
