@@ -124,7 +124,7 @@ jobs:
       - run:
           name: Check logs
           command: |
-            docker logs registrator | grep -q "SyncingKK services on * containers"
+            docker logs registrator | grep -q "Syncing services on"
             if [ $? -eq 1 ]; then
               echo "ERRO!"
               exit 1
@@ -151,7 +151,7 @@ jobs:
       - run:
           name: Check logs
           command: |
-            docker logs registrator | grep -q "Syncing services on * containers"
+            docker logs registrator | grep -q "Syncing services on"
             if [ $? -eq 1 ]; then
               echo "ERRO!"
               exit 1
