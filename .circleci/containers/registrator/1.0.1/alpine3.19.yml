@@ -138,7 +138,7 @@ jobs:
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 19" >> /home/$SSH_USER/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 20" >> /home/$SSH_USER/circleci.txt"
 
 workflows:
    registrator-1-0-1-alpine3-19:
