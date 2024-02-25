@@ -14,4 +14,3 @@ workflows:
       - include: ./.circleci/containers/caddy/2.7.6.yml
         with:
           run-all: true
-      - include: ./.circleci/containers/caddy/2.7.4.yml
