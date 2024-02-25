@@ -1,11 +1,6 @@
 version: 2.1
 
 executors:
-  docker-docker:
-    docker:
-      - image: cimg/base:2024.01
-    resource_class: small
-
   docker-machine:
     machine:
       image: ubuntu-2204:2024.01.1
@@ -32,6 +27,11 @@ commands:
             export DOCKER_CLI_EXPERIMENTAL=enabled
             docker context create multi-arch-build
             docker buildx create --use multi-arch-build
+      - run:
+          name: Login to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+
   setup-qemu-arm64:
     steps:
       - run:
@@ -44,8 +44,6 @@ commands:
             export DOCKER_CLI_EXPERIMENTAL=enabled
             docker context create multi-arch-build
             docker buildx create --use multi-arch-build
-  login-docker:
-    steps:
       - run:
           name: Login to Docker Hub
           command: |
@@ -65,7 +63,6 @@ jobs:
       - checkout:
           path: ~/project
       - setup-qemu-amd64
-      - login-docker
       - run:
           name: Build multiarch docker image and push
           command: |
@@ -93,7 +90,6 @@ jobs:
       - checkout:
           path: ~/project
       - setup-qemu-arm64
-      - login-docker
       - run:
           name: Build multiarch docker image and push
           command: |
@@ -106,39 +102,18 @@ jobs:
             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
-      # - run:
-      #     name: Build multiarch docker image and push
-      #     command: |
-      #       # Build da imagem com cache e tags
-      #       docker build --cache-from $IMAGE_REPO:$IMAGE_TAGS -t $IMAGE_REPO:$IMAGE_TAGS .
-      #       # Exportar o cache da imagem base para o Docker Hub
-      #       docker push $IMAGE_REPO:$IMAGE_TAGS
-      # - run:
-      #     name: Build multiarch docker image and push
-      #     command: |
-      #       # Build da imagem com cache e tags
-      #       docker build --cache-from $CACHE_REPO:$CACHE_TAG -t $IMAGE_REPO:$IMAGE_TAGS .
-      #       # Exportar o cache da imagem base para o Docker Hub
-      #       docker save $IMAGE_REPO:$IMAGE_TAGS | docker push $CACHE_REPO:$CACHE_TAG
-      #       # Exportar a imagem final para o Docker Hub
-      #       docker save $IMAGE_REPO:$IMAGE_TAGS | docker push $IMAGE_REPO:$IMAGE_TAGS
 
    servidor:
-    executor: docker-docker
-    # resource_class: medium
+    executor: docker-machine
+    resource_class: medium
     steps:
       - add_ssh_keys:
           fingerprints:
             - "SHA256:hLlCCj1OZj3pbBbgrGvfHjdTf20F4IYKyKvyJTMXC/A"
-      # - run:
-      #     name: Add Pub Key
-      #     command: |
-      #       mkdir -p ~/.ssh
-      #       echo "${OCI_PUB_KEY}" >> ~/.ssh/known_hosts
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 23" >> /home/$SSH_USER/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 27" >> /home/$SSH_USER/circleci.txt"
 
 workflows:
    registrator-1-0-1-alpine3-19:
