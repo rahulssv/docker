@@ -113,7 +113,7 @@ jobs:
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 27" >> /home/$SSH_USER/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "/home/ubuntu/50GB/docker/executar-docker-compose-up-d.sh >> /home/$SSH_USER/circleci.txt 2>&1"
 
 workflows:
    registrator-1-0-1-alpine3-19:
