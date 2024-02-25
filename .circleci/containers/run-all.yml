@@ -13,5 +13,5 @@ workflows:
     jobs:
       - include: ./.circleci/containers/caddy/2.7.6.yml
         with:
-          true: << pipeline.parameters.run-all >>
+          run-all: true
       - include: ./.circleci/containers/caddy/2.7.4.yml
