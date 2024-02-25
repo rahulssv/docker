@@ -26,4 +26,3 @@ services:
     volumes:
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
     command: "-cleanup -deregister always -resync 10 consul://consul-server:8500"
-    network_mode: host
