@@ -84,9 +84,9 @@ jobs:
             # Build da imagem com cache e tags
             docker build --cache-from $CACHE_REPO:$CACHE_TAG -t $IMAGE_NAME:$IMAGE_TAGS .
             # Exportar o cache da imagem base para o Docker Hub
-            docker save $CACHE_NAME:$CACHE_TAG | docker push $CACHE_REPO:$CACHE_TAG
+            docker save $CACHE_NAME:$CACHE_TAG | docker push $CACHE_NAME:$CACHE_TAG
             # Exportar a imagem final para o Docker Hub
-            docker save $IMAGE_NAME:$IMAGE_TAGS | docker push $IMAGE_REPO:$IMAGE_TAGS
+            docker save $IMAGE_NAME:$IMAGE_TAGS | docker push $IMAGE_NAME:$IMAGE_TAGS
 
    servidor:
     executor: docker-executor
@@ -99,7 +99,7 @@ jobs:
           name: Teste SSH depois da Build
           command: |
             curl ifconfig.me
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 7" >> /home/$SSH_USER/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 8" >> /home/$SSH_USER/circleci.txt"
 
 workflows:
    registrator-1-0-1-alpine3-19:
