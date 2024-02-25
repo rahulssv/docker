@@ -1,11 +1,6 @@
 version: 2.1
 
 executors:
-  docker-docker:
-    docker:
-      - image: cimg/base:2024.01-22.04
-    resource_class: small
-
   docker-machine:
     machine:
       image: ubuntu-2204:2024.01.1
@@ -123,17 +118,16 @@ jobs:
             - /caches/app.tar
 
    servidor:
-    executor: docker-docker
-    # resource_class: medium
+    executor: docker-machine
+    resource_class: medium
     steps:
-      # - add_ssh_keys:
-      #     fingerprints:
-      #       - "SHA256:hLlCCj1OZj3pbBbgrGvfHjdTf20F4IYKyKvyJTMXC/A"
-      - run: echo $OCI_PRIV_KEY | base64 -d > id_rsa && chmod 400 id_rsa
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:hLlCCj1OZj3pbBbgrGvfHjdTf20F4IYKyKvyJTMXC/A"
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh -i id_rsa $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste 1" >> ~/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste 4" >> ~/circleci.txt"
       # - run:
       #     name: Teste SSH depois da Build
       #     command: |
