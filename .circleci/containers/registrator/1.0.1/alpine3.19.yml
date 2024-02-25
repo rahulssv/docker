@@ -114,6 +114,7 @@ jobs:
           name: docker compose up -d
           command: |
             docker compose -f docker-compose.amd64 up -d
+            sleep 30
             docker logs registrator
             docker logs consul-server
 
@@ -128,6 +129,7 @@ jobs:
           name: docker compose up -d
           command: |
             docker compose -f docker-compose.arm64 up -d
+            sleep 30
             docker logs registrator
             docker logs consul-server
 
@@ -141,7 +143,7 @@ jobs:
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste deploy" >> ~/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste deploy 4" >> ~/circleci.txt"
       # - run:
       #     name: Teste SSH depois da Build
       #     command: |
