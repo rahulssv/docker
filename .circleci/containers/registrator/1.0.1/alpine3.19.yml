@@ -126,8 +126,10 @@ jobs:
           name: Check logs
           command: |
             docker logs registrator | jq '.[].message | select(. == "Syncing services on * containers")'
-            if [ $? -ne 0 ]; then
-              echo "ERRO!"
+            if [ $? -eq 0 ]; then
+              echo "EXPRESSÃO ENCONTRADA!"
+            else
+              echo "ERRO, EXPRESSÃO NÃO ENCONTRADA!!"
               exit 1
             fi
 
