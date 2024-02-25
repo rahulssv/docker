@@ -132,8 +132,7 @@ jobs:
       - run:
           name: Teste SSH depois da Build
           command: |
-            curl ifconfig.me
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 14" >> /home/$SSH_USER/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 15" >> /home/$SSH_USER/circleci.txt"
 
 workflows:
    registrator-1-0-1-alpine3-19:
