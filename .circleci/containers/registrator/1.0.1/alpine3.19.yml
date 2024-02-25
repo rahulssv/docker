@@ -106,6 +106,7 @@ jobs:
    teste-amd64:
     executor: docker-machine
     resource_class: medium
+    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
     steps:
       - checkout:
           path: ~/project
@@ -118,6 +119,7 @@ jobs:
    teste-arm64:
     executor: docker-machine
     resource_class: medium
+    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
     steps:
       - checkout:
           path: ~/project
