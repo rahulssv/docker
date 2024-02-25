@@ -10,7 +10,7 @@ workflows:
     when: << pipeline.parameters.run-all >>  # Trigger only if run-all is true
 
     jobs:
-      - tudo:
-          - include:
-            - ./.circleci/containers/caddy/2.7.6.yml
-            - ./.circleci/containers/caddy/2.7.4.yml
+      tudo:
+        include:
+          - ./.circleci/containers/caddy/2.7.6.yml
+          - ./.circleci/containers/caddy/2.7.4.yml
