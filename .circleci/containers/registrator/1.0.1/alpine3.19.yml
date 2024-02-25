@@ -118,21 +118,22 @@ jobs:
             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
             --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
       - save_cache:
-          key: v1-{{ .Branch }}-{{ checksum "Dockerfile" }}
+          key: v1-{{ .Branch }}
           paths:
-            - /caches/app.tar
+            - /
 
    servidor:
     executor: docker-docker
     # resource_class: medium
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:hLlCCj1OZj3pbBbgrGvfHjdTf20F4IYKyKvyJTMXC/A"
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - "SHA256:hLlCCj1OZj3pbBbgrGvfHjdTf20F4IYKyKvyJTMXC/A"
+      - run: echo $OCI_PRIV_KEY | base64 -d > id_rsa && chmod 400 id_rsa
       - run:
           name: Teste SSH depois da Build
           command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste 1" >> ~/circleci.txt"
+            ssh -i id_rsa $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste 1" >> ~/circleci.txt"
       # - run:
       #     name: Teste SSH depois da Build
       #     command: |
