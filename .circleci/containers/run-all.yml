@@ -11,4 +11,6 @@ workflows:
       or: 
         - << pipeline.parameters.run-all >>
     jobs:
-      - include: ./containers/caddy/2.7.6.yml
+      - include:
+        ./containers/caddy/2.7.6.yml:
+        ./containers/caddy/2.7.4.yml:
