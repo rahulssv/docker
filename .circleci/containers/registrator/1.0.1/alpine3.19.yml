@@ -82,7 +82,7 @@ jobs:
           name: Build multiarch docker image and push
           command: |
             # Build da imagem com cache e tags
-            docker build --cache-from $IMAGE_REPO:$IMAGE_TAGS -t $IMAGE_NAME:$IMAGE_TAGS .
+            docker build --cache-from $IMAGE_REPO:$IMAGE_TAGS -t $IMAGE_REPO:$IMAGE_TAGS .
             # Exportar o cache da imagem base para o Docker Hub
             docker push $IMAGE_REPO:$IMAGE_TAGS
       # - run:
@@ -106,7 +106,7 @@ jobs:
           name: Teste SSH depois da Build
           command: |
             curl ifconfig.me
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 10" >> /home/$SSH_USER/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste CIRCLECI 11" >> /home/$SSH_USER/circleci.txt"
 
 workflows:
    registrator-1-0-1-alpine3-19:
