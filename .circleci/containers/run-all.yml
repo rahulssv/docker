@@ -11,5 +11,5 @@ workflows:
 
     jobs:
       tudo:
-        - ./.circleci/containers/caddy/2.7.6.yml
-        - ./.circleci/containers/caddy/2.7.4.yml
+        - run:
+          - ./.circleci/containers/caddy/2.7.6.yml
