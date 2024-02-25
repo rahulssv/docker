@@ -113,11 +113,22 @@ jobs:
       - run:
           name: docker compose up -d
           command: |
-            docker compose -f docker-compose.amd64 up -d
-            sleep 30
+            docker compose -f docker-compose.amd64 pull
+            docker compose -f docker-compose.amd64 up -d consul-server
+            sleep 10
+            docker compose -f docker-compose.amd64 up -d registrator
+            sleep 10
             docker logs consul-server
             echo "-----------------------------------------------------------"
             docker logs registrator
+      - run:
+          name: Check logs
+          command: |
+            docker logs registrator | grep -q "SyncingKK services on * containers"
+            if [ $? -eq 1 ]; then
+              echo "ERRO!"
+              exit 1
+            fi
 
    teste-arm64:
     executor: docker-machine
@@ -129,11 +140,22 @@ jobs:
       - run:
           name: docker compose up -d
           command: |
-            docker compose -f docker-compose.arm64 up -d
-            sleep 30
+            docker compose -f docker-compose.arm64 pull
+            docker compose -f docker-compose.arm64 up -d consul-server
+            sleep 10
+            docker compose -f docker-compose.arm64 up -d registrator
+            sleep 10
             docker logs consul-server
             echo "-----------------------------------------------------------"
             docker logs registrator
+      - run:
+          name: Check logs
+          command: |
+            docker logs registrator | grep -q "Syncing services on * containers"
+            if [ $? -eq 1 ]; then
+              echo "ERRO!"
+              exit 1
+            fi
 
    deploy:
     executor: docker-machine
