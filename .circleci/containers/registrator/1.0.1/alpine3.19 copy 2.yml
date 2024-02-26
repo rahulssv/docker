@@ -64,37 +64,17 @@ jobs:
           path: ~/project
       - setup-qemu-amd64
       - run:
-          name: Build and test multiarch docker image
+          name: Build multiarch docker image and push
           command: |
-              DOCKER_CLI_EXPERIMENTAL=enabled
-              BUILDX_ARGS=""
-              for tag in $(echo $IMAGE_TAGS | tr "," " "); do
-                  BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
-              done
-              docker buildx build \
-                  --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
-                  --platform $IMAGE_ARCHS $BUILDX_ARGS .
-      - run:
-          name: Test the image
-          command: |
-            docker compose -f docker-compose.amd64 up -d consul-server
-            sleep 10
-            docker compose -f docker-compose.amd64 up -d registrator
-            sleep 10
-            docker logs consul-server
-            echo "-----------------------------------------------------------"
-            docker logs registrator >> ./logs-registrator.txt 2>&1
-            cat ./logs-registrator.txt
-            echo "-----------------------------------------------------------"
-            awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
-      - run:
-          name: Upload cache and image
-          when:
-            status: success
-          command: |
+            DOCKER_CLI_EXPERIMENTAL=enabled
+            BUILDX_ARGS=""
+            for tag in $(echo $IMAGE_TAGS | tr "," " "); do
+              BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
+            done
             docker buildx build \
-              --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
-              --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
+            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
+            --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
 
    arm64:
     executor: docker-machine
@@ -111,37 +91,69 @@ jobs:
           path: ~/project
       - setup-qemu-arm64
       - run:
-          name: Build and test multiarch docker image
+          name: Build multiarch docker image and push
           command: |
-              DOCKER_CLI_EXPERIMENTAL=enabled
-              BUILDX_ARGS=""
-              for tag in $(echo $IMAGE_TAGS | tr "," " "); do
-                  BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
-              done
-              docker buildx build \
-                  --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
-                  --platform $IMAGE_ARCHS $BUILDX_ARGS .
+            DOCKER_CLI_EXPERIMENTAL=enabled
+            BUILDX_ARGS=""
+            for tag in $(echo $IMAGE_TAGS | tr "," " "); do
+              BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
+            done
+            docker buildx build \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
+            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
+            --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
+
+   teste-amd64:
+    executor: docker-machine
+    resource_class: medium
+    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
+    steps:
+      - checkout:
+          path: ~/project
       - run:
-          name: Test the image
+          name: docker compose up -d
           command: |
+            docker compose -f docker-compose.amd64 pull
+            docker compose -f docker-compose.amd64 up -d consul-server
+            sleep 10
+            docker compose -f docker-compose.amd64 up -d registrator
+            sleep 10
+            docker logs consul-server
+            echo "-----------------------------------------------------------"
+            docker logs registrator
+      - run:
+          name: Check logs
+          command: |
+            docker logs registrator >> ./logs-registrator.txt 2>&1
+            cat ./logs-registrator.txt
+            echo "-----------------------------------------------------------"
+            awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
+
+   teste-arm64:
+    executor: docker-machine
+    resource_class: arm.medium
+    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
+    steps:
+      - checkout:
+          path: ~/project
+      - run:
+          name: docker compose up -d
+          command: |
+            docker compose -f docker-compose.arm64 pull
             docker compose -f docker-compose.arm64 up -d consul-server
             sleep 10
             docker compose -f docker-compose.arm64 up -d registrator
             sleep 10
             docker logs consul-server
             echo "-----------------------------------------------------------"
+            docker logs registrator
+      - run:
+          name: Check logs
+          command: |
             docker logs registrator >> ./logs-registrator.txt 2>&1
             cat ./logs-registrator.txt
             echo "-----------------------------------------------------------"
             awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
-      - run:
-          name: Upload cache and image
-          when:
-            status: success
-          command: |
-            docker buildx build \
-              --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
-              --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
 
    deploy:
     executor: docker-machine
@@ -168,7 +180,13 @@ workflows:
     jobs:
       - amd64
       - arm64
-      - deploy:
+      - teste-amd64:
           requires:
             - amd64
+      - teste-arm64:
+          requires:
             - arm64
+      - deploy:
+          requires:
+            - teste-amd64
+            - teste-arm64
