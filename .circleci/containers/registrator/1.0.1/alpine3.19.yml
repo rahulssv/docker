@@ -5,8 +5,8 @@ executors:
     docker:
       - image: cimg/base:current
     resource_class: small
-    
-  docker-machine:
+
+  docker-executor:
     machine:
       image: ubuntu-2204:2024.01.1
     resource_class: large
@@ -20,7 +20,7 @@ parameters:
     default: false
 
 commands:
-  setup-qemu-amd64:
+  setup:
     steps:
       - run:
           name: Setup Qemu
@@ -37,124 +37,32 @@ commands:
           command: |
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
-  setup-qemu-arm64:
-    steps:
-      - run:
-          name: Setup Qemu
-          command: |
-            docker run --rm --privileged hectorm/qemu-user-static --reset -p yes
-      - run:
-          name: Create builder
-          command: |
-            export DOCKER_CLI_EXPERIMENTAL=enabled
-            docker context create multi-arch-build
-            docker buildx create --use multi-arch-build
-      - run:
-          name: Login to Docker Hub
-          command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
-
 jobs:
-   amd64:
-    executor: docker-machine
+   build-registrator-1-0-1-alpine3-19:
+    executor: docker-executor
     environment:
       IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAG: 1.0.1-alpine3.19-amd64
-      IMAGE_ARCH: linux/amd64 #,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7
+      IMAGE_TAGS: 1.0.1-alpine3.19
+      IMAGE_ARCHS: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7
       CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: registrator-1.0.1-alpine3.19-amd64
+      CACHE_NAME: registrator-1.0.1-alpine3.19
     working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
     steps:
       - checkout:
           path: ~/project
-      # - setup-qemu-amd64
-      # - run:
-      #     name: Build and test multiarch docker image
-      #     command: |
-      #         DOCKER_CLI_EXPERIMENTAL=enabled
-      #         BUILDX_ARGS=""
-      #         for tag in $(echo $IMAGE_TAG | tr "," " "); do
-      #             BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$IMAGE_TAG"
-      #         done
-      #         docker buildx build \
-      #             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
-      #             --platform $IMAGE_ARCH $BUILDX_ARGS .
-      # - run:
-      #     name: Test the image
-      #     command: |
-      #       docker compose -f docker-compose.amd64 up -d consul-server
-      #       sleep 10
-      #       docker compose -f docker-compose.amd64 up -d registrator
-      #       sleep 10
-      #       docker logs consul-server
-      #       echo "-----------------------------------------------------------"
-      #       docker logs registrator >> ./logs-registrator.txt 2>&1
-      #       cat ./logs-registrator.txt
-      #       echo "-----------------------------------------------------------"
-      #       awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
-      # - run:
-      #     name: Upload cache and image
-      #     when: on_success
-      #     command: |
-      #         DOCKER_CLI_EXPERIMENTAL=enabled
-      #         BUILDX_ARGS=""
-      #         for tag in $(echo $IMAGE_TAG | tr "," " "); do
-      #             BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$IMAGE_TAG"
-      #         done
-      #         docker buildx build \
-      #             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
-      #             --push --platform $IMAGE_ARCH $BUILDX_ARGS .
-
-   arm64:
-    executor: docker-machine
-    resource_class: arm.large
-    environment:
-      IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAG: 1.0.1-alpine3.19-arm64
-      IMAGE_ARCH: linux/arm64/v8
-      CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: registrator-1.0.1-alpine3.19-arm64
-    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
-    steps:
-      - checkout:
-          path: ~/project
-      # - setup-qemu-arm64
-      # - run:
-      #     name: Build and test multiarch docker image
-      #     command: |
-      #         DOCKER_CLI_EXPERIMENTAL=enabled
-      #         BUILDX_ARGS=""
-      #         for tag in $(echo $IMAGE_TAG | tr "," " "); do
-      #             BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$IMAGE_TAG"
-      #         done
-      #         docker buildx build \
-      #             --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
-      #             --platform $IMAGE_ARCH $BUILDX_ARGS .
-      # - run:
-      #     name: Test the image
-      #     command: |
-      #       docker compose -f docker-compose.arm64 up -d consul-server
-      #       sleep 10
-      #       docker compose -f docker-compose.arm64 up -d registrator
-      #       sleep 10
-      #       docker logs consul-server
-      #       echo "-----------------------------------------------------------"
-      #       docker logs registrator >> ./logs-registrator.txt 2>&1
-      #       cat ./logs-registrator.txt
-      #       echo "-----------------------------------------------------------"
-      #       awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
-      # - run:
-      #     name: Upload cache and image
-      #     when: on_success
-      #     command: |
-      #         DOCKER_CLI_EXPERIMENTAL=enabled
-      #         BUILDX_ARGS=""
-      #         for tag in $(echo $IMAGE_TAG | tr "," " "); do
-      #             BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$IMAGE_TAG"
-      #         done
-      #         docker buildx build \
-      #             --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
-      #             --push --platform $IMAGE_ARCH $BUILDX_ARGS .
+      - setup
+      - run:
+          name: Build multiarch docker image and push
+          command: |
+            DOCKER_CLI_EXPERIMENTAL=enabled
+            BUILDX_ARGS=""
+            for tag in $(echo $IMAGE_TAGS | tr "," " "); do
+              BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
+            done
+            docker buildx build \
+            --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
+            --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
+            --push --platform $IMAGE_ARCHS $BUILDX_ARGS .
 
    deploy:
     executor: docker-docker #docker-machine
@@ -180,9 +88,7 @@ workflows:
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      - amd64
-      - arm64
+      - build-registrator-1-0-1-alpine3-19
       - deploy:
           requires:
-            - amd64
-            - arm64
+            - build-registrator-1-0-1-alpine3-19
