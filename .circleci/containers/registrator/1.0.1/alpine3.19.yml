@@ -124,7 +124,8 @@ jobs:
       - run:
           name: Check logs
           command: |
-            docker logs registrator | awk '/Syncing 27 services on / { print "EXPRESSÃO ENCONTRADA!"; exit 0 } END { if (NR == 0) print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 }'
+            docker logs registrator >> ./logs-registrator.txt 2>&1
+            awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
 
    teste-arm64:
     executor: docker-machine
@@ -147,11 +148,8 @@ jobs:
       - run:
           name: Check logs
           command: |
-            docker logs registrator | awk '/Syncing services on / { print "EXPRESSÃO ENCONTRADA!"; exit 0 } END { if (NR == 0) print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 }'
-      # - run:
-      #     name: Check logs
-      #     command: |
-      #       docker logs registrator | awk '/Syncing services on / { exit 0 }' || exit 1
+            docker logs registrator >> ./logs-registrator.txt 2>&1
+            awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
 
    deploy:
     executor: docker-machine
