@@ -89,8 +89,7 @@ jobs:
             awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
       - run:
           name: Upload cache and image
-          when:
-            status: success
+          when: on_success
           command: |
             docker buildx build \
               --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
@@ -136,8 +135,7 @@ jobs:
             awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
       - run:
           name: Upload cache and image
-          when:
-            status: success
+          when: on_success
           command: |
             docker buildx build \
               --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
