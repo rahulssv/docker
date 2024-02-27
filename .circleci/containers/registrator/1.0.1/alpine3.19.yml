@@ -17,13 +17,15 @@ workflows:
       IMAGE_REPO: igorferreir4/registrator
       IMAGE_TAGS: teste1,123,teste123
     jobs:
+      - docker/check:
+          docker-username: $DOCKERHUB_USERNAME
+          docker-password: $DOCKERHUB_PASSWORD
       - docker/publish:
           executor:
             image: ubuntu-2204:current
             name: docker/machine
             resource-class: large
           # deploy: false
-          step-name: Build and Push
           image: $IMAGE_REPO
           tag: $IMAGE_TAGS
           cache_from: $IMAGE_REPO:IMAGE_TAGS
@@ -35,13 +37,15 @@ workflows:
       IMAGE_REPO: igorferreir4/registrator
       IMAGE_TAGS: teste4,456,teste456
     jobs:
+      - docker/check:
+          docker-username: $DOCKERHUB_USERNAME
+          docker-password: $DOCKERHUB_PASSWORD
       - docker/publish:
           executor:
             image: ubuntu-2204:current
             name: docker/machine
-            resource-class: large
+            resource-class: arm.large
           # deploy: false
-          step-name: Build and Push
           image: $IMAGE_REPO
           tag: $IMAGE_TAGS
           cache_from: $IMAGE_REPO:IMAGE_TAGS
