@@ -79,19 +79,13 @@ jobs:
               docker buildx build \
                   --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
                   --platform $IMAGE_ARCH $BUILDX_ARGS .
-      - run: mkdir ~/resultados
       - run:
           name: Test application
           command: |
-            TEST=$(circleci tests glob "*.sh")
-            echo "$TEST" | circleci tests run --command="chmod +x ./teste.sh && \
-            ./teste.sh >> resultado.txt 2>&1 && \
-            python3 txt-para-xml.py" --split-by=timings
-      - run:
-          command: cp resultado.xml ~/resultados/
-          when: always
-      - store_test_results:
-          path: ~/resultados
+            chmod +x ./teste.sh && ./teste.sh >> resultado.txt 2>&1
+      - store_artifacts:
+          path: resultado.txt
+          destination: test-results
       # - run:
       #     name: Test the image
       #     command: |
