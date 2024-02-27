@@ -79,17 +79,17 @@ jobs:
               docker buildx build \
                   --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
                   --platform $IMAGE_ARCH $BUILDX_ARGS .
-      - run: mkdir ~/junit
+      - run: mkdir ~/resultados
       - run:
           name: Test application
           command: |
             TEST=$(circleci tests glob "*.sh")
-            echo "$TEST" | circleci tests run --command="chmod +x ./teste.sh && ./teste.sh" --split-by=timings
+            echo "$TEST" | circleci tests run --command="chmod +x ./teste.sh && ./teste.sh >> resultado.txt 2>&1" --split-by=timings
       - run:
-          command: cp junit.xml ~/junit/
+          command: cp resultado.txt ~/resultados/
           when: always
       - store_test_results:
-          path: ~/junit
+          path: ~/resultados
       # - run:
       #     name: Test the image
       #     command: |
