@@ -32,8 +32,9 @@ jobs:
       - docker/build:
           step-name: Build amd64
           image: $IMAGE_REPO
-          cache_from: $IMAGE_REPO:IMAGE_TAGS
+          cache_from: $IMAGE_REPO:$IMAGE_TAGS
           use-buildkit: true
+          extra_build_args: --platform linux/amd64
       - run:
           name: Teste SSH depois da Build
           command: |
