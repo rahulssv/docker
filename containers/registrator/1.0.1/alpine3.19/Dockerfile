@@ -21,7 +21,8 @@ RUN <<END_RUN
 		-mod=mod \
 		-ldflags "-X main.Version=$(cat VERSION)" \
 		-o bin/registrator \
-		.
+		. \
+    ;
 END_RUN
 
 FROM alpine:3.19 AS final
@@ -29,7 +30,8 @@ RUN <<END_RUN
     set -ex
 	apk update
 	apk upgrade
-	apk add --no-cache ca-certificates
+	apk add --no-cache ca-certificates \
+    ;
 END_RUN
 COPY --from=builder /go/src/github.com/mario-ezquerro/registrator/bin/registrator /bin/registrator
 
