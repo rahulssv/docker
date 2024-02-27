@@ -32,6 +32,7 @@ jobs:
           step-name: Build amd64
           image: $IMAGE_REPO
           cache_from: $IMAGE_REPO:teste1
+          path: ./containers/registrator/1.0.1/alpine3.19
           use-buildkit: true
           extra_build_args: --platform linux/amd64
       - run:
