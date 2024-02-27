@@ -183,7 +183,7 @@ jobs:
           name: Teste SSH depois da Build
           command: |
             ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste deploy novo" >> ~/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss")" >> circleci.txt" >> ~/circleci.txt"
       # - run:
       #     name: Teste SSH depois da Build
       #     command: |
