@@ -3,6 +3,12 @@ version: 2.1
 orbs:
   docker: circleci/docker@2.5.0
 
+executors:
+  orb-machine:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large
+
 parameters:
   build-and-push:
     type: boolean
@@ -11,46 +17,77 @@ parameters:
     type: boolean
     default: false
 
-workflows:
+jobs:
   build-amd64:
     environment:
       IMAGE_REPO: igorferreir4/registrator
       IMAGE_TAGS: teste1,123,teste123
-    jobs:
+    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
+    executor: docker/machine
+    steps:
+      - checkout
       - docker/check:
           docker-username: $DOCKERHUB_USERNAME
           docker-password: $DOCKERHUB_PASSWORD
-      - docker/publish:
-          executor:
-            image: ubuntu-2204:current
-            name: docker/machine
-            resource-class: large
-          # deploy: false
+      - docker/build:
+          step-name: Build amd64
           image: $IMAGE_REPO
-          tag: $IMAGE_TAGS
           cache_from: $IMAGE_REPO:IMAGE_TAGS
-          update-description: false
-          use-buildkit: true 
+          use-buildkit: true
+      - run:
+          name: Teste SSH depois da Build
+          command: |
+            ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss") - amd64" >> circleci.txt" >> ~/circleci.txt
 
-  build-arm64:
-    environment:
-      IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAGS: teste4,456,teste456
+workflows:
+  registrator-v1.0.1-alpine3.19:
     jobs:
-      - docker/check:
-          docker-username: $DOCKERHUB_USERNAME
-          docker-password: $DOCKERHUB_PASSWORD
-      - docker/publish:
-          executor:
-            image: ubuntu-2204:current
-            name: docker/machine
-            resource-class: arm.large
-          # deploy: false
-          image: $IMAGE_REPO
-          tag: $IMAGE_TAGS
-          cache_from: $IMAGE_REPO:IMAGE_TAGS
-          update-description: false
-          use-buildkit: true 
+      - build-amd64
+
+
+
+
+# workflows:
+#   build-amd64:
+#     environment:
+#       IMAGE_REPO: igorferreir4/registrator
+#       IMAGE_TAGS: teste1,123,teste123
+#     jobs:
+#       - docker/check:
+#           docker-username: $DOCKERHUB_USERNAME
+#           docker-password: $DOCKERHUB_PASSWORD
+#       - docker/publish:
+#           executor:
+#             image: ubuntu-2204:current
+#             name: docker/machine
+#             resource-class: large
+#           # deploy: false
+#           image: $IMAGE_REPO
+#           tag: $IMAGE_TAGS
+#           cache_from: $IMAGE_REPO:IMAGE_TAGS
+#           update-description: false
+#           use-buildkit: true 
+
+#   build-arm64:
+#     environment:
+#       IMAGE_REPO: igorferreir4/registrator
+#       IMAGE_TAGS: teste4,456,teste456
+#     jobs:
+#       - docker/check:
+#           docker-username: $DOCKERHUB_USERNAME
+#           docker-password: $DOCKERHUB_PASSWORD
+#       - docker/publish:
+#           executor:
+#             image: ubuntu-2204:current
+#             name: docker/machine
+#             resource-class: arm.large
+#           # deploy: false
+#           image: $IMAGE_REPO
+#           tag: $IMAGE_TAGS
+#           cache_from: $IMAGE_REPO:IMAGE_TAGS
+#           update-description: false
+#           use-buildkit: true 
 
 
   #  deploy:
