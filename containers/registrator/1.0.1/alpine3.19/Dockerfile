@@ -27,6 +27,7 @@ END_RUN
 
 FROM alpine:3.19 AS final
 RUN <<END_RUN
+    set -ex
 	apk update
 	apk upgrade -y
 	apk add --no-cache ca-certificates
