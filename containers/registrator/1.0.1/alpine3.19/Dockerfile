@@ -8,20 +8,59 @@ LABEL org.regitrator.maintainer="Mario Ezquerro"
 
 WORKDIR /go/src/github.com/mario-ezquerro/registrator/
 COPY . .
-RUN \
-	apk add --no-cache curl git \
-	&& curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh \
-	&& dep ensure -vendor-only \
-	&& CGO_ENABLED=0 GOOS=linux go build \
+
+RUN <<END_RUN
+    set -ex
+    apk update
+    apk upgrade -y
+    apk add --no-cache curl git
+	curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+	dep ensure -vendor-only
+	CGO_ENABLED=0 GOOS=linux go build \
 		-a -installsuffix cgo \
 		-mod=mod \
 		-ldflags "-X main.Version=$(cat VERSION)" \
 		-o bin/registrator \
 		.
+    ;
+END_RUN
 
-FROM alpine:3.19
-RUN apk add --no-cache ca-certificates
+FROM alpine:3.19 AS final
+RUN <<END_RUN
+	apk update
+	apk upgrade -y
+	apk add --no-cache ca-certificates
+    ;
+END_RUN
 COPY --from=builder /go/src/github.com/mario-ezquerro/registrator/bin/registrator /bin/registrator
 
 ENTRYPOINT ["/bin/registrator"]
-# Teste deploy 20
+
+
+
+# FROM golang:1.22.0-alpine3.19 AS builder
+
+# LABEL org.opencontainers.image.version="v8.1"
+# LABEL org.opencontainers.image.licenses="MIT"
+# LABEL org.opencontainers.image.title="Imagen regitrator use with carefull"
+# LABEL org.opencontainers.image.url="https://github.com/mario-ezquerro/registrator"
+# LABEL org.regitrator.maintainer="Mario Ezquerro"
+
+# WORKDIR /go/src/github.com/mario-ezquerro/registrator/
+# COPY . .
+# RUN \
+# 	apk add --no-cache curl git \
+# 	&& curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh \
+# 	&& dep ensure -vendor-only \
+# 	&& CGO_ENABLED=0 GOOS=linux go build \
+# 		-a -installsuffix cgo \
+# 		-mod=mod \
+# 		-ldflags "-X main.Version=$(cat VERSION)" \
+# 		-o bin/registrator \
+# 		.
+
+# FROM alpine:3.19
+# RUN apk add --no-cache ca-certificates
+# COPY --from=builder /go/src/github.com/mario-ezquerro/registrator/bin/registrator /bin/registrator
+
+# ENTRYPOINT ["/bin/registrator"]
