@@ -3,17 +3,6 @@ version: 2.1
 orbs:
   docker: circleci/docker@2.5.0
 
-executors:
-  docker-docker:
-    docker:
-      - image: cimg/base:current
-    resource_class: small
-    
-  docker-machine:
-    machine:
-      image: ubuntu-2204:current
-    resource_class: large
-
 parameters:
   build-and-push:
     type: boolean
@@ -22,16 +11,12 @@ parameters:
     type: boolean
     default: false
 
-jobs:
-   build-amd64:
-    executor: docker-machine
+workflows:
+  build-amd64:
     environment:
       IMAGE_REPO: igorferreir4/registrator
       IMAGE_TAGS: teste1,123,teste123
-    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
-    steps:
-      - checkout:
-          path: ~/project
+    jobs:
       - docker/publish:
           executor:
             image: ubuntu-2204:current
@@ -43,56 +28,39 @@ jobs:
           tag: $IMAGE_TAGS
           cache_from: $IMAGE_REPO:IMAGE_TAGS
           update-description: false
-          use-buildkit: true     
+          use-buildkit: true 
 
-   build-arm64:
-    executor: docker-machine
+  build-arm64:
     environment:
       IMAGE_REPO: igorferreir4/registrator
       IMAGE_TAGS: teste4,456,teste456
-    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
-    steps:
-      - checkout:
-          path: ~/project
+    jobs:
       - docker/publish:
           executor:
             image: ubuntu-2204:current
             name: docker/machine
-            resource-class: arm.large
+            resource-class: large
           # deploy: false
           step-name: Build and Push
           image: $IMAGE_REPO
           tag: $IMAGE_TAGS
           cache_from: $IMAGE_REPO:IMAGE_TAGS
           update-description: false
-          use-buildkit: true   
+          use-buildkit: true 
 
-   deploy:
-    executor: docker-docker
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:hLlCCj1OZj3pbBbgrGvfHjdTf20F4IYKyKvyJTMXC/A"
-      - run:
-          name: Teste SSH depois da Build
-          command: |
-            ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss")" >> circleci.txt" >> ~/circleci.txt"
-      # - run:
-      #     name: Teste SSH depois da Build
-      #     command: |
-      #       ssh $SSH_USER@$SSH_HOST_IGOR_ARM "~/50GB/docker/executar-docker-compose-up-d.sh >> ~/circleci.txt 2>&1"
 
-workflows:
-   registrator-v1.0.1-alpine3.19:
-    when: 
-      or: 
-        - << pipeline.parameters.build-and-push >>
-        - << pipeline.parameters.run-all >>
-    jobs:
-      - build-amd64
-      - build-arm64
-      - deploy:
-          requires:
-            - build-amd64
-            - build-arm64
+  #  deploy:
+  #   executor: docker-docker
+  #   steps:
+  #     - add_ssh_keys:
+  #         fingerprints:
+  #           - "SHA256:hLlCCj1OZj3pbBbgrGvfHjdTf20F4IYKyKvyJTMXC/A"
+  #     - run:
+  #         name: Teste SSH depois da Build
+  #         command: |
+  #           ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
+  #           ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss")" >> circleci.txt" >> ~/circleci.txt"
+  #     # - run:
+  #     #     name: Teste SSH depois da Build
+  #     #     command: |
+  #     #       ssh $SSH_USER@$SSH_HOST_IGOR_ARM "~/50GB/docker/executar-docker-compose-up-d.sh >> ~/circleci.txt 2>&1"
