@@ -78,6 +78,7 @@ jobs:
               done
               docker buildx build \
                   --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
+                  --cache-from=type=registry,ref=$IMAGE_REPO:$IMAGE_TAG \
                   --platform $IMAGE_ARCH $BUILDX_ARGS .
       - run:
           name: Test application
@@ -85,7 +86,7 @@ jobs:
             chmod +x ./teste.sh && ./teste.sh >> resultado.txt 2>&1
       - store_artifacts:
           path: resultado.txt
-          destination: test-results
+          destination: resultado-amd64
       # - run:
       #     name: Test the image
       #     command: |
@@ -136,20 +137,28 @@ jobs:
               done
               docker buildx build \
                   --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
+                  --cache-from=type=registry,ref=$IMAGE_REPO:$IMAGE_TAG \
                   --platform $IMAGE_ARCH $BUILDX_ARGS .
       - run:
-          name: Test the image
+          name: Test application
           command: |
-            docker compose -f docker-compose.arm64 up -d consul-server
-            sleep 10
-            docker compose -f docker-compose.arm64 up -d registrator
-            sleep 10
-            docker logs consul-server
-            echo "-----------------------------------------------------------"
-            docker logs registrator >> ./logs-registrator.txt 2>&1
-            cat ./logs-registrator.txt
-            echo "-----------------------------------------------------------"
-            awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
+            chmod +x ./teste.sh && ./teste.sh >> resultado.txt 2>&1
+      - store_artifacts:
+          path: resultado.txt
+          destination: resultado-arm64                 
+      # - run:
+      #     name: Test the image
+      #     command: |
+      #       docker compose -f docker-compose.arm64 up -d consul-server
+      #       sleep 10
+      #       docker compose -f docker-compose.arm64 up -d registrator
+      #       sleep 10
+      #       docker logs consul-server
+      #       echo "-----------------------------------------------------------"
+      #       docker logs registrator >> ./logs-registrator.txt 2>&1
+      #       cat ./logs-registrator.txt
+      #       echo "-----------------------------------------------------------"
+      #       awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
       - run:
           name: Upload cache and image
           when: on_success
@@ -174,7 +183,7 @@ jobs:
           name: Teste SSH depois da Build
           command: |
             ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste deploy 16" >> ~/circleci.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo "teste deploy novo" >> ~/circleci.txt"
       # - run:
       #     name: Teste SSH depois da Build
       #     command: |
