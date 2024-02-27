@@ -12,7 +12,7 @@ COPY . .
 RUN <<END_RUN
     set -ex
     apk update
-    apk upgrade -y
+    apk upgrade
     apk add --no-cache curl git
 	curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 	dep ensure -vendor-only
@@ -29,7 +29,7 @@ FROM alpine:3.19 AS final
 RUN <<END_RUN
     set -ex
 	apk update
-	apk upgrade -y
+	apk upgrade
 	apk add --no-cache ca-certificates
     ;
 END_RUN
