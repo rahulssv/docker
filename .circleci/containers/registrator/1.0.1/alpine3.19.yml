@@ -22,7 +22,6 @@ jobs:
     environment:
       IMAGE_REPO: igorferreir4/registrator
       IMAGE_TAGS: teste1,123,teste123
-    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
     executor: docker/machine
     steps:
       - checkout
@@ -32,8 +31,7 @@ jobs:
       - docker/build:
           step-name: Build amd64
           image: $IMAGE_REPO
-          cache_from: $IMAGE_REPO:$IMAGE_TAGS
-          path: ~/project/containers/registrator/1.0.1/alpine3.19
+          cache_from: $IMAGE_REPO:teste1
           use-buildkit: true
           extra_build_args: --platform linux/amd64
       - run:
