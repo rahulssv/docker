@@ -1,9 +1,17 @@
 version: 2.1
 
+orbs:
+  github-cli: circleci/github-cli@2.3.0
+
 executors:
+  go-executor:
+    docker:
+      - image: cimg/go:1.22.0
+    resource_class: large
+
   docker-executor:
     machine:
-      image: ubuntu-2204:2024.01.1
+      image: ubuntu-2204:current
     resource_class: large
 
 parameters:
@@ -20,19 +28,56 @@ commands:
       - run:
           name: Setup Qemu
           command: |
-            docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+            docker run --privileged --rm tonistiigi/binfmt --install all
       - run:
           name: Create builder
           command: |
-            export DOCKER_CLI_EXPERIMENTAL=enabled
-            docker context create multi-arch-build
-            docker buildx create --use multi-arch-build
+            docker buildx create --name multi-arch-build --bootstrap --use
       - run:
           name: Login to Docker Hub
           command: |
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
+  build-caddy-binary:
+    executor: go-executor
+    steps:
+      - checkout
+      - run:
+          name: Get XCADDY
+          command: |
+            go version
+            go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
+      - run:
+          name: Build Binaries
+          command: |
+            sh ./scripts/build-all.sh
+            chmod +x caddy-linux-amd64
+            ./caddy-linux-amd64 version
+            mkdir artifacts
+            mv caddy-linux-amd64 caddy-linux-arm64 caddy-windows-amd64.exe caddy-windows-arm64.exe ./artifacts
+      - run:
+          name: Get Binary Version
+          command: |
+            ls ./artifacts
+            ./artifacts/caddy-linux-amd64 version
+            CADDY=$(./artifacts/caddy-linux-amd64 version)
+            echo "version=$( echo $CADDY | head -n1 | cut -d " " -f1 )" >> $BASH_ENV
+            mkdir gitclone
+      - github-cli/setup
+      - github-cli/clone:
+          repo: caddy
+          dir: ./gitclone
+      - run:
+          name: Create Release
+          command: |
+            cd ./gitclone
+            if gh release view $version >/dev/null 2>&1; then
+                gh release delete $version --cleanup-tag --yes
+            fi
+            cd ../
+            gh release create $version --title "Binary Update - Caddy "$version"" --notes "Automated release from CircleCI" --repo igorferreir4/caddy ./artifacts/*
+
   build-caddy-2_7_6:
     executor: docker-executor
     environment:
@@ -49,7 +94,6 @@ jobs:
       - run:
           name: Build multiarch docker image and push
           command: |
-            DOCKER_CLI_EXPERIMENTAL=enabled
             BUILDX_ARGS=""
             for tag in $(echo $IMAGE_TAGS | tr "," " "); do
               BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$tag"
@@ -66,4 +110,7 @@ workflows:
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      - build-caddy-2_7_6
+      - build-caddy-binary
+      - build-caddy-2_7_6:
+          requires:
+            - build-caddy-binary
