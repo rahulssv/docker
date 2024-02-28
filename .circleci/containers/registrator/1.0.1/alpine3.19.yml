@@ -108,7 +108,7 @@ jobs:
           command: |
               TAGS=""
               for tag in $(echo $IMAGE_TAGS | tr "," " "); do
-                TAGS="$TAGS -t $IMAGE_REPO:$IMAGE_TAGS"
+                TAGS="$TAGS -t $IMAGE_REPO:$tag"
               done
               docker buildx build \
                   --build-arg BUILDKIT_INLINE_CACHE=1 \

@@ -36,7 +36,7 @@ END_RUN
 COPY --from=builder /go/src/github.com/mario-ezquerro/registrator/bin/registrator /bin/registrator
 
 ENTRYPOINT ["/bin/registrator"]
-# 23
+# 24
 
 
 # FROM golang:1.22.0-alpine3.19 AS builder
