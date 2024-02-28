@@ -126,11 +126,11 @@ jobs:
           name: Export date of build
           command: |
             ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date -d "-3 hours" +"%d/%m/%G - %Hh:%Mm:%Ss") - Latest" >> circleci-data.txt"
-      - run:
-          name: Deploy to my server
-          command: |
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "~/50GB/docker/executar-docker-compose-up-d.sh >> ~/circleci.txt 2>&1"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date -d "-3 hours" +"%d/%m/%G - %Hh:%Mm:%Ss") - Registrator v1.0.1-alpine3.19" >> circleci-data.txt"
+      # - run:
+      #     name: Deploy to my server
+      #     command: |
+      #       ssh $SSH_USER@$SSH_HOST_IGOR_ARM "~/50GB/docker/executar-docker-compose-up-d.sh >> ~/circleci.txt 2>&1"
 
 workflows:
    registrator-v1.0.1-alpine3.19:

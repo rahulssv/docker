@@ -37,4 +37,4 @@ END_RUN
 COPY --from=builder /go/src/github.com/igorferreir4/registrator/bin/registrator /bin/registrator
 
 ENTRYPOINT ["/bin/registrator"]
-# teste hr
+# End of file

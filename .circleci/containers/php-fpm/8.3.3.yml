@@ -40,8 +40,8 @@ jobs:
     executor: docker-machine
     environment:
       CACHE_REPO: igorferreir4/buildcaches
-      CACHE_TAG: ts3audiobot-0.12.2-amd64
-    working_directory: ~/project/containers/ts3audiobot/0.12.2
+      CACHE_TAG: php-v8.3.3-amd64
+    working_directory: ~/project/containers/php-fpm/8.3.3
     steps:
       - checkout:
           path: ~/project
@@ -59,8 +59,8 @@ jobs:
     executor: docker-machine
     environment:
       CACHE_REPO: igorferreir4/buildcaches
-      CACHE_TAG: ts3audiobot-0.12.2-arm64
-    working_directory: ~/project/containers/ts3audiobot/0.12.2
+      CACHE_TAG: php-v8.3.3-arm64
+    working_directory: ~/project/containers/php-fpm/8.3.3
     steps:
       - checkout:
           path: ~/project
@@ -79,11 +79,11 @@ jobs:
     resource_class: large
     environment:
       CACHE_REPO: igorferreir4/buildcaches
-      CACHE_AMD64: ts3audiobot-0.12.2-amd64
-      CACHE_ARM64: ts3audiobot-0.12.2-arm64
-      IMAGE_REPO: igorferreir4/ts3audiobot
-      IMAGE_TAGS: stable,0.12.2
-    working_directory: ~/project/containers/ts3audiobot/0.12.2
+      CACHE_AMD64: php-v8.3.3-amd64
+      CACHE_ARM64: php-v8.3.3-arm64
+      IMAGE_REPO: igorferreir4/php-fpm
+      IMAGE_TAGS: latest,v8.3.3
+    working_directory: ~/project/containers/php-fpm/8.3.3
     steps:
       - checkout:
           path: ~/project
@@ -111,14 +111,14 @@ jobs:
           name: Export date of build
           command: |
             ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date -d "-3 hours" +"%d/%m/%G - %Hh:%Mm:%Ss") - Ts3audiobot-0.12.2" >> circleci-data.txt"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date -d "-3 hours" +"%d/%m/%G - %Hh:%Mm:%Ss") - php-fpm v8.3.3" >> circleci-data.txt"
       # - run:
       #     name: Deploy to my server
       #     command: |
       #       ssh $SSH_USER@$SSH_HOST_IGOR_ARM "~/50GB/docker/executar-docker-compose-up-d.sh >> ~/circleci.txt 2>&1"
 
 workflows:
-   ts3audiobot-0.12.2:
+   php-v8.3.3:
     when: 
       or: 
         - << pipeline.parameters.build-and-push >>
