@@ -39,8 +39,8 @@ jobs:
    build-cache-amd64:
     executor: docker-machine
     environment:
-      IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAG: 1.0.1-alpine3.19-amd64-cache
+      CACHE_REPO: igorferreir4/buildcaches
+      CACHE_TAG: registrator-v1.0.1-alpine3.19-amd64
     working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
     steps:
       - checkout:
@@ -51,8 +51,8 @@ jobs:
           command: |
               docker buildx build \
                   --build-arg BUILDKIT_INLINE_CACHE=1 \
-                  --cache-from="$IMAGE_REPO:$IMAGE_TAG" \
-                  --tag "$IMAGE_REPO:$IMAGE_TAG" \
+                  --cache-from="$CACHE_REPO:$CACHE_TAG" \
+                  --tag "$CACHE_REPO:$CACHE_TAG" \
                   --push --platform=linux/amd64 .
       - run:
           name: Test application
@@ -66,8 +66,8 @@ jobs:
     executor: docker-machine
     resource_class: arm.large
     environment:
-      IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAG: 1.0.1-alpine3.19-arm64-cache
+      CACHE_REPO: igorferreir4/buildcaches
+      CACHE_TAG: registrator-v1.0.1-alpine3.19-arm64
     working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
     steps:
       - checkout:
@@ -78,8 +78,8 @@ jobs:
           command: |
               docker buildx build \
                   --build-arg BUILDKIT_INLINE_CACHE=1 \
-                  --cache-from="$IMAGE_REPO:$IMAGE_TAG" \
-                  --tag "$IMAGE_REPO:$IMAGE_TAG" \
+                  --cache-from="$CACHE_REPO:$CACHE_TAG" \
+                  --tag "$CACHE_REPO:$CACHE_TAG" \
                   --push --platform=linux/arm64/v8 .
       - run:
           name: Test application
@@ -93,8 +93,9 @@ jobs:
     executor: docker-machine
     resource_class: large
     environment:
-      CACHE_AMD64: igorferreir4/registrator:1.0.1-alpine3.19-amd64-cache
-      CACHE_ARM64: igorferreir4/registrator:1.0.1-alpine3.19-arm64-cache
+      CACHE_REPO: igorferreir4/buildcaches
+      CACHE_AMD64: registrator-v1.0.1-alpine3.19-amd64
+      CACHE_ARM64: registrator-v1.0.1-alpine3.19-arm64
       IMAGE_REPO: igorferreir4/registrator
       IMAGE_TAGS: latest,v1.0.1-alpine3.19
     working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
@@ -107,12 +108,12 @@ jobs:
           command: |
               TAGS=""
               for tag in $(echo $IMAGE_TAGS | tr "," " "); do
-                TAGS="$TAGS -t $IMAGE_REPO:IMAGE_TAGS"
+                TAGS="$TAGS -t $IMAGE_REPO:$IMAGE_TAGS"
               done
               docker buildx build \
                   --build-arg BUILDKIT_INLINE_CACHE=1 \
-                  --cache-from="$CACHE_AMD64" \
-                  --cache-from="$CACHE_ARM64" \
+                  --cache-from="$CACHE_REPO:$CACHE_AMD64" \
+                  --cache-from="$CACHE_REPO:$CACHE_ARM64" \
                   --push --platform=linux/amd64,linux/arm64/v8 $TAGS .
 
    deploy:

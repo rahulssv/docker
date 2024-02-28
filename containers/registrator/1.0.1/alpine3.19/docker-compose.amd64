@@ -19,7 +19,7 @@ services:
       CONSUL_DATACENTER: "Consul-Teste"
 
   registrator:
-    image: ${IMAGE_REPO}:${IMAGE_TAG}
+    image: ${CACHE_REPO}:${CACHE_TAG}
     container_name: registrator
     depends_on:
       - "consul-server"
