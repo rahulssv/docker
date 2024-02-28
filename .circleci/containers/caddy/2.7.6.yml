@@ -57,6 +57,7 @@ jobs:
 
    build-caddy-cache-arm64:
     executor: docker-machine
+    resource_class: arm.large
     environment:
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_TAG: caddy-v2.7.6-arm64
@@ -76,7 +77,6 @@ jobs:
 
    build-caddy-multi-arch:
     executor: docker-machine
-    resource_class: large
     environment:
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_AMD64: caddy-v2.7.6-amd64

@@ -57,6 +57,7 @@ jobs:
 
    build-php-fpm-cache-arm64:
     executor: docker-machine
+    resource_class: arm.large
     environment:
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_TAG: php-v8.3.3-arm64
@@ -76,7 +77,6 @@ jobs:
 
    build-php-fpm-multi-arch:
     executor: docker-machine
-    resource_class: large
     environment:
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_AMD64: php-v8.3.3-amd64

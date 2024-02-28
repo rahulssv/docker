@@ -36,7 +36,7 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-   build-cache-amd64:
+   build-ts3audiobot-alpha-cache-amd64:
     executor: docker-machine
     environment:
       CACHE_REPO: igorferreir4/buildcaches
@@ -55,8 +55,9 @@ jobs:
                   --tag "$CACHE_REPO:$CACHE_TAG" \
                   --push --platform=linux/amd64 .
 
-   build-cache-arm64:
+   build-ts3audiobot-alpha-cache-arm64:
     executor: docker-machine
+    resource_class: arm.large
     environment:
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_TAG: ts3audiobot-0.13.0-alpha41-arm64
@@ -76,7 +77,6 @@ jobs:
 
    build-ts3audiobot-alpha-multi-arch:
     executor: docker-machine
-    resource_class: large
     environment:
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_AMD64: ts3audiobot-0.13.0-alpha41-amd64
@@ -124,12 +124,12 @@ workflows:
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      - build-cache-amd64
-      - build-cache-arm64
+      - build-ts3audiobot-alpha-cache-amd64
+      - build-ts3audiobot-alpha-cache-arm64
       - build-ts3audiobot-alpha-multi-arch:
           requires:
-            - build-cache-amd64
-            - build-cache-arm64
+            - build-ts3audiobot-alpha-cache-amd64
+            - build-ts3audiobot-alpha-cache-arm64
       - deploy-ts3audiobot-alpha:
           requires:
             - build-ts3audiobot-alpha-multi-arch

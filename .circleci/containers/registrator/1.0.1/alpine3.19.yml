@@ -91,7 +91,6 @@ jobs:
 
    build-registrator-multi-arch:
     executor: docker-machine
-    resource_class: large
     environment:
       CACHE_REPO: igorferreir4/buildcaches
       CACHE_AMD64: registrator-v1.0.1-alpine3.19-amd64
