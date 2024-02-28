@@ -125,7 +125,6 @@ jobs:
       - run:
           name: Export date of build
           command: |
-            timedatectl set-timezone America/Sao_Paulo
             ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
             ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss") - Latest" >> circleci-data.txt"
       - run:
