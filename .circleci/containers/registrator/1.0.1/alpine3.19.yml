@@ -23,6 +23,7 @@ jobs:
       IMAGE_REPO: igorferreir4/registrator
       IMAGE_TAGS: teste1,123,teste123
     executor: docker/machine
+    resource_class: large
     steps:
       - checkout
       - docker/check:
@@ -47,6 +48,7 @@ jobs:
       IMAGE_REPO: igorferreir4/registrator
       IMAGE_TAGS: teste4,456,teste456
     executor: docker/machine
+    resource_class: arm.large
     steps:
       - checkout
       - docker/check:
