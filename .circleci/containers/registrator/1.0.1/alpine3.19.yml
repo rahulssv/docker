@@ -36,73 +36,11 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-  #  build-amd64:
-  #   executor: docker-machine
-  #   environment:
-  #     IMAGE_REPO: igorferreir4/registrator
-  #     IMAGE_TAG: 1.0.1-alpine3.19-amd64
-  #     IMAGE_ARCH: linux/amd64,linux/arm64/v8 #,linux/arm/v6,linux/arm/v7
-  #     CACHE_REPO: igorferreir4/buildcaches
-  #     CACHE_NAME: registrator-1.0.1-alpine3.19-amd64
-  #   working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
-  #   steps:
-  #     - checkout:
-  #         path: ~/project
-  #     - setup-qemu
-  #     - run:
-  #         name: Build docker image
-  #         command: |
-  #             DOCKER_CLI_EXPERIMENTAL=enabled
-  #             BUILDX_ARGS=""
-  #             for tag in $(echo $IMAGE_TAG | tr "," " "); do
-  #                 BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$IMAGE_TAG"
-  #             done
-  #             docker buildx build \
-  #                 --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
-  #                 --cache-from=type=registry,ref=$IMAGE_REPO:$IMAGE_TAG \
-  #                 --platform $IMAGE_ARCH $BUILDX_ARGS .
-  #     - run:
-  #         name: Test application
-  #         command: |
-  #           chmod +x ./teste.sh && ./teste.sh >> resultado.txt 2>&1
-  #     - store_artifacts:
-  #         path: resultado.txt
-  #         destination: resultado-amd64
-  #     # - run:
-  #     #     name: Test the image
-  #     #     command: |
-  #     #       docker compose -f docker-compose.amd64 up -d consul-server
-  #     #       sleep 10
-  #     #       docker compose -f docker-compose.amd64 up -d registrator
-  #     #       sleep 10
-  #     #       docker logs consul-server
-  #     #       echo "-----------------------------------------------------------"
-  #     #       docker logs registrator >> ./logs-registrator.txt 2>&1
-  #     #       cat ./logs-registrator.txt
-  #     #       echo "-----------------------------------------------------------"
-  #     #       awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
-  #     - run:
-  #         name: Upload cache and image
-  #         when: on_success
-  #         command: |
-  #             DOCKER_CLI_EXPERIMENTAL=enabled
-  #             BUILDX_ARGS=""
-  #             for tag in $(echo $IMAGE_TAG | tr "," " "); do
-  #                 BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$IMAGE_TAG"
-  #             done
-  #             docker buildx build \
-  #                 --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
-  #                 --push --platform $IMAGE_ARCH $BUILDX_ARGS .
-
-   build-arm64:
+   build-cache-amd64:
     executor: docker-machine
-    resource_class: arm.large
     environment:
       IMAGE_REPO: igorferreir4/registrator
-      IMAGE_TAG: 1.0.1-alpine3.19-arm64
-      IMAGE_ARCH: linux/amd64,linux/arm64/v8
-      CACHE_REPO: igorferreir4/buildcaches
-      CACHE_NAME: registrator-1.0.1-alpine3.19-arm64
+      IMAGE_TAG: 1.0.1-alpine3.19-amd64-cache
     working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
     steps:
       - checkout:
@@ -111,51 +49,73 @@ jobs:
       - run:
           name: Build docker image
           command: |
-              DOCKER_CLI_EXPERIMENTAL=enabled
-              BUILDX_ARGS=""
-              for tag in $(echo $IMAGE_TAG | tr "," " "); do
-                  BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$IMAGE_TAG"
-              done
               docker buildx build \
-                  --cache-from=type=registry,ref=$CACHE_REPO:$CACHE_NAME \
-                  --cache-from=type=registry,ref=$IMAGE_REPO:$IMAGE_TAG \
-                  --platform $IMAGE_ARCH $BUILDX_ARGS .
+                  --build-arg BUILDKIT_INLINE_CACHE=1 \
+                  --cache-from="$IMAGE_REPO:$IMAGE_TAG" \
+                  --tag "$IMAGE_REPO:$IMAGE_TAG" \
+                  --push --platform=linux/amd64 .
       - run:
           name: Test application
           command: |
-            chmod +x ./teste.sh && ./teste.sh >> resultado.txt 2>&1
+            chmod +x ./teste-amd64.sh && ./teste-amd64.sh >> resultado-amd64.txt 2>&1
       - store_artifacts:
-          path: resultado.txt
-          destination: resultado-arm64                 
-      # - run:
-      #     name: Test the image
-      #     command: |
-      #       docker compose -f docker-compose.arm64 up -d consul-server
-      #       sleep 10
-      #       docker compose -f docker-compose.arm64 up -d registrator
-      #       sleep 10
-      #       docker logs consul-server
-      #       echo "-----------------------------------------------------------"
-      #       docker logs registrator >> ./logs-registrator.txt 2>&1
-      #       cat ./logs-registrator.txt
-      #       echo "-----------------------------------------------------------"
-      #       awk '/Syncing services on/ { found=1; print "EXPRESSÃO ENCONTRADA!"; exit } END { if (!found) { print "ERRO, EXPRESSÃO NÃO ENCONTRADA!"; exit 1 } }' ./logs-registrator.txt
+          path: resultado-amd64.txt
+          destination: resultado-amd64
+
+   build-cache-arm64:
+    executor: docker-machine
+    resource_class: arm.large
+    environment:
+      IMAGE_REPO: igorferreir4/registrator
+      IMAGE_TAG: 1.0.1-alpine3.19-arm64-cache
+    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
+    steps:
+      - checkout:
+          path: ~/project
+      - setup-qemu
       - run:
-          name: Upload cache and image
-          when: on_success
+          name: Build docker image
           command: |
-              DOCKER_CLI_EXPERIMENTAL=enabled
-              BUILDX_ARGS=""
-              for tag in $(echo $IMAGE_TAG | tr "," " "); do
-                  BUILDX_ARGS="$BUILDX_ARGS -t $IMAGE_REPO:$IMAGE_TAG"
+              docker buildx build \
+                  --build-arg BUILDKIT_INLINE_CACHE=1 \
+                  --cache-from="$IMAGE_REPO:$IMAGE_TAG" \
+                  --tag "$IMAGE_REPO:$IMAGE_TAG" \
+                  --push --platform=linux/arm64/v8 .
+      - run:
+          name: Test application
+          command: |
+            chmod +x ./teste-arm64.sh && ./teste-arm64.sh >> resultado-arm64.txt 2>&1
+      - store_artifacts:
+          path: resultado-arm64.txt
+          destination: resultado-amd64
+
+   build-multi-arch:
+    executor: docker-machine
+    resource_class: large
+    environment:
+      CACHE_AMD64: igorferreir4/registrator:1.0.1-alpine3.19-amd64-cache
+      CACHE_ARM64: igorferreir4/registrator:1.0.1-alpine3.19-arm64-cache
+      IMAGE_REPO: igorferreir4/registrator
+      IMAGE_TAGS: latest,v1.0.1-alpine3.19
+    working_directory: ~/project/containers/registrator/1.0.1/alpine3.19
+    steps:
+      - checkout:
+          path: ~/project
+      - setup-qemu
+      - run:
+          name: Build docker image
+          command: |
+              for tag in $(echo $IMAGE_TAGS | tr "," " "); do
+                  TAGS="-t $IMAGE_REPO:$IMAGE_TAGS"
               done
               docker buildx build \
-                  --cache-to=type=registry,ref=$CACHE_REPO:$CACHE_NAME,mode=max \
-                  --push --platform $IMAGE_ARCH $BUILDX_ARGS .
+                  --build-arg BUILDKIT_INLINE_CACHE=1 \
+                  --cache-from="$CACHE_AMD64" \
+                  --cache-from="$CACHE_ARM64" \
+                  --push --platform=linux/amd64,linux/arm64/v8 $TAGS .
 
    deploy:
-    executor: docker-docker #docker-machine
-    #resource_class: medium
+    executor: docker-docker
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -164,7 +124,7 @@ jobs:
           name: Teste SSH depois da Build
           command: |
             ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss") - amd64" >> circleci.txt" >> ~/circleci.txt
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss") - Latest" >> circleci.txt" >> ~/circleci.txt
       # - run:
       #     name: Teste SSH depois da Build
       #     command: |
@@ -177,9 +137,12 @@ workflows:
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      # - build-amd64
-      - build-arm64
+      - build-cache-amd64
+      - build-cache-arm64
+      - build-multi-arch:
+          requires:
+            - build-cache-amd64
+            - build-cache-arm64
       - deploy:
           requires:
-            # - build-amd64
-            - build-arm64
+            - build-multi-arch
