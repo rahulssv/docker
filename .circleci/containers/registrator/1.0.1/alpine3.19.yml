@@ -29,7 +29,7 @@ commands:
           command: |
             export DOCKER_CLI_EXPERIMENTAL=enabled
             docker context create multi-arch-build
-            docker buildx create --use multi-arch-build
+            docker buildx create --driver=docker-container --use multi-arch-build
 
   setup-qemu-arm64:
     steps:
@@ -42,7 +42,7 @@ commands:
           command: |
             export DOCKER_CLI_EXPERIMENTAL=enabled
             docker context create multi-arch-build
-            docker buildx create --use multi-arch-build
+            docker buildx create --driver=docker-container --use multi-arch-build
 
 jobs:
   build-amd64:
