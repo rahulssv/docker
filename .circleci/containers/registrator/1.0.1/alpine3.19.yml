@@ -42,10 +42,35 @@ jobs:
             ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
             ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss") - amd64" >> circleci.txt" >> ~/circleci.txt
 
+  build-arm64:
+    environment:
+      IMAGE_REPO: igorferreir4/registrator
+      IMAGE_TAGS: teste4,456,teste456
+    executor: docker/machine
+    steps:
+      - checkout
+      - docker/check:
+          docker-username: DOCKERHUB_USERNAME
+          docker-password: DOCKERHUB_PASSWORD
+      - docker/build:
+          step-name: Build arm64
+          image: $IMAGE_REPO
+          cache_from: $IMAGE_REPO:teste4
+          path: ./containers/registrator/1.0.1/alpine3.19
+          docker-context: ./containers/registrator/1.0.1/alpine3.19
+          use-buildkit: true
+          extra_build_args: --platform linux/arm64/v8
+      - run:
+          name: Teste SSH depois da Build
+          command: |
+            ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss") - arm64" >> circleci.txt" >> ~/circleci.txt
+
 workflows:
   registrator-v1.0.1-alpine3.19:
     jobs:
       - build-amd64
+      - build-arm64
 
 
 
