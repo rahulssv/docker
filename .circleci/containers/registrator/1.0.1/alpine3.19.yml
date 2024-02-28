@@ -105,8 +105,9 @@ jobs:
       - run:
           name: Build docker image
           command: |
+              TAGS=""
               for tag in $(echo $IMAGE_TAGS | tr "," " "); do
-                  TAGS="-t $IMAGE_REPO:$IMAGE_TAGS"
+                TAGS="$TAGS -t $IMAGE_REPO:IMAGE_TAGS"
               done
               docker buildx build \
                   --build-arg BUILDKIT_INLINE_CACHE=1 \
