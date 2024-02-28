@@ -41,8 +41,10 @@ commands:
 jobs:
   build-caddy-binary:
     executor: go-executor
+    working_directory: ~/project/containers/caddy/executavel
     steps:
-      - checkout
+      - checkout:
+          path: ~/project
       - run:
           name: Get XCADDY
           command: |
