@@ -36,7 +36,7 @@ commands:
             echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 
 jobs:
-   build-cache-amd64:
+   build-caddy-cache-amd64:
     executor: docker-machine
     environment:
       CACHE_REPO: igorferreir4/buildcaches
@@ -55,7 +55,7 @@ jobs:
                   --tag "$CACHE_REPO:$CACHE_TAG" \
                   --push --platform=linux/amd64 .
 
-   build-cache-arm64:
+   build-caddy-cache-arm64:
     executor: docker-machine
     environment:
       CACHE_REPO: igorferreir4/buildcaches
@@ -74,7 +74,7 @@ jobs:
                   --tag "$CACHE_REPO:$CACHE_TAG" \
                   --push --platform=linux/arm64/v8 .
 
-   build-multi-arch:
+   build-caddy-multi-arch:
     executor: docker-machine
     resource_class: large
     environment:
@@ -101,7 +101,7 @@ jobs:
                   --cache-from="$CACHE_REPO:$CACHE_ARM64" \
                   --push --platform=linux/amd64,linux/arm64/v8 $TAGS .
 
-   deploy:
+   deploy-caddy:
     executor: docker-docker
     steps:
       - add_ssh_keys:
@@ -124,12 +124,12 @@ workflows:
         - << pipeline.parameters.build-and-push >>
         - << pipeline.parameters.run-all >>
     jobs:
-      - build-cache-amd64
-      - build-cache-arm64
-      - build-multi-arch:
+      - build-caddy-cache-amd64
+      - build-caddy-cache-arm64
+      - build-caddy-multi-arch:
           requires:
-            - build-cache-amd64
-            - build-cache-arm64
-      - deploy:
+            - build-caddy-cache-amd64
+            - build-caddy-cache-arm64
+      - deploy-caddy:
           requires:
-            - build-multi-arch
+            - build-caddy-multi-arch
