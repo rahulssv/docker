@@ -123,14 +123,15 @@ jobs:
           fingerprints:
             - "SHA256:hLlCCj1OZj3pbBbgrGvfHjdTf20F4IYKyKvyJTMXC/A"
       - run:
-          name: Teste SSH depois da Build
+          name: Export date of build
           command: |
+            timedatectl set-timezone America/Sao_Paulo
             ssh-keyscan $SSH_HOST_IGOR_ARM >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss") - Latest" >> circleci.txt" >> ~/circleci.txt
-      # - run:
-      #     name: Teste SSH depois da Build
-      #     command: |
-      #       ssh $SSH_USER@$SSH_HOST_IGOR_ARM "~/50GB/docker/executar-docker-compose-up-d.sh >> ~/circleci.txt 2>&1"
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "echo Executado em "$(date +"%d/%m/%G - %Hh:%Mm:%Ss") - Latest" >> circleci-data.txt"
+      - run:
+          name: Deploy to my server
+          command: |
+            ssh $SSH_USER@$SSH_HOST_IGOR_ARM "~/50GB/docker/executar-docker-compose-up-d.sh >> ~/circleci.txt 2>&1"
 
 workflows:
    registrator-v1.0.1-alpine3.19:
