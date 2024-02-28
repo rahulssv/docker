@@ -17,6 +17,41 @@ parameters:
     type: boolean
     default: false
 
+commands:
+  setup-qemu-amd64:
+    steps:
+      - run:
+          name: Setup Qemu
+          command: |
+            docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - run:
+          name: Create builder
+          command: |
+            export DOCKER_CLI_EXPERIMENTAL=enabled
+            docker context create multi-arch-build
+            docker buildx create --use multi-arch-build
+      - run:
+          name: Login to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+
+  setup-qemu-arm64:
+    steps:
+      - run:
+          name: Setup Qemu
+          command: |
+            docker run --rm --privileged hectorm/qemu-user-static --reset -p yes
+      - run:
+          name: Create builder
+          command: |
+            export DOCKER_CLI_EXPERIMENTAL=enabled
+            docker context create multi-arch-build
+            docker buildx create --use multi-arch-build
+      - run:
+          name: Login to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+
 jobs:
   build-amd64:
     environment:
@@ -26,6 +61,7 @@ jobs:
     resource_class: large
     steps:
       - checkout
+      - setup-qemu-amd64
       - docker/check:
           docker-username: DOCKERHUB_USERNAME
           docker-password: DOCKERHUB_PASSWORD
@@ -36,7 +72,7 @@ jobs:
           path: ./containers/registrator/1.0.1/alpine3.19
           docker-context: ./containers/registrator/1.0.1/alpine3.19
           use-buildkit: true
-          extra_build_args: --platform linux/amd64
+          extra_build_args: --platform linux/amd64,linux/arm64/v8
       - run:
           name: Teste SSH depois da Build
           command: |
@@ -51,6 +87,7 @@ jobs:
     resource_class: arm.large
     steps:
       - checkout
+      - setup-qemu-arm64
       - docker/check:
           docker-username: DOCKERHUB_USERNAME
           docker-password: DOCKERHUB_PASSWORD
@@ -61,7 +98,7 @@ jobs:
           path: ./containers/registrator/1.0.1/alpine3.19
           docker-context: ./containers/registrator/1.0.1/alpine3.19
           use-buildkit: true
-          extra_build_args: --platform linux/arm64/v8
+          extra_build_args: --platform linux/amd64,linux/arm64/v8
       - run:
           name: Teste SSH depois da Build
           command: |
