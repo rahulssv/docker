@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Build Binaries
           command: |
-            sh ./scripts/build-all.sh
+            sh ./build-all.sh
             chmod +x caddy-linux-amd64
             ./caddy-linux-amd64 version
             mkdir artifacts
